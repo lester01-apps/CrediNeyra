@@ -1,0 +1,16 @@
+spring:
+  application:
+    name: crediNeyra
+
+  datasource:
+    url: jdbc:postgresql://aws-0-us-west-2.pooler.supabase.com:5432/postgres?user=postgres.wzwqdfgzmnrlosweqcvo&sslmode=require
+    password: ${DB_PASSWORD}
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+
+server:
+  port: 8087
