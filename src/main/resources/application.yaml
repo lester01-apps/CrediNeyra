@@ -7,10 +7,95 @@ spring:
     password: ${DB_PASSWORD}
     driver-class-name: org.postgresql.Driver
 
+    hikari:
+      maximum-pool-size: 5
+      minimum-idle: 1
+      connection-timeout: 30000
+      idle-timeout: 120000
+      max-lifetime: 300000
+      keepalive-time: 60000
+
   jpa:
     hibernate:
       ddl-auto: validate
+
     show-sql: true
+    open-in-view: false
+
+  # =========================================================
+  # CORREO GMAIL
+  # =========================================================
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: ${MAIL_USERNAME}
+    password: ${MAIL_PASSWORD}
+    default-encoding: UTF-8
+
+    properties:
+      mail:
+        smtp:
+          auth: true
+
+          starttls:
+            enable: true
+            required: true
+
+          connectiontimeout: 10000
+          timeout: 10000
+          writetimeout: 10000
+
+  # =========================================================
+  # SUBIDA DE ARCHIVOS
+  # CONTRATOS / GARANTIAS
+  # =========================================================
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 10MB
+      max-request-size: 12MB
+
 
 server:
   port: 8087
+
+
+credineyra:
+
+  # =========================================================
+  # APLICACION
+  # =========================================================
+  app:
+    base-url: http://localhost:8087
+
+
+  # =========================================================
+  # REGLAS DE MORA
+  # =========================================================
+  mora:
+    dias-gracia: 3
+    meses-atraso-prolongado: 4
+
+
+  # =========================================================
+  # SUPABASE STORAGE
+  # =========================================================
+  supabase:
+    url: ${SUPABASE_URL:https://wzwqdfgzmnrlosweqcvo.supabase.co}
+
+    # NO colocar la clave directamente aquí.
+    # Se configurará en IntelliJ como variable de entorno.
+    service-key: ${SUPABASE_SECRET_KEY:}
+    service-role-key: ${SUPABASE_SERVICE_ROLE_KEY:}
+    # Bucket PRIVADO donde guardaremos contratos y garantías.
+    storage-bucket: ${SUPABASE_STORAGE_BUCKET:documentos-privados}
+
+
+  # =========================================================
+  # DATOS DEL PRESTAMISTA
+  # APARECERAN EN EL CONTRATO PDF
+  # =========================================================
+  prestamista:
+    nombre: ${CREDINEYRA_PRESTAMISTA_NOMBRE:}
+    documento: ${CREDINEYRA_PRESTAMISTA_DOCUMENTO:}
+    domicilio: ${CREDINEYRA_PRESTAMISTA_DOMICILIO:}

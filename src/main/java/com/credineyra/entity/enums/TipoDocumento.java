@@ -1,10 +1,15 @@
 package com.credineyra.entity.enums;
 
 public enum TipoDocumento {
+
     CONTRATO_GENERADO,
     CONTRATO_FIRMADO,
+
     CONSTANCIA_PAGO,
     COMPROBANTE_PAGO,
+
     DNI,
-    FOTO_GARANTIA
+
+    FOTO_GARANTIA,
+    DOCUMENTO_GARANTIA
 }
