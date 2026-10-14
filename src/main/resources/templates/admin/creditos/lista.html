@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="es"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Créditos | crediNeyra</title>
+
+    <link rel="stylesheet"
+          th:href="@{/css/admin/dashboard.css}">
+
+    <link rel="stylesheet"
+          th:href="@{/css/admin/creditos.css}">
+
+</head>
+
+<body>
+
+
+<div th:replace="~{admin/fragments/sidebar :: sidebar}">
+</div>
+
+
+<div class="creditos-shell">
+
+    <div th:replace="~{admin/fragments/topbar :: topbar}">
+    </div>
+
+
+    <main class="creditos-page">
+
+
+        <section class="creditos-header">
+
+            <div>
+
+                <span class="page-kicker">
+                    Gestión financiera
+                </span>
+
+                <h1>
+                    Créditos
+                </h1>
+
+                <p>
+                    Administra préstamos, saldos,
+                    vencimientos y estado de la cartera.
+                </p>
+
+            </div>
+
+
+            <a th:href="@{/admin/creditos/nuevo}"
+               class="btn-nuevo-credito">
+
+                <span>
+                    +
+                </span>
+
+                Nuevo crédito
+
+            </a>
+
+        </section>
+
+
+        <!-- KPI -->
+
+        <section class="kpi-grid">
+
+            <article class="kpi-card">
+
+                <div class="kpi-label">
+                    Créditos activos
+                </div>
+
+                <strong th:text="${panel.creditosActivos}">
+                    0
+                </strong>
+
+                <span>
+                    Actualmente vigentes
+                </span>
+
+            </article>
+
+
+            <article class="kpi-card">
+
+                <div class="kpi-label">
+                    Capital prestado
+                </div>
+
+                <strong>
+                    S/
+                    <span th:text="${#numbers.formatDecimal(
+                            panel.capitalPrestado,
+                            1,
+                            'COMMA',
+                            2,
+                            'POINT'
+                    )}">
+                        0.00
+                    </span>
+                </strong>
+
+                <span>
+                    Capital histórico
+                </span>
+
+            </article>
+
+
+            <article class="kpi-card">
+
+                <div class="kpi-label">
+                    Capital recuperado
+                </div>
+
+                <strong>
+                    S/
+                    <span th:text="${#numbers.formatDecimal(
+                            panel.capitalRecuperado,
+                            1,
+                            'COMMA',
+                            2,
+                            'POINT'
+                    )}">
+                        0.00
+                    </span>
+                </strong>
+
+                <span>
+                    Capital recuperado
+                </span>
+
+            </article>
+
+
+            <article class="kpi-card kpi-danger">
+
+                <div class="kpi-label">
+                    En mora
+                </div>
+
+                <strong th:text="${panel.creditosEnMora}">
+                    0
+                </strong>
+
+                <span>
+                    Requieren atención
+                </span>
+
+            </article>
+
+        </section>
+
+
+        <!-- RESUMEN -->
+
+        <section class="dashboard-credit-grid">
+
+            <article class="credit-panel">
+
+                <span class="section-small">
+                    RESUMEN
+                </span>
+
+                <h2>
+                    Estado de la cartera
+                </h2>
+
+
+                <div class="saldo-total">
+
+                    <span>
+                        Saldo pendiente total
+                    </span>
+
+                    <strong>
+                        S/
+                        <span th:text="${#numbers.formatDecimal(
+                                panel.saldoPendiente,
+                                1,
+                                'COMMA',
+                                2,
+                                'POINT'
+                        )}">
+                            0.00
+                        </span>
+                    </strong>
+
+                </div>
+
+
+                <div class="estado-grid">
+
+                    <div>
+
+                        <i class="punto verde"></i>
+
+                        <strong th:text="${panel.creditosAlDia}">
+                            0
+                        </strong>
+
+                        <span>
+                            Al día
+                        </span>
+
+                    </div>
+
+
+                    <div>
+
+                        <i class="punto amarillo"></i>
+
+                        <strong th:text="${panel.creditosPorVencer}">
+                            0
+                        </strong>
+
+                        <span>
+                            Por vencer
+                        </span>
+
+                    </div>
+
+
+                    <div>
+
+                        <i class="punto rojo"></i>
+
+                        <strong th:text="${panel.creditosEnMora}">
+                            0
+                        </strong>
+
+                        <span>
+                            En mora
+                        </span>
+
+                    </div>
+
+
+                    <div>
+
+                        <i class="punto morado"></i>
+
+                        <strong th:text="${panel.atrasoProlongado}">
+                            0
+                        </strong>
+
+                        <span>
+                            Atraso prolongado
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <div class="interes-total">
+
+                    <span>
+                        Interés generado
+                    </span>
+
+                    <strong>
+                        S/
+                        <span th:text="${#numbers.formatDecimal(
+                                panel.interesGenerado,
+                                1,
+                                'COMMA',
+                                2,
+                                'POINT'
+                        )}">
+                            0.00
+                        </span>
+                    </strong>
+
+                </div>
+
+            </article>
+
+
+            <article class="credit-panel">
+
+                <div class="chart-head">
+
+                    <div>
+
+                        <span class="section-small">
+                            RENDIMIENTO
+                        </span>
+
+                        <h2>
+                            Pagos recibidos
+                        </h2>
+
+                    </div>
+
+                    <span class="periodo">
+                        Últimos 6 meses
+                    </span>
+
+                </div>
+
+
+                <div class="chart-area">
+
+                    <canvas id="pagosChart">
+                    </canvas>
+
+                    <div id="chartEmpty"
+                         class="chart-empty">
+
+                        Todavía no hay pagos aprobados
+                        para graficar.
+
+                    </div>
+
+                </div>
+
+            </article>
+
+        </section>
+
+
+        <!-- TABLA -->
+
+        <section class="credit-panel tabla-panel">
+
+            <div class="tabla-header">
+
+                <div>
+
+                    <span class="section-small">
+                        CARTERA
+                    </span>
+
+                    <h2>
+                        Créditos registrados
+                    </h2>
+
+                    <p>
+                        Revisa saldos, próxima cuota y estado.
+                    </p>
+
+                </div>
+
+
+                <div class="tabla-filtros">
+
+                    <input id="buscarCredito"
+                           type="search"
+                           placeholder="Buscar crédito o cliente">
+
+                    <select id="filtroEstado">
+
+                        <option value="">
+                            Todos los estados
+                        </option>
+
+                        <option value="AL_DIA">
+                            Al día
+                        </option>
+
+                        <option value="POR_VENCER">
+                            Por vencer
+                        </option>
+
+                        <option value="EN_MORA">
+                            En mora
+                        </option>
+
+                        <option value="ATRASO_PROLONGADO">
+                            Atraso prolongado
+                        </option>
+
+                        <option value="EN_REGULARIZACION">
+                            En regularización
+                        </option>
+
+                        <option value="FINALIZADO">
+                            Finalizado
+                        </option>
+
+                    </select>
+
+                </div>
+
+            </div>
+
+
+            <div class="estado-vacio"
+                 th:if="${#lists.isEmpty(panel.creditos)}">
+
+                <div class="vacio-icono">
+                    ▣
+                </div>
+
+                <h3>
+                    Todavía no hay créditos
+                </h3>
+
+                <p>
+                    Registra el primer crédito cuando corresponda.
+                </p>
+
+                <a th:href="@{/admin/creditos/nuevo}">
+                    Crear primer crédito
+                </a>
+
+            </div>
+
+
+            <div class="tabla-scroll"
+                 th:unless="${#lists.isEmpty(panel.creditos)}">
+
+                <table>
+
+                    <thead>
+
+                    <tr>
+                        <th>Crédito</th>
+                        <th>Cliente</th>
+                        <th>Capital</th>
+                        <th>Saldo</th>
+                        <th>Próxima cuota</th>
+                        <th>Estado</th>
+                        <th></th>
+                    </tr>
+
+                    </thead>
+
+
+                    <tbody>
+
+                    <tr class="credito-row"
+                        th:each="credito : ${panel.creditos}"
+                        th:attr="
+                            data-estado=${credito.estadoVisual},
+                            data-search=${(
+                                (credito.codigoCredito != null
+                                    ? credito.codigoCredito
+                                    : '')
+                                + ' '
+                                + (credito.nombreCliente != null
+                                    ? credito.nombreCliente
+                                    : '')
+                                + ' '
+                                + (credito.dni != null
+                                    ? credito.dni
+                                    : '')
+                            ).toLowerCase()}
+                        ">
+
+                        <td>
+
+                            <strong th:text="${credito.codigoCredito}">
+                                CRE-0001
+                            </strong>
+
+                            <small th:text="${credito.tipoInteres}">
+                                NORMAL
+                            </small>
+
+                        </td>
+
+
+                        <td>
+
+                            <strong th:text="${credito.nombreCliente}">
+                                Cliente
+                            </strong>
+
+                            <small th:text="${credito.dni != null
+                                    ? 'DNI ' + credito.dni
+                                    : credito.codigoCliente}">
+                                DNI
+                            </small>
+
+                        </td>
+
+
+                        <td>
+
+                            S/
+                            <span th:text="${#numbers.formatDecimal(
+                                    credito.capitalOriginal,
+                                    1,
+                                    'COMMA',
+                                    2,
+                                    'POINT'
+                            )}">
+                                0.00
+                            </span>
+
+                        </td>
+
+
+                        <td>
+
+                            <strong>
+                                S/
+                                <span th:text="${#numbers.formatDecimal(
+                                        credito.totalPendiente,
+                                        1,
+                                        'COMMA',
+                                        2,
+                                        'POINT'
+                                )}">
+                                    0.00
+                                </span>
+                            </strong>
+
+                        </td>
+
+
+                        <td>
+
+                            <div th:if="${credito.proximaFechaPago != null}">
+
+                                <strong>
+                                    S/
+                                    <span th:text="${#numbers.formatDecimal(
+                                            credito.proximoMontoPago,
+                                            1,
+                                            'COMMA',
+                                            2,
+                                            'POINT'
+                                    )}">
+                                        0.00
+                                    </span>
+                                </strong>
+
+                                <small th:text="${#temporals.format(
+                                        credito.proximaFechaPago,
+                                        'dd/MM/yyyy'
+                                )}">
+                                    01/01/2026
+                                </small>
+
+                            </div>
+
+
+                            <span th:if="${credito.proximaFechaPago == null}">
+                                Sin cuota pendiente
+                            </span>
+
+                        </td>
+
+
+                        <td>
+
+                            <span class="badge-estado"
+                                  th:classappend="${' estado-' + #strings.toLowerCase(credito.estadoVisual)}"
+                                  th:text="${#strings.replace(
+                                        credito.estadoVisual,
+                                        '_',
+                                        ' '
+                                  )}">
+                                AL DIA
+                            </span>
+
+                        </td>
+
+
+                        <td>
+
+                            <a class="btn-ver-credito"
+                               th:href="@{/admin/creditos/{id}(id=${credito.idCredito})}">
+                                Ver
+                            </a>
+
+                        </td>
+
+                    </tr>
+
+                    </tbody>
+
+                </table>
+
+
+                <div id="sinResultados"
+                     class="sin-resultados">
+
+                    No se encontraron resultados.
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+</div>
+
+
+<script th:inline="javascript">
+
+    window.crediNeyraCreditos = {
+        meses: /*[[${panel.mesesGrafico}]]*/ [],
+        pagos: /*[[${panel.pagosGrafico}]]*/ []
+    };
+
+</script>
+
+
+<script th:src="@{/js/admin/creditos.js}">
+</script>
+
+</body>
+</html>

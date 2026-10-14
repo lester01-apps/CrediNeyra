@@ -1,0 +1,555 @@
+* {
+    box-sizing: border-box;
+}
+
+
+body {
+    margin: 0;
+
+    font-family:
+            Inter,
+            system-ui,
+            -apple-system,
+            BlinkMacSystemFont,
+            "Segoe UI",
+            sans-serif;
+
+    background: #061221;
+}
+
+
+.registro-exitoso-fondo {
+    display: grid;
+    place-items: center;
+
+    width: 100%;
+    min-height: 100vh;
+
+    padding: 24px;
+
+    background:
+            radial-gradient(
+                    circle at 50% 0%,
+                    rgba(56, 189, 248, .11),
+                    transparent 38%
+            ),
+            #030b15;
+}
+
+
+.registro-exitoso-modal {
+    width: min(100%, 650px);
+
+    padding: 42px;
+
+    border:
+            1px solid
+            rgba(96, 165, 250, .22);
+
+    border-radius: 28px;
+
+    color: #f8fafc;
+
+    background:
+            linear-gradient(
+                    145deg,
+                    #112a45,
+                    #091c30
+            );
+
+    box-shadow:
+            0 40px 100px
+            rgba(0, 0, 0, .4);
+
+    text-align: center;
+}
+
+
+.registro-ok-icono {
+    display: grid;
+    place-items: center;
+
+    width: 78px;
+    height: 78px;
+
+    margin:
+            0
+            auto
+            28px;
+
+    border-radius: 22px;
+
+    background:
+            rgba(34, 197, 94, .12);
+}
+
+
+.registro-ok-icono svg {
+    width: 38px;
+    height: 38px;
+
+    fill: none;
+
+    stroke: #4ade80;
+    stroke-width: 2.4;
+
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+
+.registro-ok-icono.pendiente {
+    background:
+            rgba(245, 158, 11, .12);
+}
+
+
+.registro-ok-icono.pendiente svg {
+    stroke: #fbbf24;
+}
+
+
+.registro-kicker {
+    color: #38bdf8;
+
+    font-size: .72rem;
+    font-weight: 900;
+
+    letter-spacing: .15em;
+}
+
+
+.registro-kicker.amarillo {
+    color: #fbbf24;
+}
+
+
+.registro-exitoso-modal h1 {
+    margin:
+            10px
+            0
+            14px;
+
+    color: #ffffff;
+
+    font-size: 2rem;
+}
+
+
+.registro-exitoso-modal > p {
+    margin: 0;
+
+    color: #a9bfd8;
+
+    font-size: .84rem;
+    line-height: 1.75;
+}
+
+
+.registro-exitoso-modal > p strong {
+    color: #ffffff;
+}
+
+
+.documento-generado {
+    display: flex;
+    align-items: center;
+
+    gap: 16px;
+
+    margin:
+            30px
+            0;
+
+    padding: 18px;
+
+    border:
+            1px solid
+            rgba(56, 189, 248, .22);
+
+    border-radius: 16px;
+
+    background:
+            rgba(56, 189, 248, .06);
+
+    text-align: left;
+}
+
+
+.documento-generado.firmado {
+    border-color:
+            rgba(34, 197, 94, .22);
+
+    background:
+            rgba(34, 197, 94, .05);
+}
+
+
+.documento-icono {
+    display: grid;
+    place-items: center;
+
+    flex: 0 0 auto;
+
+    width: 55px;
+    height: 55px;
+
+    border-radius: 14px;
+
+    background:
+            rgba(56, 189, 248, .12);
+}
+
+
+.documento-generado.firmado
+.documento-icono {
+    background:
+            rgba(34, 197, 94, .11);
+}
+
+
+.documento-icono svg {
+    width: 28px;
+    height: 28px;
+
+    fill: none;
+
+    stroke: #38bdf8;
+    stroke-width: 1.8;
+
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+
+.documento-generado.firmado
+.documento-icono svg {
+    stroke: #4ade80;
+}
+
+
+.documento-generado > div:last-child {
+    display: flex;
+    flex-direction: column;
+
+    min-width: 0;
+
+    gap: 4px;
+}
+
+
+.documento-generado span {
+    color: #6485ab;
+
+    font-size: .63rem;
+}
+
+
+.documento-generado strong {
+    color: #f8fafc;
+
+    font-size: .84rem;
+}
+
+
+.documento-generado small {
+    overflow: hidden;
+
+    color: #8ca6c3;
+
+    font-size: .66rem;
+
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+
+.registro-botones {
+    display: grid;
+
+    grid-template-columns:
+            1fr
+            1fr;
+
+    gap: 12px;
+}
+
+
+.btn-ver-documento,
+.btn-descargar-documento {
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    min-height: 54px;
+
+    border-radius: 13px;
+
+    text-decoration: none;
+
+    font-size: .76rem;
+    font-weight: 900;
+
+    transition:
+            transform .18s ease,
+            background .18s ease;
+}
+
+
+.btn-ver-documento:hover,
+.btn-descargar-documento:hover {
+    transform:
+            translateY(-1px);
+}
+
+
+.btn-ver-documento {
+    border:
+            1px solid
+            rgba(56, 189, 248, .36);
+
+    color: #7dd3fc;
+
+    background:
+            rgba(56, 189, 248, .05);
+}
+
+
+.btn-descargar-documento {
+    color: white;
+
+    background:
+            linear-gradient(
+                    135deg,
+                    #0284c7,
+                    #2563eb
+            );
+}
+
+
+.separador-firma {
+    display: flex;
+    align-items: center;
+
+    gap: 13px;
+
+    margin:
+            30px
+            0
+            20px;
+
+    color: #55728f;
+
+    font-size: .6rem;
+    font-weight: 900;
+
+    letter-spacing: .12em;
+}
+
+
+.separador-firma::before,
+.separador-firma::after {
+    content: "";
+
+    flex: 1;
+
+    height: 1px;
+
+    background:
+            rgba(148, 163, 184, .12);
+}
+
+
+.form-firma {
+    display: flex;
+    flex-direction: column;
+
+    gap: 12px;
+
+    padding: 20px;
+
+    border:
+            1px solid
+            rgba(56, 189, 248, .15);
+
+    border-radius: 16px;
+
+    background:
+            rgba(2, 13, 26, .28);
+
+    text-align: left;
+}
+
+
+.form-firma > label {
+    color: #f1f5f9;
+
+    font-size: .77rem;
+    font-weight: 800;
+}
+
+
+.form-firma > label b {
+    color: #fb7185;
+}
+
+
+.archivo-firmado-box {
+    display: flex;
+    flex-direction: column;
+
+    gap: 10px;
+
+    padding: 16px;
+
+    border:
+            1px dashed
+            rgba(56, 189, 248, .3);
+
+    border-radius: 12px;
+
+    background:
+            rgba(56, 189, 248, .035);
+}
+
+
+.archivo-firmado-box input {
+    width: 100%;
+
+    color: #cbd5e1;
+
+    font-size: .69rem;
+}
+
+
+.archivo-firmado-box > div {
+    display: flex;
+    flex-direction: column;
+
+    gap: 3px;
+}
+
+
+.archivo-firmado-box strong {
+    color: #dbeafe;
+
+    font-size: .7rem;
+}
+
+
+.archivo-firmado-box span {
+    color: #64748b;
+
+    font-size: .62rem;
+}
+
+
+.btn-confirmar-firma {
+    width: 100%;
+    min-height: 50px;
+
+    margin-top: 4px;
+
+    border: 0;
+    border-radius: 12px;
+
+    color: #ffffff;
+
+    background:
+            linear-gradient(
+                    135deg,
+                    #0284c7,
+                    #2563eb
+            );
+
+    cursor: pointer;
+
+    font-size: .74rem;
+    font-weight: 900;
+}
+
+
+.btn-confirmar-firma:hover {
+    filter: brightness(1.08);
+}
+
+
+.error-firma {
+    display: flex;
+    flex-direction: column;
+
+    gap: 4px;
+
+    margin-top: 18px;
+    padding: 13px;
+
+    border:
+            1px solid
+            rgba(244, 63, 94, .25);
+
+    border-radius: 11px;
+
+    color: #fecdd3;
+
+    background:
+            rgba(244, 63, 94, .08);
+
+    text-align: left;
+
+    font-size: .68rem;
+}
+
+
+.error-firma strong {
+    color: #fb7185;
+}
+
+
+.volver-creditos {
+    display: inline-block;
+
+    margin-top: 25px;
+
+    color: #8fbfe9;
+
+    text-decoration: none;
+
+    font-size: .72rem;
+}
+
+
+.volver-creditos:hover {
+    color: #ffffff;
+}
+
+
+.nota-firma {
+    margin-top: 25px !important;
+
+    padding-top: 20px;
+
+    border-top:
+            1px solid
+            rgba(148, 163, 184, .1);
+
+    color: #607e9d !important;
+
+    font-size: .64rem !important;
+}
+
+
+@media (max-width: 620px) {
+
+    .registro-exitoso-modal {
+        padding:
+                30px
+                20px;
+    }
+
+
+    .registro-botones {
+        grid-template-columns:
+                1fr;
+    }
+}

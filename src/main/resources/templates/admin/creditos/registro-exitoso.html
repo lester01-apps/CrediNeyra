@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="es"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>
+        Crédito registrado | crediNeyra
+    </title>
+
+    <link rel="stylesheet"
+          th:href="@{/css/admin/dashboard.css}">
+
+    <link rel="stylesheet"
+          th:href="@{/css/admin/credito-registro-exitoso.css}">
+
+</head>
+
+<body>
+
+
+<div class="registro-exitoso-fondo">
+
+
+    <div class="registro-exitoso-modal">
+
+
+        <div class="registro-ok-icono">
+
+            <svg viewBox="0 0 24 24">
+
+                <path d="m5 12 4 4L19 6">
+                </path>
+
+            </svg>
+
+        </div>
+
+
+        <span class="registro-kicker">
+            CRÉDITO REGISTRADO
+        </span>
+
+
+        <h1>
+            Registro satisfactorio
+        </h1>
+
+
+        <p>
+
+            El crédito
+
+            <strong th:text="${credito.codigoCredito}">
+                CRE-00001
+            </strong>
+
+            fue registrado correctamente y su
+            contrato firmado quedó almacenado
+            en el expediente digital.
+
+        </p>
+
+
+        <div class="documento-generado firmado">
+
+
+            <div class="documento-icono">
+
+                <svg viewBox="0 0 24 24">
+
+                    <path d="M7 3h8l4 4v14H7z">
+                    </path>
+
+                    <path d="M15 3v5h5">
+                    </path>
+
+                    <path d="m10 14 2 2 4-5">
+                    </path>
+
+                </svg>
+
+            </div>
+
+
+            <div>
+
+                <span>
+                    Documento final
+                </span>
+
+                <strong>
+                    Contrato firmado
+                </strong>
+
+                <small th:text="${credito.codigoCredito + '-contrato-firmado'}">
+                    Contrato firmado
+                </small>
+
+            </div>
+
+        </div>
+
+
+        <div class="registro-botones">
+
+
+            <a th:href="@{/admin/documentos/{id}/ver(id=${idDocumentoFirmado})}"
+               target="_blank"
+               class="btn-ver-documento">
+
+                Ver contrato firmado
+
+            </a>
+
+
+            <a th:href="@{/admin/documentos/{id}/descargar(id=${idDocumentoFirmado})}"
+               class="btn-descargar-documento">
+
+                Descargar
+
+            </a>
+
+
+        </div>
+
+
+        <a th:href="@{/admin/creditos}"
+           class="volver-creditos">
+
+            Volver al panel de créditos
+
+        </a>
+
+
+    </div>
+
+
+</div>
+
+
+</body>
+
+</html>

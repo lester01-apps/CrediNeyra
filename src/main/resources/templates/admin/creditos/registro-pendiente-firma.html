@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="es"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>
+        Firma del contrato | crediNeyra
+    </title>
+
+    <link rel="stylesheet"
+          th:href="@{/css/admin/dashboard.css}">
+
+    <link rel="stylesheet"
+          th:href="@{/css/admin/credito-registro-exitoso.css}">
+
+</head>
+
+<body>
+
+
+<div class="registro-exitoso-fondo">
+
+
+    <div class="registro-exitoso-modal">
+
+
+        <div class="registro-ok-icono pendiente">
+
+            <svg viewBox="0 0 24 24">
+
+                <path d="M12 5v8">
+                </path>
+
+                <path d="M12 17v.01">
+                </path>
+
+            </svg>
+
+        </div>
+
+
+        <span class="registro-kicker amarillo">
+            CONTRATO PENDIENTE DE FIRMA
+        </span>
+
+
+        <h1>
+            Firma el contrato
+        </h1>
+
+
+        <p>
+
+            El crédito
+
+            <strong th:text="${credito.codigoCredito}">
+                CRE-00001
+            </strong>
+
+            fue preparado correctamente.
+
+            Revisa el contrato, imprímelo,
+            realiza las firmas y vuelve a subir
+            aquí el documento firmado.
+
+        </p>
+
+
+        <div th:if="${errorFirma != null}"
+             class="error-firma">
+
+            <strong>
+                No se pudo finalizar
+            </strong>
+
+            <span th:text="${errorFirma}">
+            </span>
+
+        </div>
+
+
+        <div class="documento-generado">
+
+
+            <div class="documento-icono">
+
+                <svg viewBox="0 0 24 24">
+
+                    <path d="M7 3h8l4 4v14H7z">
+                    </path>
+
+                    <path d="M15 3v5h5">
+                    </path>
+
+                    <path d="M10 13h6">
+                    </path>
+
+                    <path d="M10 17h6">
+                    </path>
+
+                </svg>
+
+            </div>
+
+
+            <div>
+
+                <span>
+                    Documento generado
+                </span>
+
+                <strong>
+                    Contrato del crédito
+                </strong>
+
+                <small th:text="${credito.codigoCredito + '-contrato-generado.pdf'}">
+                    contrato-generado.pdf
+                </small>
+
+            </div>
+
+        </div>
+
+
+        <div class="registro-botones">
+
+
+            <a th:href="@{/admin/documentos/{id}/ver(id=${idDocumentoContrato})}"
+               target="_blank"
+               class="btn-ver-documento">
+
+                Ver contrato
+
+            </a>
+
+
+            <a th:href="@{/admin/documentos/{id}/descargar(id=${idDocumentoContrato})}"
+               class="btn-descargar-documento">
+
+                Descargar PDF
+
+            </a>
+
+
+        </div>
+
+
+        <div class="separador-firma">
+
+            <span>
+                DESPUÉS DE FIRMAR
+            </span>
+
+        </div>
+
+
+        <form th:action="@{/admin/creditos/{id}/firma(id=${credito.idCredito})}"
+              method="post"
+              enctype="multipart/form-data"
+              class="form-firma">
+
+
+            <input type="hidden"
+                   th:name="${_csrf.parameterName}"
+                   th:value="${_csrf.token}">
+
+
+            <label for="contratoFirmado">
+
+                Subir contrato firmado
+
+                <b>*</b>
+
+            </label>
+
+
+            <div class="archivo-firmado-box">
+
+
+                <input id="contratoFirmado"
+                       name="contratoFirmado"
+                       type="file"
+                       accept=".pdf,.jpg,.jpeg,.png,application/pdf,image/jpeg,image/png"
+                       required>
+
+
+                <div>
+
+                    <strong>
+                        Selecciona el documento firmado
+                    </strong>
+
+                    <span>
+                        PDF, JPG, JPEG o PNG · máximo 10 MB
+                    </span>
+
+                </div>
+
+
+            </div>
+
+
+            <button type="submit"
+                    class="btn-confirmar-firma">
+
+                Subir contrato firmado y finalizar
+
+            </button>
+
+
+        </form>
+
+
+        <p class="nota-firma">
+
+            El registro solo se mostrará como satisfactorio
+            cuando el contrato firmado haya sido guardado
+            correctamente.
+
+        </p>
+
+
+    </div>
+
+
+</div>
+
+
+</body>
+
+</html>

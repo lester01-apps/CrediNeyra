@@ -1,0 +1,1285 @@
+/* ==========================================================
+   CREDINEYRA
+   ESTILOS GENERALES
+   ========================================================== */
+
+:root {
+
+    --azul-principal: #0866ff;
+    --azul-hover: #0054db;
+
+    --azul-claro: #eaf2ff;
+
+    --azul-oscuro: #071a3d;
+    --azul-medio: #0d2c5e;
+
+    --blanco: #ffffff;
+
+    --texto: #101b3f;
+    --texto-secundario: #607091;
+
+    --borde: #dbe4f0;
+
+    --fondo-input: #f8faff;
+
+    --rojo: #b91c1c;
+    --rojo-fondo: #fee2e2;
+
+    --verde: #166534;
+    --verde-fondo: #dcfce7;
+
+}
+
+
+* {
+
+    margin: 0;
+    padding: 0;
+
+    box-sizing: border-box;
+
+}
+
+
+html {
+
+    min-height: 100%;
+
+}
+
+
+body {
+
+    min-height: 100vh;
+
+    font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
+
+    background: #f5f8fd;
+
+    color: var(--texto);
+
+}
+
+
+button,
+input {
+
+    font-family: inherit;
+
+}
+
+
+/* ==========================================================
+   LOGIN - CONTENEDOR
+   ========================================================== */
+
+.pagina-login {
+
+    min-height: 100vh;
+
+    display: grid;
+
+    grid-template-columns:
+        minmax(420px, 1.05fr)
+        minmax(420px, 0.95fr);
+
+}
+
+
+/* ==========================================================
+   PANEL IZQUIERDO
+   ========================================================== */
+
+.panel-marca {
+
+    position: relative;
+
+    overflow: hidden;
+
+    display: flex;
+
+    align-items: center;
+
+    padding: 65px 7%;
+
+    color: var(--blanco);
+
+    background:
+
+        radial-gradient(
+            circle at 80% 35%,
+            rgba(20, 108, 255, 0.42),
+            transparent 38%
+        ),
+
+        linear-gradient(
+            145deg,
+            #020b1d 0%,
+            #071a3d 50%,
+            #0b3280 100%
+        );
+
+}
+
+
+.panel-marca::before {
+
+    content: "";
+
+    position: absolute;
+
+    width: 420px;
+    height: 420px;
+
+    right: -190px;
+    top: -160px;
+
+    transform: rotate(35deg);
+
+    background:
+        rgba(0, 102, 255, 0.30);
+
+}
+
+
+.panel-marca::after {
+
+    content: "";
+
+    position: absolute;
+
+    width: 320px;
+    height: 320px;
+
+    left: -210px;
+    bottom: -160px;
+
+    transform: rotate(45deg);
+
+    background:
+        rgba(15, 99, 255, 0.25);
+
+}
+
+
+.marca-contenido {
+
+    position: relative;
+
+    z-index: 2;
+
+    width: 100%;
+
+    max-width: 650px;
+
+}
+
+
+/* ==========================================================
+   LOGO
+   ========================================================== */
+
+.logo {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 15px;
+
+    margin-bottom: 55px;
+
+}
+
+
+.logo-icono {
+
+    height: 44px;
+
+    display: flex;
+
+    align-items: flex-end;
+
+    gap: 4px;
+
+}
+
+
+.logo-icono span {
+
+    display: block;
+
+    width: 8px;
+
+    border-radius:
+        2px 2px 0 0;
+
+    background:
+        linear-gradient(
+            180deg,
+            #38a5ff,
+            #0866ff
+        );
+
+}
+
+
+.logo-icono span:nth-child(1) {
+    height: 15px;
+}
+
+
+.logo-icono span:nth-child(2) {
+    height: 27px;
+}
+
+
+.logo-icono span:nth-child(3) {
+    height: 39px;
+}
+
+
+.logo-texto {
+
+    font-size: 36px;
+
+    font-weight: 800;
+
+    letter-spacing: -1.5px;
+
+}
+
+
+.logo-texto span {
+
+    color: #1880ff;
+
+}
+
+
+.logo-subtitulo {
+
+    margin-top: 7px;
+
+    color: #cbdaf5;
+
+    font-size: 12px;
+
+    font-weight: 600;
+
+    letter-spacing: 2.3px;
+
+}
+
+
+/* ==========================================================
+   PRESENTACIÓN
+   ========================================================== */
+
+.etiqueta-marca {
+
+    display: inline-block;
+
+    margin-bottom: 22px;
+
+    padding: 9px 16px;
+
+    border-radius: 40px;
+
+    background:
+        rgba(6, 103, 255, 0.30);
+
+    border:
+        1px solid
+        rgba(80, 150, 255, 0.28);
+
+    color: #eaf3ff;
+
+    font-size: 12px;
+
+    font-weight: 700;
+
+    letter-spacing: 1.1px;
+
+}
+
+
+.panel-marca h1 {
+
+    max-width: 570px;
+
+    margin-bottom: 20px;
+
+    font-size:
+        clamp(
+            39px,
+            4.3vw,
+            63px
+        );
+
+    line-height: 1.05;
+
+    letter-spacing: -2px;
+
+}
+
+
+.panel-marca h1 span {
+
+    color: #1880ff;
+
+}
+
+
+.descripcion-marca {
+
+    max-width: 570px;
+
+    margin-bottom: 37px;
+
+    color: #d7e1f1;
+
+    font-size: 17px;
+
+    line-height: 1.65;
+
+}
+
+
+/* ==========================================================
+   BENEFICIOS
+   ========================================================== */
+
+.beneficios {
+
+    display: grid;
+
+    gap: 16px;
+
+}
+
+
+.beneficio {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 14px;
+
+}
+
+
+.beneficio-icono {
+
+    width: 45px;
+    height: 45px;
+
+    flex-shrink: 0;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 12px;
+
+    background:
+        rgba(17, 110, 255, 0.18);
+
+    border:
+        1px solid
+        rgba(93, 157, 255, 0.18);
+
+    color: #60a5fa;
+
+    font-size: 11px;
+
+    font-weight: 800;
+
+}
+
+
+.beneficio strong {
+
+    display: block;
+
+    margin-bottom: 2px;
+
+    font-size: 15px;
+
+}
+
+
+.beneficio small {
+
+    color: #aebed7;
+
+    font-size: 12px;
+
+}
+
+
+/* ==========================================================
+   PANEL DERECHO
+   ========================================================== */
+
+.panel-login {
+
+    position: relative;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    padding: 50px;
+
+    background:
+
+        radial-gradient(
+            circle at 20% 5%,
+            #f2f7ff,
+            transparent 35%
+        ),
+
+        #ffffff;
+
+}
+
+
+/* ==========================================================
+   TARJETA LOGIN
+   ========================================================== */
+
+.tarjeta-login {
+
+    width: 100%;
+
+    max-width: 500px;
+
+    padding: 45px 42px;
+
+    border:
+        1px solid #edf1f7;
+
+    border-radius: 28px;
+
+    background:
+        rgba(255, 255, 255, 0.97);
+
+    box-shadow:
+        0 28px 70px
+        rgba(32, 67, 130, 0.10);
+
+}
+
+
+/* ==========================================================
+   LOGO DEL FORMULARIO
+   ========================================================== */
+
+.logo-login {
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+    margin-bottom: 35px;
+
+}
+
+
+.logo-login-principal {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px;
+
+}
+
+
+.logo-login .logo-icono {
+
+    height: 33px;
+
+}
+
+
+.logo-login .logo-icono span {
+
+    width: 7px;
+
+}
+
+
+.logo-login .logo-icono span:nth-child(1) {
+
+    height: 12px;
+
+}
+
+
+.logo-login .logo-icono span:nth-child(2) {
+
+    height: 21px;
+
+}
+
+
+.logo-login .logo-icono span:nth-child(3) {
+
+    height: 30px;
+
+}
+
+
+.logo-login-texto {
+
+    font-size: 30px;
+
+    font-weight: 800;
+
+    letter-spacing: -1px;
+
+}
+
+
+.logo-login-texto span {
+
+    color: var(--azul-principal);
+
+}
+
+
+.logo-login-subtitulo {
+
+    margin-top: 8px;
+
+    color: #6680a6;
+
+    font-size: 11px;
+
+    font-weight: bold;
+
+    letter-spacing: 2.3px;
+
+}
+
+
+/* ==========================================================
+   CABECERA LOGIN
+   ========================================================== */
+
+.login-cabecera {
+
+    margin-bottom: 30px;
+
+    text-align: center;
+
+}
+
+
+.login-cabecera h2 {
+
+    margin-bottom: 8px;
+
+    font-size: 31px;
+
+    letter-spacing: -0.8px;
+
+}
+
+
+.login-cabecera p {
+
+    color: var(--texto-secundario);
+
+    font-size: 14px;
+
+}
+
+
+/* ==========================================================
+   MENSAJES
+   ========================================================== */
+
+.mensaje {
+
+    margin-bottom: 20px;
+
+    padding: 13px 15px;
+
+    border-radius: 10px;
+
+    font-size: 13px;
+
+    line-height: 1.4;
+
+}
+
+
+.mensaje-error {
+
+    background:
+        var(--rojo-fondo);
+
+    color:
+        var(--rojo);
+
+}
+
+
+.mensaje-exito {
+
+    background:
+        var(--verde-fondo);
+
+    color:
+        var(--verde);
+
+}
+
+
+/* ==========================================================
+   CAMPOS
+   ========================================================== */
+
+.campo {
+
+    margin-bottom: 18px;
+
+}
+
+
+.campo label {
+
+    display: block;
+
+    margin-bottom: 8px;
+
+    color: #35466b;
+
+    font-size: 13px;
+
+    font-weight: 700;
+
+}
+
+
+.input-contenedor {
+
+    position: relative;
+
+}
+
+
+.input-icono {
+
+    position: absolute;
+
+    left: 15px;
+
+    top: 50%;
+
+    transform:
+        translateY(-50%);
+
+    width: 24px;
+    height: 24px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 7px;
+
+    background: #eaf2ff;
+
+    color:
+        var(--azul-principal);
+
+    font-size: 10px;
+
+    font-weight: 800;
+
+}
+
+
+.campo input {
+
+    width: 100%;
+
+    height: 55px;
+
+    padding:
+        0 62px
+        0 50px;
+
+    border:
+        1px solid
+        var(--borde);
+
+    border-radius: 11px;
+
+    outline: none;
+
+    background:
+        var(--fondo-input);
+
+    color:
+        var(--texto);
+
+    font-size: 15px;
+
+    transition: 0.2s;
+
+}
+
+
+.campo input::placeholder {
+
+    color: #8593ad;
+
+}
+
+
+.campo input:focus {
+
+    border-color:
+        var(--azul-principal);
+
+    background:
+        var(--blanco);
+
+    box-shadow:
+        0 0 0 3px
+        rgba(8, 102, 255, 0.10);
+
+}
+
+
+/* ==========================================================
+   MOSTRAR CONTRASEÑA
+   ========================================================== */
+
+.ver-password {
+
+    position: absolute;
+
+    top: 50%;
+    right: 10px;
+
+    transform:
+        translateY(-50%);
+
+    min-width: 44px;
+    height: 36px;
+
+    padding: 0 8px;
+
+    border: none;
+
+    border-radius: 8px;
+
+    background: transparent;
+
+    color: #506488;
+
+    font-size: 11px;
+
+    font-weight: 700;
+
+    cursor: pointer;
+
+}
+
+
+.ver-password:hover {
+
+    background:
+        #edf4ff;
+
+    color:
+        var(--azul-principal);
+
+}
+
+
+/* ==========================================================
+   RECUPERAR CONTRASEÑA
+   ========================================================== */
+
+.acciones-login {
+
+    display: flex;
+
+    justify-content: flex-end;
+
+    margin:
+        4px 0
+        25px;
+
+}
+
+
+.acciones-login a {
+
+    color:
+        var(--azul-principal);
+
+    font-size: 13px;
+
+    font-weight: 600;
+
+    text-decoration: none;
+
+}
+
+
+.acciones-login a:hover {
+
+    text-decoration: underline;
+
+}
+
+
+/* ==========================================================
+   BOTÓN LOGIN
+   ========================================================== */
+
+.boton-login {
+
+    width: 100%;
+
+    height: 55px;
+
+    border: none;
+
+    border-radius: 11px;
+
+    background:
+        linear-gradient(
+            90deg,
+            #0866ff,
+            #0878ff
+        );
+
+    color: white;
+
+    font-size: 15px;
+
+    font-weight: 700;
+
+    cursor: pointer;
+
+    box-shadow:
+        0 12px 25px
+        rgba(8, 102, 255, 0.20);
+
+    transition: 0.2s;
+
+}
+
+
+.boton-login:hover {
+
+    transform:
+        translateY(-2px);
+
+    box-shadow:
+        0 15px 30px
+        rgba(8, 102, 255, 0.28);
+
+}
+
+
+.boton-login:active {
+
+    transform:
+        translateY(0);
+
+}
+
+
+/* ==========================================================
+   SEGURIDAD
+   ========================================================== */
+
+.separador {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 13px;
+
+    margin:
+        30px 0
+        22px;
+
+    color: #7182a2;
+
+    font-size: 11px;
+
+}
+
+
+.separador::before,
+.separador::after {
+
+    content: "";
+
+    flex: 1;
+
+    height: 1px;
+
+    background:
+        #dce5f0;
+
+}
+
+
+.seguridad-grid {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, 1fr);
+
+    gap: 8px;
+
+}
+
+
+.seguridad-item {
+
+    text-align: center;
+
+    color: #536789;
+
+    font-size: 11px;
+
+}
+
+
+.seguridad-icono {
+
+    width: 42px;
+    height: 42px;
+
+    margin:
+        0 auto
+        8px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 11px;
+
+    background:
+        #eff5ff;
+
+    color:
+        var(--azul-principal);
+
+    font-size: 10px;
+
+    font-weight: 800;
+
+}
+
+
+/* ==========================================================
+   TABLET
+   ========================================================== */
+
+@media (max-width: 1000px) {
+
+    .pagina-login {
+
+        grid-template-columns:
+            0.9fr 1.1fr;
+
+    }
+
+
+    .panel-marca {
+
+        padding:
+            50px 40px;
+
+    }
+
+
+    .panel-marca h1 {
+
+        font-size: 42px;
+
+    }
+
+
+    .beneficios {
+
+        display: none;
+
+    }
+
+
+    .tarjeta-login {
+
+        padding:
+            40px 30px;
+
+    }
+
+}
+
+
+/* ==========================================================
+   ANDROID / IPHONE
+   ========================================================== */
+
+@media (max-width: 720px) {
+
+    body {
+
+        background:
+            #071a3d;
+
+    }
+
+
+    .pagina-login {
+
+        display: block;
+
+    }
+
+
+    .panel-marca {
+
+        min-height: 310px;
+
+        padding:
+            35px 25px
+            75px;
+
+        align-items:
+            flex-start;
+
+    }
+
+
+    .panel-marca .logo {
+
+        margin-bottom: 28px;
+
+    }
+
+
+    .panel-marca .logo-texto {
+
+        font-size: 27px;
+
+    }
+
+
+    .panel-marca .logo-subtitulo {
+
+        font-size: 9px;
+
+        letter-spacing: 1.6px;
+
+    }
+
+
+    .etiqueta-marca {
+
+        display: none;
+
+    }
+
+
+    .panel-marca h1 {
+
+        max-width: 330px;
+
+        margin-bottom: 13px;
+
+        font-size: 32px;
+
+        line-height: 1.08;
+
+    }
+
+
+    .descripcion-marca {
+
+        max-width: 340px;
+
+        margin-bottom: 0;
+
+        font-size: 13px;
+
+        line-height: 1.55;
+
+    }
+
+
+    .beneficios {
+
+        display: none;
+
+    }
+
+
+    .panel-login {
+
+        margin-top: -52px;
+
+        padding:
+            0 14px
+            25px;
+
+        background: transparent;
+
+    }
+
+
+    .tarjeta-login {
+
+        max-width: none;
+
+        padding:
+            34px 22px
+            28px;
+
+        border-radius: 28px;
+
+        box-shadow:
+            0 12px 38px
+            rgba(2, 11, 29, 0.28);
+
+    }
+
+
+    .logo-login {
+
+        margin-bottom: 27px;
+
+    }
+
+
+    .logo-login-texto {
+
+        font-size: 27px;
+
+    }
+
+
+    .login-cabecera {
+
+        margin-bottom: 25px;
+
+    }
+
+
+    .login-cabecera h2 {
+
+        font-size: 28px;
+
+    }
+
+
+    .campo input {
+
+        height: 56px;
+
+        font-size: 16px;
+
+    }
+
+
+    .boton-login {
+
+        height: 56px;
+
+        font-size: 16px;
+
+    }
+
+
+    .seguridad-grid {
+
+        gap: 3px;
+
+    }
+
+
+    .seguridad-item {
+
+        font-size: 10px;
+
+    }
+
+}
+
+
+/* ==========================================================
+   CELULARES PEQUEÑOS
+   ========================================================== */
+
+@media (max-width: 390px) {
+
+    .panel-marca {
+
+        min-height: 290px;
+
+        padding:
+            28px 20px
+            68px;
+
+    }
+
+
+    .panel-marca h1 {
+
+        font-size: 29px;
+
+    }
+
+
+    .descripcion-marca {
+
+        font-size: 12px;
+
+    }
+
+
+    .tarjeta-login {
+
+        padding:
+            30px 18px
+            25px;
+
+    }
+
+
+    .logo-login-subtitulo {
+
+        font-size: 9px;
+
+    }
+
+}

@@ -1,0 +1,1138 @@
+<!DOCTYPE html>
+<html lang="es"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <meta name="theme-color"
+          content="#06162e">
+
+    <title>Clientes | crediNeyra</title>
+
+
+    <link rel="stylesheet"
+          th:href="@{/css/admin/dashboard.css}">
+
+    <link rel="stylesheet"
+          th:href="@{/css/admin/clientes.css}">
+
+    <!-- NUEVO: PANEL GRANDE DE CONTACTO -->
+    <link rel="stylesheet"
+          th:href="@{/css/admin/cliente-contacto.css}">
+
+</head>
+
+<body>
+
+
+<div class="admin-layout">
+
+
+    <!-- =====================================================
+         SIDEBAR
+         ===================================================== -->
+
+    <div th:replace="~{admin/fragments/sidebar :: sidebar}">
+    </div>
+
+
+    <div th:replace="~{admin/fragments/sidebar :: sidebar-overlay}">
+    </div>
+
+
+
+    <div class="admin-main">
+
+
+        <!-- =================================================
+             TOPBAR
+             ================================================= -->
+
+        <div th:replace="~{admin/fragments/topbar :: topbar}">
+        </div>
+
+
+
+        <main class="clientes-contenido">
+
+
+            <!-- =================================================
+                 CABECERA
+                 ================================================= -->
+
+            <section class="clientes-cabecera">
+
+
+                <div>
+
+
+                    <div class="breadcrumb">
+
+                        <a th:href="@{/admin}">
+                            Panel principal
+                        </a>
+
+                        <span>›</span>
+
+                        <strong>
+                            Clientes
+                        </strong>
+
+                    </div>
+
+
+                    <h1>
+                        Clientes
+                    </h1>
+
+
+                    <p>
+                        Gestiona los clientes del sistema,
+                        consulta su situación y realiza acciones.
+                    </p>
+
+
+                </div>
+
+
+
+                <div class="fecha-panel">
+
+                    <strong id="fechaActual">
+                        -
+                    </strong>
+
+                    <span id="horaActual">
+                        -
+                    </span>
+
+                </div>
+
+
+            </section>
+
+
+
+            <!-- =================================================
+                 MENSAJES
+                 ================================================= -->
+
+            <div class="mensaje-flash exito"
+                 th:if="${mensajeExito != null}">
+
+                <span th:text="${mensajeExito}">
+                    Operación realizada correctamente.
+                </span>
+
+            </div>
+
+
+            <div class="mensaje-flash error"
+                 th:if="${mensajeError != null}">
+
+                <span th:text="${mensajeError}">
+                    No se pudo realizar la operación.
+                </span>
+
+            </div>
+
+
+
+            <!-- =================================================
+                 KPI
+                 ================================================= -->
+
+            <section class="clientes-kpis">
+
+
+                <!-- TOTAL -->
+
+                <article class="cliente-kpi azul">
+
+
+                    <div class="kpi-icono">
+
+                        <svg viewBox="0 0 24 24">
+
+                            <circle cx="9"
+                                    cy="8"
+                                    r="3">
+                            </circle>
+
+                            <path d="M3 20c0-4 2-6 6-6s6 2 6 6">
+                            </path>
+
+                            <path d="M16 7c2 0 3 1 3 3">
+                            </path>
+
+                            <path d="M17 14c3 .5 4 2 4 6">
+                            </path>
+
+                        </svg>
+
+                    </div>
+
+
+                    <div>
+
+                        <span>
+                            Total de clientes
+                        </span>
+
+                        <strong th:text="${totalClientes}">
+                            0
+                        </strong>
+
+                        <small>
+                            Registrados en el sistema
+                        </small>
+
+                    </div>
+
+
+                </article>
+
+
+
+                <!-- ACTIVOS -->
+
+                <article class="cliente-kpi verde">
+
+
+                    <div class="kpi-icono">
+
+                        <svg viewBox="0 0 24 24">
+
+                            <circle cx="12"
+                                    cy="12"
+                                    r="9">
+                            </circle>
+
+                            <path d="m8 12 2.5 2.5L16 9">
+                            </path>
+
+                        </svg>
+
+                    </div>
+
+
+                    <div>
+
+                        <span>
+                            Clientes activos
+                        </span>
+
+                        <strong th:text="${clientesActivos}">
+                            0
+                        </strong>
+
+                        <small>
+                            Cuentas habilitadas
+                        </small>
+
+                    </div>
+
+
+                </article>
+
+
+
+                <!-- INACTIVOS -->
+
+                <article class="cliente-kpi gris">
+
+
+                    <div class="kpi-icono">
+
+                        <svg viewBox="0 0 24 24">
+
+                            <circle cx="12"
+                                    cy="12"
+                                    r="9">
+                            </circle>
+
+                            <path d="M9 9v6">
+                            </path>
+
+                            <path d="M15 9v6">
+                            </path>
+
+                        </svg>
+
+                    </div>
+
+
+                    <div>
+
+                        <span>
+                            Clientes inactivos
+                        </span>
+
+                        <strong th:text="${clientesInactivos}">
+                            0
+                        </strong>
+
+                        <small>
+                            Cuentas deshabilitadas
+                        </small>
+
+                    </div>
+
+
+                </article>
+
+
+
+                <!-- ADVERTENCIA -->
+
+                <article class="cliente-kpi naranja">
+
+
+                    <div class="kpi-icono">
+
+                        <svg viewBox="0 0 24 24">
+
+                            <circle cx="12"
+                                    cy="12"
+                                    r="9">
+                            </circle>
+
+                            <path d="M12 7v5l3 2">
+                            </path>
+
+                        </svg>
+
+                    </div>
+
+
+                    <div>
+
+                        <span>
+                            En advertencia
+                        </span>
+
+                        <strong th:text="${clientesAdvertencia}">
+                            0
+                        </strong>
+
+                        <small>
+                            Por vencer o en gracia
+                        </small>
+
+                    </div>
+
+
+                </article>
+
+
+
+                <!-- MORA -->
+
+                <article class="cliente-kpi rojo">
+
+
+                    <div class="kpi-icono">
+
+                        <svg viewBox="0 0 24 24">
+
+                            <path d="M12 3 2.5 20h19Z">
+                            </path>
+
+                            <path d="M12 9v5">
+                            </path>
+
+                            <path d="M12 17h.01">
+                            </path>
+
+                        </svg>
+
+                    </div>
+
+
+                    <div>
+
+                        <span>
+                            Clientes en mora
+                        </span>
+
+                        <strong th:text="${clientesMora}">
+                            0
+                        </strong>
+
+                        <small>
+                            Requieren atención
+                        </small>
+
+                    </div>
+
+
+                </article>
+
+
+            </section>
+
+
+
+            <!-- =================================================
+                 FILTROS
+                 ================================================= -->
+
+            <section class="clientes-filtros">
+
+
+                <div class="campo-busqueda">
+
+                    <svg viewBox="0 0 24 24">
+
+                        <circle cx="11"
+                                cy="11"
+                                r="7">
+                        </circle>
+
+                        <path d="m20 20-4-4">
+                        </path>
+
+                    </svg>
+
+
+                    <input type="text"
+                           id="buscarCliente"
+                           placeholder="Buscar por nombre, DNI, código o teléfono...">
+
+                </div>
+
+
+
+                <select id="filtroEstado">
+
+                    <option value="">
+                        Estado cliente
+                    </option>
+
+                    <option value="ACTIVO">
+                        Activo
+                    </option>
+
+                    <option value="INACTIVO">
+                        Inactivo
+                    </option>
+
+                </select>
+
+
+
+                <select id="filtroSituacion">
+
+                    <option value="">
+                        Situación de pago
+                    </option>
+
+                    <option value="AL_DIA">
+                        Al día
+                    </option>
+
+                    <option value="POR_VENCER">
+                        Por vencer
+                    </option>
+
+                    <option value="EN_GRACIA">
+                        En gracia
+                    </option>
+
+                    <option value="EN_MORA">
+                        En mora
+                    </option>
+
+                    <option value="SIN_CREDITO">
+                        Sin crédito
+                    </option>
+
+                </select>
+
+
+
+                <select id="filtroOrigen">
+
+                    <option value="">
+                        Origen
+                    </option>
+
+                    <option value="NUEVO">
+                        Nuevo
+                    </option>
+
+                    <option value="TRASPASO">
+                        Traspaso
+                    </option>
+
+                </select>
+
+
+
+                <button type="button"
+                        id="botonBuscarClientes"
+                        class="btn-buscar">
+
+                    Buscar
+
+                </button>
+
+
+
+                <button type="button"
+                        id="botonLimpiarClientes"
+                        class="btn-limpiar">
+
+                    Limpiar
+
+                </button>
+
+
+
+                <a th:href="@{/admin/clientes/nuevo}"
+                   class="btn-nuevo-cliente">
+
+                    <span>+</span>
+
+                    Nuevo cliente
+
+                </a>
+
+
+            </section>
+
+
+
+            <!-- =================================================
+                 TABLA
+                 ================================================= -->
+
+            <section class="tabla-clientes-card">
+
+
+                <div class="tabla-scroll">
+
+
+                    <table class="tabla-clientes">
+
+
+                        <thead>
+
+                        <tr>
+
+                            <th>#</th>
+
+                            <th>Código</th>
+
+                            <th>Nombre completo</th>
+
+                            <th>DNI</th>
+
+                            <th>Teléfono</th>
+
+                            <th>Próxima cuota</th>
+
+                            <th>Situación</th>
+
+                            <th>Origen</th>
+
+                            <th>Estado</th>
+
+                            <th>Fecha registro</th>
+
+                            <th>Acciones</th>
+
+                        </tr>
+
+                        </thead>
+
+
+
+                        <tbody id="tablaClientesBody">
+
+
+                        <tr class="cliente-fila"
+                            th:each="cliente, iter : ${clientes}"
+
+                            th:data-busqueda="${cliente.codigoCliente + ' ' + cliente.nombreCompleto + ' ' + cliente.dni + ' ' + (cliente.telefono != null ? cliente.telefono : '')}"
+
+                            th:data-estado="${cliente.estado}"
+
+                            th:data-situacion="${cliente.situacionPago}"
+
+                            th:data-origen="${cliente.tipoOrigen}">
+
+
+                            <!-- NUMERO -->
+
+                            <td th:text="${iter.count}">
+                                1
+                            </td>
+
+
+
+                            <!-- CODIGO -->
+
+                            <td>
+
+                                <strong class="codigo-cliente"
+                                        th:text="${cliente.codigoCliente}">
+                                    CLI-00001
+                                </strong>
+
+                            </td>
+
+
+
+                            <!-- NOMBRE -->
+
+                            <td>
+
+                                <div class="cliente-identidad">
+
+
+                                    <div class="cliente-avatar">
+
+                                        <span th:text="${cliente.nombreCompleto != null and !cliente.nombreCompleto.isBlank()
+                                                ? #strings.substring(cliente.nombreCompleto, 0, 1)
+                                                : 'C'}">
+
+                                            C
+
+                                        </span>
+
+                                    </div>
+
+
+                                    <div>
+
+                                        <strong th:text="${cliente.nombreCompleto}">
+                                            Cliente
+                                        </strong>
+
+
+                                        <small th:text="${cliente.email != null ? cliente.email : '-'}">
+                                            -
+                                        </small>
+
+                                    </div>
+
+
+                                </div>
+
+                            </td>
+
+
+
+                            <!-- DNI -->
+
+                            <td th:text="${cliente.dni}">
+                                -
+                            </td>
+
+
+
+                            <!-- TELEFONO -->
+
+                            <td th:text="${cliente.telefono != null ? cliente.telefono : '-'}">
+                                -
+                            </td>
+
+
+
+                            <!-- CUOTA -->
+
+                            <td>
+
+
+                                <div th:if="${cliente.fechaCuotaReferencia != null}"
+                                     class="cuota-tabla">
+
+
+                                    <strong th:text="${cliente.fechaCuotaReferencia}">
+                                        -
+                                    </strong>
+
+
+                                    <small th:text="${'S/ ' + cliente.montoCuotaReferencia}">
+                                        S/ 0.00
+                                    </small>
+
+
+                                </div>
+
+
+                                <span th:if="${cliente.fechaCuotaReferencia == null}">
+                                    -
+                                </span>
+
+
+                            </td>
+
+
+
+                            <!-- SITUACION -->
+
+                            <td>
+
+
+                                <span class="badge-situacion"
+                                      th:classappend="${' situacion-' + #strings.toLowerCase(cliente.situacionPago.toString())}">
+
+
+                                    <span class="punto-badge">
+                                    </span>
+
+
+                                    <span th:switch="${cliente.situacionPago.toString()}">
+
+
+                                        <span th:case="'AL_DIA'">
+                                            Al día
+                                        </span>
+
+
+                                        <span th:case="'POR_VENCER'">
+                                            Por vencer
+                                        </span>
+
+
+                                        <span th:case="'EN_GRACIA'">
+                                            En gracia
+                                        </span>
+
+
+                                        <span th:case="'EN_MORA'">
+                                            En mora
+                                        </span>
+
+
+                                        <span th:case="'SIN_CREDITO'">
+                                            Sin crédito
+                                        </span>
+
+
+                                    </span>
+
+
+                                </span>
+
+
+                            </td>
+
+
+
+                            <!-- ORIGEN -->
+
+                            <td>
+
+                                <span class="badge-origen"
+                                      th:text="${cliente.tipoOrigen}">
+                                    NUEVO
+                                </span>
+
+                            </td>
+
+
+
+                            <!-- ESTADO -->
+
+                            <td>
+
+                                <span class="badge-estado"
+                                      th:classappend="${cliente.estado.toString() == 'ACTIVO' ? ' activo' : ' inactivo'}"
+                                      th:text="${cliente.estado}">
+
+                                    ACTIVO
+
+                                </span>
+
+                            </td>
+
+
+
+                            <!-- FECHA REGISTRO -->
+
+                            <td th:text="${cliente.fechaRegistro != null ? cliente.fechaRegistro.toLocalDate() : '-'}">
+                                -
+                            </td>
+
+
+
+                            <!-- =================================================
+                                 ACCIONES
+                                 ================================================= -->
+
+                            <td class="acciones-tabla">
+
+
+                                <!-- VER -->
+
+                                <a th:href="@{/admin/clientes/{id}(id=${cliente.idCliente})}"
+                                   class="accion-btn accion-ver"
+                                   title="Ver cliente">
+
+                                    <svg viewBox="0 0 24 24">
+
+                                        <path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12Z">
+                                        </path>
+
+                                        <circle cx="12"
+                                                cy="12"
+                                                r="3">
+                                        </circle>
+
+                                    </svg>
+
+                                </a>
+
+
+
+                                <!-- EDITAR -->
+
+                                <a th:href="@{/admin/clientes/{id}/editar(id=${cliente.idCliente})}"
+                                   class="accion-btn accion-editar"
+                                   title="Editar cliente">
+
+                                    <svg viewBox="0 0 24 24">
+
+                                        <path d="M12 20h9">
+                                        </path>
+
+                                        <path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z">
+                                        </path>
+
+                                    </svg>
+
+                                </a>
+
+
+
+                                <!-- =================================================
+                                     CONTACTAR
+                                     ================================================= -->
+
+                                <button type="button"
+                                        class="accion-btn accion-contactar js-abrir-contacto"
+                                        title="Contactar cliente"
+
+                                        th:data-id="${cliente.idCliente}"
+
+                                        th:data-nombre="${cliente.nombreCompleto}"
+
+                                        th:data-codigo="${cliente.codigoCliente}"
+
+                                        th:data-dni="${cliente.dni}"
+
+                                        th:data-telefono="${cliente.telefono}"
+
+                                        th:data-email="${cliente.email}"
+
+                                        th:data-situacion="${cliente.situacionPago}"
+
+                                        th:data-fecha="${cliente.fechaCuotaReferencia}"
+
+                                        th:data-monto="${cliente.montoCuotaReferencia}"
+
+                                        data-volver="lista">
+
+
+                                    <svg viewBox="0 0 24 24">
+
+                                        <path d="M22 2 11 13">
+                                        </path>
+
+                                        <path d="m22 2-7 20-4-9-9-4Z">
+                                        </path>
+
+                                    </svg>
+
+
+                                </button>
+
+
+
+                                <!-- =================================================
+                                     CAMBIAR ESTADO
+                                     ================================================= -->
+
+                                <button type="button"
+                                        class="accion-btn accion-estado js-cambiar-estado"
+                                        title="Cambiar estado"
+
+                                        th:data-id="${cliente.idCliente}"
+
+                                        th:data-codigo="${cliente.codigoCliente}"
+
+                                        th:data-nombre="${cliente.nombreCompleto}"
+
+                                        th:data-estado="${cliente.estado}">
+
+
+                                    <svg viewBox="0 0 24 24">
+
+                                        <circle cx="12"
+                                                cy="12"
+                                                r="9">
+                                        </circle>
+
+                                        <path d="M9 9v6">
+                                        </path>
+
+                                        <path d="M15 9v6">
+                                        </path>
+
+                                    </svg>
+
+
+                                </button>
+
+
+                            </td>
+
+
+                        </tr>
+
+
+                        </tbody>
+
+
+                    </table>
+
+
+                </div>
+
+
+
+                <!-- SIN RESULTADOS -->
+
+                <div id="sinResultadosClientes"
+                     class="sin-resultados"
+                     hidden>
+
+                    No se encontraron clientes
+                    con los filtros seleccionados.
+
+                </div>
+
+
+
+                <!-- PAGINACION -->
+
+                <div class="paginacion-clientes">
+
+                    <span id="informacionPaginacion">
+                        -
+                    </span>
+
+                    <div id="botonesPaginacion">
+                    </div>
+
+                </div>
+
+
+            </section>
+
+
+        </main>
+
+
+    </div>
+
+
+</div>
+
+
+
+<!-- =========================================================
+     MODAL CAMBIO DE ESTADO
+     ========================================================= -->
+
+<div class="modal-fondo"
+     id="modalEstado">
+
+
+    <div class="modal-panel">
+
+
+        <button type="button"
+                class="modal-cerrar"
+                data-cerrar-modal>
+
+            ×
+
+        </button>
+
+
+
+        <div class="modal-icono estado">
+
+            <svg viewBox="0 0 24 24">
+
+                <path d="M12 2v10">
+                </path>
+
+                <path d="M5.6 5.6a9 9 0 1 0 12.8 0">
+                </path>
+
+            </svg>
+
+        </div>
+
+
+
+        <h2>
+            Cambiar estado
+        </h2>
+
+
+        <p id="estadoDescripcion">
+            Cliente
+        </p>
+
+
+
+        <div class="cambio-estado-info">
+
+
+            <div>
+
+                <span>
+                    Estado actual
+                </span>
+
+                <strong id="estadoActual">
+                    ACTIVO
+                </strong>
+
+            </div>
+
+
+            <span class="flecha-estado">
+                →
+            </span>
+
+
+            <div>
+
+                <span>
+                    Nuevo estado
+                </span>
+
+                <strong id="estadoNuevo">
+                    INACTIVO
+                </strong>
+
+            </div>
+
+
+        </div>
+
+
+
+        <div class="advertencia-estado">
+
+            Si el cliente tiene un crédito pendiente,
+            crediNeyra no permitirá inactivarlo.
+
+        </div>
+
+
+
+        <form method="post"
+              id="formCambiarEstado">
+
+
+            <input type="hidden"
+                   th:name="${_csrf.parameterName}"
+                   th:value="${_csrf.token}">
+
+
+            <input type="hidden"
+                   name="nuevoEstado"
+                   id="inputNuevoEstado">
+
+
+            <input type="hidden"
+                   name="volver"
+                   value="lista">
+
+
+
+            <div class="modal-acciones">
+
+
+                <button type="button"
+                        class="btn-modal-cancelar"
+                        data-cerrar-modal>
+
+                    Cancelar
+
+                </button>
+
+
+                <button type="submit"
+                        class="btn-modal-confirmar">
+
+                    Confirmar cambio
+
+                </button>
+
+
+            </div>
+
+
+        </form>
+
+
+    </div>
+
+
+</div>
+
+
+
+<!-- =========================================================
+     PANEL GRANDE DE CONTACTO
+     ========================================================= -->
+
+<div th:replace="~{admin/clientes/fragments/contacto-modal :: contacto-modal}">
+</div>
+
+
+<div th:replace="~{admin/clientes/fragments/contacto-modal :: contacto-toast}">
+</div>
+
+
+
+<!-- TOAST NORMAL CLIENTES -->
+
+<div id="toastClientes"
+     class="toast-clientes">
+
+    <span id="toastClientesTexto">
+        Operación
+    </span>
+
+</div>
+
+
+
+<!-- =========================================================
+     SCRIPTS
+     ========================================================= -->
+
+<script th:src="@{/js/admin/clientes.js}">
+</script>
+
+<script th:src="@{/js/admin/cliente-contacto.js}">
+</script>
+
+
+</body>
+</html>

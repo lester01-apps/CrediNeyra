@@ -1,0 +1,1023 @@
+<!DOCTYPE html>
+<html lang="es"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title th:text="${detalle.codigoCredito + ' | crediNeyra'}">
+        Crédito | crediNeyra
+    </title>
+
+    <link rel="stylesheet"
+          th:href="@{/css/admin/dashboard.css}">
+
+    <link rel="stylesheet"
+          th:href="@{/css/admin/credito-detalle.css}">
+
+</head>
+
+
+<body>
+
+
+<div class="admin-layout">
+
+
+    <div th:replace="~{admin/fragments/sidebar :: sidebar}">
+    </div>
+
+
+    <div th:replace="~{admin/fragments/sidebar :: sidebar-overlay}">
+    </div>
+
+
+    <div class="admin-main">
+
+
+        <div th:replace="~{admin/fragments/topbar :: topbar}">
+        </div>
+
+
+        <main class="credito-detalle">
+
+
+            <!-- =================================================
+                 CABECERA
+                 ================================================= -->
+
+            <section class="detalle-cabecera">
+
+
+                <div>
+
+
+                    <div class="breadcrumb">
+
+                        <a th:href="@{/admin}">
+                            Panel principal
+                        </a>
+
+                        <span>›</span>
+
+                        <a th:href="@{/admin/creditos}">
+                            Créditos
+                        </a>
+
+                        <span>›</span>
+
+                        <strong th:text="${detalle.codigoCredito}">
+                            CRE-00001
+                        </strong>
+
+                    </div>
+
+
+                    <span class="kicker">
+                        EXPEDIENTE DEL CRÉDITO
+                    </span>
+
+
+                    <div class="titulo-linea">
+
+                        <h1 th:text="${detalle.codigoCredito}">
+                            CRE-00001
+                        </h1>
+
+
+                        <span class="estado-credito"
+                              th:classappend="${' estado-' + #strings.toLowerCase(detalle.estado)}"
+                              th:text="${detalle.estado}">
+
+                            ACTIVO
+
+                        </span>
+
+                    </div>
+
+
+                    <p>
+
+                        Registrado:
+
+                        <strong th:text="${detalle.fechaRegistro}">
+                            -
+                        </strong>
+
+                    </p>
+
+                </div>
+
+
+                <a th:href="@{/admin/creditos}"
+                   class="btn-volver">
+
+                    ← Volver a créditos
+
+                </a>
+
+
+            </section>
+
+
+            <!-- =================================================
+                 CLIENTE
+                 ================================================= -->
+
+            <section class="detalle-card">
+
+
+                <div class="card-titulo">
+
+                    <span>01</span>
+
+                    <div>
+
+                        <h2>
+                            Cliente
+                        </h2>
+
+                        <p>
+                            Titular del préstamo.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="cliente-panel">
+
+
+                    <div class="cliente-avatar"
+                         th:text="${#strings.substring(detalle.clienteNombre,0,1)}">
+
+                        C
+
+                    </div>
+
+
+                    <div>
+
+                        <h3 th:text="${detalle.clienteNombre}">
+                            Cliente
+                        </h3>
+
+
+                        <div class="cliente-meta">
+
+                            <span th:text="${detalle.codigoCliente}">
+                                CLI-00001
+                            </span>
+
+                            <span>•</span>
+
+                            <span>
+                                DNI
+                                <b th:text="${detalle.clienteDni}">
+                                    -
+                                </b>
+                            </span>
+
+                        </div>
+
+
+                        <small th:text="${detalle.clienteDireccion}">
+                            Dirección
+                        </small>
+
+                    </div>
+
+
+                    <a th:href="@{/admin/clientes/{id}(id=${detalle.idCliente})}"
+                       class="btn-secundario">
+
+                        Ver cliente
+
+                    </a>
+
+
+                </div>
+
+            </section>
+
+
+            <!-- =================================================
+                 RESUMEN FINANCIERO
+                 ================================================= -->
+
+            <section class="detalle-card">
+
+
+                <div class="card-titulo">
+
+                    <span>02</span>
+
+                    <div>
+
+                        <h2>
+                            Resumen financiero
+                        </h2>
+
+                        <p>
+                            Importes consolidados del crédito.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="kpis">
+
+
+                    <div class="kpi">
+
+                        <span>
+                            Capital
+                        </span>
+
+                        <strong th:text="${'S/ ' + detalle.capitalOriginal}">
+                            S/ 0.00
+                        </strong>
+
+                    </div>
+
+
+                    <div class="kpi">
+
+                        <span>
+                            Interés generado
+                        </span>
+
+                        <strong th:text="${'S/ ' + detalle.interesGenerado}">
+                            S/ 0.00
+                        </strong>
+
+                    </div>
+
+
+                    <div class="kpi destacado">
+
+                        <span>
+                            Total del crédito
+                        </span>
+
+                        <strong th:text="${'S/ ' + detalle.totalCredito}">
+                            S/ 0.00
+                        </strong>
+
+                    </div>
+
+
+                    <div class="kpi verde">
+
+                        <span>
+                            Total pagado
+                        </span>
+
+                        <strong th:text="${'S/ ' + detalle.totalPagado}">
+                            S/ 0.00
+                        </strong>
+
+                    </div>
+
+
+                    <div class="kpi naranja">
+
+                        <span>
+                            Total pendiente
+                        </span>
+
+                        <strong th:text="${'S/ ' + detalle.totalPendiente}">
+                            S/ 0.00
+                        </strong>
+
+                    </div>
+
+
+                </div>
+
+
+                <div class="desglose">
+
+
+                    <div>
+
+                        <span>Capital pagado</span>
+
+                        <strong th:text="${'S/ ' + detalle.capitalPagado}">
+                            S/ 0.00
+                        </strong>
+
+                    </div>
+
+
+                    <div>
+
+                        <span>Capital pendiente</span>
+
+                        <strong th:text="${'S/ ' + detalle.capitalPendiente}">
+                            S/ 0.00
+                        </strong>
+
+                    </div>
+
+
+                    <div>
+
+                        <span>Interés pagado</span>
+
+                        <strong th:text="${'S/ ' + detalle.interesPagado}">
+                            S/ 0.00
+                        </strong>
+
+                    </div>
+
+
+                    <div>
+
+                        <span>Interés pendiente</span>
+
+                        <strong th:text="${'S/ ' + detalle.interesPendiente}">
+                            S/ 0.00
+                        </strong>
+
+                    </div>
+
+
+                </div>
+
+            </section>
+
+
+            <!-- =================================================
+                 CONDICIONES
+                 ================================================= -->
+
+            <section class="detalle-card">
+
+
+                <div class="card-titulo">
+
+                    <span>03</span>
+
+                    <div>
+
+                        <h2>
+                            Condiciones congeladas
+                        </h2>
+
+                        <p>
+                            Condiciones registradas al crear el crédito.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="datos-grid">
+
+
+                    <div class="dato">
+
+                        <span>
+                            Tipo de interés
+                        </span>
+
+                        <strong th:text="${detalle.tipoCalculo}">
+                            NORMAL
+                        </strong>
+
+                    </div>
+
+
+                    <div class="dato importante">
+
+                        <span>
+                            Tasa contractual
+                        </span>
+
+                        <strong>
+
+                            <span th:text="${detalle.tasaInteres}">
+                                10
+                            </span>
+
+                            %
+
+                            <span th:text="${#strings.toLowerCase(detalle.periodicidadInteres)}">
+                                mensual
+                            </span>
+
+                        </strong>
+
+                    </div>
+
+
+                    <div class="dato">
+
+                        <span>
+                            Frecuencia de pago
+                        </span>
+
+                        <strong th:text="${detalle.frecuenciaPago}">
+                            MENSUAL
+                        </strong>
+
+                    </div>
+
+
+                    <div class="dato">
+
+                        <span>
+                            Plazo
+                        </span>
+
+                        <strong>
+
+                            <span th:text="${detalle.plazoMeses}">
+                                1
+                            </span>
+
+                            meses
+
+                        </strong>
+
+                    </div>
+
+
+                    <div class="dato">
+
+                        <span>
+                            N.º de cuotas
+                        </span>
+
+                        <strong th:text="${detalle.numeroCuotas}">
+                            0
+                        </strong>
+
+                    </div>
+
+
+                    <div class="dato">
+
+                        <span>
+                            Fecha de desembolso
+                        </span>
+
+                        <strong th:text="${detalle.fechaInicio}">
+                            -
+                        </strong>
+
+                    </div>
+
+
+                    <div class="dato">
+
+                        <span>
+                            Primer pago
+                        </span>
+
+                        <strong th:text="${detalle.fechaPrimerPago}">
+                            -
+                        </strong>
+
+                    </div>
+
+
+                </div>
+
+            </section>
+
+
+            <!-- =================================================
+                 GARANTÍA
+                 ================================================= -->
+
+            <section class="detalle-card">
+
+
+                <div class="card-titulo">
+
+                    <span>04</span>
+
+                    <div>
+
+                        <h2>
+                            Garantía
+                        </h2>
+
+                        <p>
+                            Información y evidencia de la garantía.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div th:if="${detalle.garantia != null}">
+
+
+                    <div class="datos-grid garantia-datos">
+
+
+                        <div class="dato">
+
+                            <span>
+                                Tipo
+                            </span>
+
+                            <strong th:text="${detalle.garantia.tipo}">
+                                -
+                            </strong>
+
+                        </div>
+
+
+                        <div class="dato">
+
+                            <span>
+                                Valor estimado
+                            </span>
+
+                            <strong th:text="${'S/ ' + detalle.garantia.valorEstimado}">
+                                S/ 0.00
+                            </strong>
+
+                        </div>
+
+
+                        <div class="dato">
+
+                            <span>
+                                Estado
+                            </span>
+
+                            <strong th:text="${detalle.garantia.estado}">
+                                ACTIVA
+                            </strong>
+
+                        </div>
+
+
+                        <div class="dato">
+
+                            <span>
+                                Registrada
+                            </span>
+
+                            <strong th:text="${detalle.garantia.fechaRegistro}">
+                                -
+                            </strong>
+
+                        </div>
+
+
+                        <div class="dato ancho-completo">
+
+                            <span>
+                                Descripción
+                            </span>
+
+                            <strong th:text="${detalle.garantia.descripcion}">
+                                -
+                            </strong>
+
+                        </div>
+
+
+                        <div class="dato ancho-completo">
+
+                            <span>
+                                Observaciones
+                            </span>
+
+                            <strong th:text="${detalle.garantia.observaciones}">
+                                -
+                            </strong>
+
+                        </div>
+
+
+                    </div>
+
+
+                    <!-- DOCUMENTO / FOTO GARANTÍA -->
+
+                    <div class="garantia-documentos">
+
+
+                        <th:block th:each="doc : ${detalle.documentos}"
+                                  th:if="${doc.garantia}">
+
+
+                            <article class="garantia-documento">
+
+
+                                <!-- PREVIEW SI ES FOTO -->
+
+                                <a th:if="${doc.imagen}"
+                                   th:href="@{/admin/documentos/{id}/ver(id=${doc.idDocumento})}"
+                                   target="_blank"
+                                   class="garantia-preview">
+
+                                    <img th:src="@{/admin/documentos/{id}/ver(id=${doc.idDocumento})}"
+                                         alt="Foto de garantía">
+
+                                </a>
+
+
+                                <!-- PDF -->
+
+                                <div th:unless="${doc.imagen}"
+                                     class="garantia-pdf-icon">
+
+                                    PDF
+
+                                </div>
+
+
+                                <div class="archivo-info">
+
+                                    <span th:text="${doc.tipo}">
+                                        DOCUMENTO_GARANTIA
+                                    </span>
+
+                                    <strong th:text="${doc.nombreArchivo}">
+                                        documento.pdf
+                                    </strong>
+
+                                    <small th:text="${doc.fechaSubida}">
+                                        -
+                                    </small>
+
+                                </div>
+
+
+                                <div class="archivo-acciones">
+
+
+                                    <a th:href="@{/admin/documentos/{id}/ver(id=${doc.idDocumento})}"
+                                       target="_blank"
+                                       class="btn-ver">
+
+                                        Ver
+
+                                    </a>
+
+
+                                    <a th:href="@{/admin/documentos/{id}/descargar(id=${doc.idDocumento})}"
+                                       class="btn-descargar">
+
+                                        Descargar
+
+                                    </a>
+
+
+                                </div>
+
+
+                            </article>
+
+
+                        </th:block>
+
+
+                    </div>
+
+
+                </div>
+
+
+                <div th:if="${detalle.garantia == null}"
+                     class="vacio">
+
+                    Este crédito no tiene garantía registrada.
+
+                </div>
+
+
+            </section>
+
+
+            <!-- =================================================
+                 CRONOGRAMA
+                 ================================================= -->
+
+            <section class="detalle-card">
+
+
+                <div class="card-titulo">
+
+                    <span>05</span>
+
+                    <div>
+
+                        <h2>
+                            Cronograma
+                        </h2>
+
+                        <p>
+                            Cuotas registradas para el crédito.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="tabla-scroll">
+
+
+                    <table>
+
+
+                        <thead>
+
+                        <tr>
+
+                            <th>#</th>
+
+                            <th>Vencimiento</th>
+
+                            <th>Capital</th>
+
+                            <th>Interés</th>
+
+                            <th>Total</th>
+
+                            <th>Pendiente</th>
+
+                            <th>Estado</th>
+
+                        </tr>
+
+                        </thead>
+
+
+                        <tbody>
+
+
+                        <tr th:each="cuota : ${detalle.cuotas}">
+
+
+                            <td th:text="${cuota.numero}">
+                                1
+                            </td>
+
+
+                            <td th:text="${cuota.fechaVencimiento}">
+                                -
+                            </td>
+
+
+                            <td th:text="${'S/ ' + cuota.capitalOriginal}">
+                                S/ 0.00
+                            </td>
+
+
+                            <td th:text="${'S/ ' + cuota.interesOriginal}">
+                                S/ 0.00
+                            </td>
+
+
+                            <td class="fuerte"
+                                th:text="${'S/ ' + cuota.totalOriginal}">
+
+                                S/ 0.00
+
+                            </td>
+
+
+                            <td th:text="${'S/ ' + cuota.totalPendiente}">
+                                S/ 0.00
+                            </td>
+
+
+                            <td>
+
+                                <span class="badge-cuota"
+                                      th:classappend="${' cuota-' + #strings.toLowerCase(cuota.estado)}"
+                                      th:text="${cuota.estado}">
+
+                                    PENDIENTE
+
+                                </span>
+
+                            </td>
+
+
+                        </tr>
+
+
+                        </tbody>
+
+
+                    </table>
+
+
+                </div>
+
+
+            </section>
+
+
+            <!-- =================================================
+                 DOCUMENTOS
+                 ================================================= -->
+
+            <section class="detalle-card">
+
+
+                <div class="card-titulo">
+
+                    <span>06</span>
+
+                    <div>
+
+                        <h2>
+                            Expediente documental
+                        </h2>
+
+                        <p>
+                            Garantía, contrato generado y contrato firmado.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="documentos-lista"
+                     th:if="${!detalle.documentos.isEmpty()}">
+
+
+                    <article class="documento-item"
+                             th:each="doc : ${detalle.documentos}">
+
+
+                        <div class="documento-icono"
+                             th:classappend="${doc.contratoFirmado
+                                    ? ' firmado'
+                                    : doc.contratoGenerado
+                                    ? ' generado'
+                                    : doc.garantia
+                                    ? ' garantia'
+                                    : ''}">
+
+
+                            <svg viewBox="0 0 24 24">
+
+                                <path d="M7 3h8l4 4v14H7z">
+                                </path>
+
+                                <path d="M15 3v5h5">
+                                </path>
+
+                                <path d="M10 13h6">
+                                </path>
+
+                                <path d="M10 17h6">
+                                </path>
+
+                            </svg>
+
+
+                        </div>
+
+
+                        <div class="documento-datos">
+
+
+                            <div class="documento-titulo">
+
+                                <strong th:text="${doc.tipo}">
+                                    DOCUMENTO
+                                </strong>
+
+
+                                <span th:text="${doc.estado}">
+                                    ACTIVO
+                                </span>
+
+                            </div>
+
+
+                            <p th:text="${doc.nombreArchivo}">
+                                archivo.pdf
+                            </p>
+
+
+                            <small>
+
+                                <span th:text="${doc.codigoDocumento}">
+                                    DOC
+                                </span>
+
+                                ·
+
+                                <span th:text="${doc.fechaSubida}">
+                                    -
+                                </span>
+
+                            </small>
+
+
+                        </div>
+
+
+                        <div class="archivo-acciones">
+
+
+                            <a th:href="@{/admin/documentos/{id}/ver(id=${doc.idDocumento})}"
+                               target="_blank"
+                               class="btn-ver">
+
+                                Ver
+
+                            </a>
+
+
+                            <a th:href="@{/admin/documentos/{id}/descargar(id=${doc.idDocumento})}"
+                               class="btn-descargar">
+
+                                Descargar
+
+                            </a>
+
+
+                        </div>
+
+
+                    </article>
+
+
+                </div>
+
+
+                <div class="vacio"
+                     th:if="${detalle.documentos.isEmpty()}">
+
+                    No hay documentos registrados para este crédito.
+
+                </div>
+
+
+            </section>
+
+
+            <!-- =================================================
+                 OBSERVACIONES
+                 ================================================= -->
+
+            <section class="detalle-card">
+
+
+                <div class="card-titulo">
+
+                    <span>07</span>
+
+                    <div>
+
+                        <h2>
+                            Observaciones
+                        </h2>
+
+                        <p>
+                            Información adicional del crédito.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="observaciones"
+                     th:text="${detalle.observaciones}">
+
+                    Sin observaciones.
+
+                </div>
+
+
+            </section>
+
+
+        </main>
+
+
+    </div>
+
+
+</div>
+
+
+</body>
+</html>

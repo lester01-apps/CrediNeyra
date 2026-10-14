@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="es"
+      xmlns:th="http://www.thymeleaf.org">
+
+<body>
+
+<aside th:fragment="sidebar"
+       class="sidebar"
+       id="sidebar">
+
+    <div class="sidebar-superior">
+
+        <div class="sidebar-logo">
+
+            <div class="logo-barras">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+
+            <div>
+
+                <div class="logo-nombre">
+                    credi<span>Neyra</span>
+                </div>
+
+                <div class="logo-descripcion">
+                    GESTIÓN DE CRÉDITOS
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <nav class="sidebar-menu">
+
+            <!-- PANEL -->
+
+            <a th:href="@{/admin}"
+               class="menu-item"
+               th:classappend="${seccionActiva == null or seccionActiva == 'dashboard'} ? ' activo' : ''">
+
+                <svg viewBox="0 0 24 24">
+                    <path d="M3 11.5 12 4l9 7.5"></path>
+                    <path d="M5 10.5V20h5v-6h4v6h5v-9.5"></path>
+                </svg>
+
+                <span>
+                    Panel principal
+                </span>
+
+            </a>
+
+
+            <div class="menu-titulo">
+                GESTIÓN
+            </div>
+
+
+            <!-- CLIENTES -->
+
+            <a th:href="@{/admin/clientes}"
+               class="menu-item"
+               th:classappend="${seccionActiva == 'clientes'} ? ' activo' : ''">
+
+                <svg viewBox="0 0 24 24">
+
+                    <circle cx="9"
+                            cy="8"
+                            r="3">
+                    </circle>
+
+                    <path d="M3 20c0-4 2-6 6-6s6 2 6 6"></path>
+
+                    <path d="M16 6c2 .2 3 1.4 3 3s-1 2.8-3 3"></path>
+
+                    <path d="M17 14c3 .5 4 2.5 4 6"></path>
+
+                </svg>
+
+                <span>
+                    Clientes
+                </span>
+
+            </a>
+
+
+            <!-- CRÉDITOS -->
+
+            <a th:href="@{/admin/creditos}"
+               class="menu-item"
+               th:classappend="${seccionActiva == 'creditos'} ? ' activo' : ''">
+
+                <svg viewBox="0 0 24 24">
+
+                    <path d="M7 3h8l4 4v14H7z"></path>
+
+                    <path d="M15 3v5h5"></path>
+
+                    <path d="M10 13h6"></path>
+
+                    <path d="M10 17h6"></path>
+
+                </svg>
+
+                <span>
+                    Créditos
+                </span>
+
+            </a>
+
+
+            <!-- PAGOS -->
+
+            <a href="#"
+               class="menu-item"
+               data-proximo="Pagos">
+
+                <svg viewBox="0 0 24 24">
+
+                    <ellipse
+                            cx="12"
+                            cy="6"
+                            rx="7"
+                            ry="3">
+                    </ellipse>
+
+                    <path d="M5 6v6c0 1.7 3.1 3 7 3s7-1.3 7-3V6"></path>
+
+                    <path d="M5 12v6c0 1.7 3.1 3 7 3s7-1.3 7-3v-6"></path>
+
+                </svg>
+
+                <span>
+                    Pagos
+                </span>
+
+            </a>
+
+
+            <!-- REGULARIZACIONES -->
+
+            <a href="#"
+               class="menu-item"
+               data-proximo="Regularizaciones">
+
+                <svg viewBox="0 0 24 24">
+
+                    <path d="M4 12a8 8 0 1 0 2-5"></path>
+
+                    <path d="M4 4v5h5"></path>
+
+                    <path d="M12 8v8"></path>
+
+                    <path d="M9 11h6"></path>
+
+                </svg>
+
+                <span>
+                    Regularizaciones
+                </span>
+
+            </a>
+
+
+            <div class="menu-titulo">
+                INFORMACIÓN
+            </div>
+
+
+            <!-- REPORTES -->
+
+            <a href="#"
+               class="menu-item"
+               data-proximo="Reportes">
+
+                <svg viewBox="0 0 24 24">
+                    <path d="M5 20V10"></path>
+                    <path d="M12 20V4"></path>
+                    <path d="M19 20v-7"></path>
+                </svg>
+
+                <span>
+                    Reportes
+                </span>
+
+            </a>
+
+
+            <!-- AUDITORÍA -->
+
+            <a href="#"
+               class="menu-item"
+               data-proximo="Auditoría">
+
+                <svg viewBox="0 0 24 24">
+
+                    <path d="M6 3h12v18H6z"></path>
+
+                    <path d="M9 8h6"></path>
+
+                    <path d="M9 12h6"></path>
+
+                    <path d="M9 16h4"></path>
+
+                </svg>
+
+                <span>
+                    Auditoría
+                </span>
+
+            </a>
+
+        </nav>
+
+    </div>
+
+
+    <div class="sidebar-inferior">
+
+        <form th:action="@{/logout}"
+              method="post">
+
+            <input type="hidden"
+                   th:name="${_csrf.parameterName}"
+                   th:value="${_csrf.token}">
+
+            <button type="submit"
+                    class="boton-cerrar-sesion">
+
+                <svg viewBox="0 0 24 24">
+                    <path d="M10 4H5v16h5"></path>
+                    <path d="M14 8l4 4-4 4"></path>
+                    <path d="M18 12H9"></path>
+                </svg>
+
+                <span>
+                    Cerrar sesión
+                </span>
+
+            </button>
+
+        </form>
+
+        <div class="version">
+            crediNeyra · v1.0
+        </div>
+
+    </div>
+
+</aside>
+
+
+<div th:fragment="sidebar-overlay"
+     class="sidebar-overlay"
+     id="sidebarOverlay">
+</div>
+
+</body>
+</html>

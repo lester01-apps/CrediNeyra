@@ -1,0 +1,1261 @@
+<!DOCTYPE html>
+<html lang="es"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <meta name="theme-color"
+          content="#06162e">
+
+    <title>Panel administrador | crediNeyra</title>
+
+    <link rel="stylesheet"
+          th:href="@{/css/admin/dashboard.css}">
+
+</head>
+
+<body>
+
+
+<div class="admin-layout">
+
+
+    <!-- =====================================================
+         SIDEBAR
+         ===================================================== -->
+
+    <div th:replace="~{admin/fragments/sidebar :: sidebar}">
+    </div>
+
+
+    <div th:replace="~{admin/fragments/sidebar :: sidebar-overlay}">
+    </div>
+
+
+
+    <!-- =====================================================
+         CONTENIDO PRINCIPAL
+         ===================================================== -->
+
+    <div class="admin-main">
+
+
+        <!-- =================================================
+             TOPBAR
+             ================================================= -->
+
+        <div th:replace="~{admin/fragments/topbar :: topbar}">
+        </div>
+
+
+
+        <!-- =================================================
+             DASHBOARD
+             ================================================= -->
+
+        <main class="contenido-dashboard">
+
+
+            <!-- =================================================
+                 BIENVENIDA
+                 ================================================= -->
+
+            <section class="bienvenida-dashboard">
+
+
+                <div>
+
+                    <p class="seccion-etiqueta">
+                        PANEL GENERAL
+                    </p>
+
+
+                    <h1>
+
+                        Bienvenido a
+
+                        <span>
+                            crediNeyra
+                        </span>
+
+                    </h1>
+
+
+                    <p class="bienvenida-descripcion">
+
+                        Administra y supervisa las operaciones
+                        principales del sistema.
+
+                    </p>
+
+                </div>
+
+
+
+                <!-- FECHA -->
+
+                <div class="fecha-card">
+
+
+                    <div class="fecha-icono">
+
+                        <svg viewBox="0 0 24 24">
+
+                            <rect
+                                    x="3"
+                                    y="5"
+                                    width="18"
+                                    height="16"
+                                    rx="2">
+                            </rect>
+
+                            <path d="M8 3v4"></path>
+
+                            <path d="M16 3v4"></path>
+
+                            <path d="M3 10h18"></path>
+
+                        </svg>
+
+                    </div>
+
+
+                    <div>
+
+                        <span id="fechaActual">
+                            Fecha actual
+                        </span>
+
+                        <strong id="horaActual">
+                            --:--
+                        </strong>
+
+                    </div>
+
+
+                </div>
+
+
+            </section>
+
+
+
+            <!-- =================================================
+                 TARJETAS PRINCIPALES
+                 ================================================= -->
+
+            <section class="estadisticas-grid">
+
+
+                <!-- CLIENTES -->
+
+                <article class="estadistica-card azul">
+
+
+                    <div class="estadistica-icono">
+
+                        <svg viewBox="0 0 24 24">
+
+                            <circle
+                                    cx="9"
+                                    cy="8"
+                                    r="3">
+                            </circle>
+
+                            <path d="M3 20c0-4 2-6 6-6s6 2 6 6">
+                            </path>
+
+                            <path d="M16 6c2 .2 3 1.4 3 3">
+                            </path>
+
+                            <path d="M17 14c3 .5 4 2.5 4 6">
+                            </path>
+
+                        </svg>
+
+                    </div>
+
+
+                    <div class="estadistica-info">
+
+                        <span>
+                            Clientes
+                        </span>
+
+
+                        <strong th:text="${totalClientes != null ? totalClientes : 0}">
+                            0
+                        </strong>
+
+
+                        <small>
+                            Total registrados
+                        </small>
+
+                    </div>
+
+
+                </article>
+
+
+
+                <!-- CREDITOS ACTIVOS -->
+
+                <article class="estadistica-card verde">
+
+
+                    <div class="estadistica-icono">
+
+                        <svg viewBox="0 0 24 24">
+
+                            <path d="M7 3h8l4 4v14H7z">
+                            </path>
+
+                            <path d="M15 3v5h5">
+                            </path>
+
+                            <path d="M10 13h6">
+                            </path>
+
+                            <path d="M10 17h6">
+                            </path>
+
+                        </svg>
+
+                    </div>
+
+
+                    <div class="estadistica-info">
+
+                        <span>
+                            Créditos activos
+                        </span>
+
+
+                        <strong th:text="${creditosActivos != null ? creditosActivos : 0}">
+                            0
+                        </strong>
+
+
+                        <small>
+                            En seguimiento
+                        </small>
+
+                    </div>
+
+
+                </article>
+
+
+
+                <!-- PAGOS -->
+
+                <article class="estadistica-card naranja">
+
+
+                    <div class="estadistica-icono">
+
+                        <svg viewBox="0 0 24 24">
+
+                            <ellipse
+                                    cx="12"
+                                    cy="6"
+                                    rx="7"
+                                    ry="3">
+                            </ellipse>
+
+                            <path d="M5 6v6c0 1.7 3.1 3 7 3s7-1.3 7-3V6">
+                            </path>
+
+                            <path d="M5 12v6c0 1.7 3.1 3 7 3s7-1.3 7-3v-6">
+                            </path>
+
+                        </svg>
+
+                    </div>
+
+
+                    <div class="estadistica-info">
+
+                        <span>
+                            Pagos
+                        </span>
+
+
+                        <strong th:text="${totalPagos != null ? totalPagos : 0}">
+                            0
+                        </strong>
+
+
+                        <small>
+                            Registrados
+                        </small>
+
+                    </div>
+
+
+                </article>
+
+
+
+                <!-- MORA -->
+
+                <article class="estadistica-card rojo">
+
+
+                    <div class="estadistica-icono">
+
+                        <svg viewBox="0 0 24 24">
+
+                            <path d="M12 3 22 20H2z">
+                            </path>
+
+                            <path d="M12 9v5">
+                            </path>
+
+                            <path d="M12 17h.01">
+                            </path>
+
+                        </svg>
+
+                    </div>
+
+
+                    <div class="estadistica-info">
+
+                        <span>
+                            En mora
+                        </span>
+
+
+                        <strong th:text="${creditosMora != null ? creditosMora : 0}">
+                            0
+                        </strong>
+
+
+                        <small>
+                            Requieren atención
+                        </small>
+
+                    </div>
+
+
+                </article>
+
+
+            </section>
+
+
+
+            <!-- =================================================
+                 ESTADO CREDITOS + PAGOS
+                 ================================================= -->
+
+            <section class="paneles-grid">
+
+
+                <!-- =================================================
+                     ESTADO DE CREDITOS
+                     ================================================= -->
+
+                <article class="panel-card">
+
+
+                    <div class="panel-cabecera">
+
+                        <div>
+
+                            <span class="panel-etiqueta">
+                                RESUMEN
+                            </span>
+
+
+                            <h2>
+                                Estado de créditos
+                            </h2>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <div class="estado-creditos-contenido">
+
+
+                        <!-- DONA -->
+
+                        <div class="grafico-dona">
+
+                            <div class="dona">
+
+
+                                <div class="dona-centro">
+
+                                    <strong th:text="${creditosActivos != null ? creditosActivos : 0}">
+                                        0
+                                    </strong>
+
+
+                                    <span>
+                                        Créditos
+                                    </span>
+
+                                </div>
+
+
+                            </div>
+
+                        </div>
+
+
+
+                        <!-- LEYENDA -->
+
+                        <div class="leyenda-creditos">
+
+
+                            <div class="leyenda-item">
+
+                                <span class="punto verde">
+                                </span>
+
+                                <div>
+
+                                    <strong>
+                                        Al día
+                                    </strong>
+
+                                    <small>
+                                        Créditos sin atraso
+                                    </small>
+
+                                </div>
+
+                            </div>
+
+
+
+                            <div class="leyenda-item">
+
+                                <span class="punto azul">
+                                </span>
+
+                                <div>
+
+                                    <strong>
+                                        Pendientes
+                                    </strong>
+
+                                    <small>
+                                        En seguimiento
+                                    </small>
+
+                                </div>
+
+                            </div>
+
+
+
+                            <div class="leyenda-item">
+
+                                <span class="punto naranja">
+                                </span>
+
+                                <div>
+
+                                    <strong>
+                                        Vencidos
+                                    </strong>
+
+                                    <small>
+                                        Pago pendiente
+                                    </small>
+
+                                </div>
+
+                            </div>
+
+
+
+                            <div class="leyenda-item">
+
+                                <span class="punto rojo">
+                                </span>
+
+                                <div>
+
+                                    <strong>
+                                        En mora
+                                    </strong>
+
+                                    <small>
+                                        Requieren atención
+                                    </small>
+
+                                </div>
+
+                            </div>
+
+
+                        </div>
+
+
+                    </div>
+
+
+                </article>
+
+
+
+                <!-- =================================================
+                     GRAFICO DE PAGOS
+                     ================================================= -->
+
+                <article class="panel-card pagos-panel">
+
+
+                    <div class="panel-cabecera pagos-cabecera">
+
+
+                        <div>
+
+                            <span class="panel-etiqueta">
+                                ESTADÍSTICAS
+                            </span>
+
+
+                            <h2>
+                                Pagos
+                            </h2>
+
+
+                            <p class="panel-descripcion"
+                               id="tituloPeriodoPagos">
+
+                                Pagos aprobados durante el mes
+
+                            </p>
+
+                        </div>
+
+
+
+                        <!-- =========================================
+                             FILTROS
+                             SEMANA | MES | AÑO
+                             ========================================= -->
+
+                        <div class="filtro-pagos">
+
+
+                            <button
+                                    type="button"
+                                    class="filtro-pago"
+                                    data-periodo="semana">
+
+                                Semana
+
+                            </button>
+
+
+
+                            <button
+                                    type="button"
+                                    class="filtro-pago activo"
+                                    data-periodo="mes">
+
+                                Mes
+
+                            </button>
+
+
+
+                            <button
+                                    type="button"
+                                    class="filtro-pago"
+                                    data-periodo="anio">
+
+                                Año
+
+                            </button>
+
+
+                        </div>
+
+
+                    </div>
+
+
+
+                    <!-- =============================================
+                         JS CREA LAS BARRAS AQUÍ
+                         ============================================= -->
+
+                    <div class="grafico-barras"
+                         id="graficoPagos">
+
+                    </div>
+
+
+                </article>
+
+
+            </section>
+
+
+
+            <!-- =================================================
+                 ULTIMOS CLIENTES + CREDITOS RECIENTES
+                 ================================================= -->
+
+            <section class="tablas-grid">
+
+
+                <!-- =================================================
+                     ULTIMOS CLIENTES
+                     ================================================= -->
+
+                <article class="tabla-card">
+
+
+                    <div class="panel-cabecera tabla-cabecera">
+
+
+                        <div>
+
+                            <span class="panel-etiqueta">
+                                CLIENTES
+                            </span>
+
+
+                            <h2>
+                                Últimos clientes registrados
+                            </h2>
+
+                        </div>
+
+
+
+                        <a href="#"
+                           class="boton-ver-todos"
+                           data-proximo="Listado de clientes">
+
+                            Ver todos
+
+                            <span>
+                                ›
+                            </span>
+
+                        </a>
+
+
+                    </div>
+
+
+
+                    <div class="tabla-responsive">
+
+
+                        <table class="tabla-dashboard">
+
+
+                            <thead>
+
+                            <tr>
+
+                                <th>
+                                    #
+                                </th>
+
+                                <th>
+                                    Nombre
+                                </th>
+
+                                <th>
+                                    DNI
+                                </th>
+
+                                <th>
+                                    Teléfono
+                                </th>
+
+                                <th>
+                                    Fecha
+                                </th>
+
+                            </tr>
+
+                            </thead>
+
+
+
+                            <!-- =====================================
+                                 CLIENTES REALES
+                                 ===================================== -->
+
+                            <tbody th:if="${ultimosClientes != null and !#lists.isEmpty(ultimosClientes)}">
+
+
+                            <tr th:each="cliente, iterador : ${ultimosClientes}">
+
+
+                                <td th:text="${iterador.count}">
+                                    1
+                                </td>
+
+
+                                <td th:text="${cliente.persona.nombres + ' ' + cliente.persona.apellidos}">
+                                    Cliente
+                                </td>
+
+
+                                <td th:text="${cliente.persona.dni}">
+                                    00000000
+                                </td>
+
+
+                                <td th:text="${cliente.persona.telefono != null ? cliente.persona.telefono : '-'}">
+                                    -
+                                </td>
+
+
+                                <td th:text="${cliente.fechaRegistro != null ? cliente.fechaRegistro : '-'}">
+                                    -
+                                </td>
+
+
+                            </tr>
+
+
+                            </tbody>
+
+
+
+                            <!-- =====================================
+                                 SIN CLIENTES
+                                 ===================================== -->
+
+                            <tbody th:if="${ultimosClientes == null or #lists.isEmpty(ultimosClientes)}">
+
+
+                            <tr>
+
+                                <td colspan="5"
+                                    class="tabla-vacia">
+
+                                    Todavía no hay clientes para mostrar.
+
+                                </td>
+
+                            </tr>
+
+
+                            </tbody>
+
+
+                        </table>
+
+
+                    </div>
+
+
+                </article>
+
+
+
+                <!-- =================================================
+                     CREDITOS RECIENTES
+                     ================================================= -->
+
+                <article class="tabla-card">
+
+
+                    <div class="panel-cabecera tabla-cabecera">
+
+
+                        <div>
+
+                            <span class="panel-etiqueta">
+                                CRÉDITOS
+                            </span>
+
+
+                            <h2>
+                                Créditos recientes
+                            </h2>
+
+                        </div>
+
+
+
+                        <a href="#"
+                           class="boton-ver-todos"
+                           data-proximo="Listado de créditos">
+
+                            Ver todos
+
+                            <span>
+                                ›
+                            </span>
+
+                        </a>
+
+
+                    </div>
+
+
+
+                    <div class="tabla-responsive">
+
+
+                        <table class="tabla-dashboard">
+
+
+                            <thead>
+
+                            <tr>
+
+                                <th>
+                                    #
+                                </th>
+
+                                <th>
+                                    Cliente
+                                </th>
+
+                                <th>
+                                    Capital
+                                </th>
+
+                                <th>
+                                    Estado
+                                </th>
+
+                                <th>
+                                    Fecha
+                                </th>
+
+                            </tr>
+
+                            </thead>
+
+
+
+                            <!-- =====================================
+                                 CREDITOS REALES
+                                 ===================================== -->
+
+                            <tbody th:if="${creditosRecientes != null and !#lists.isEmpty(creditosRecientes)}">
+
+
+                            <tr th:each="credito, iterador : ${creditosRecientes}">
+
+
+                                <td th:text="${iterador.count}">
+                                    1
+                                </td>
+
+
+                                <td th:text="${credito.cliente.persona.nombres + ' ' + credito.cliente.persona.apellidos}">
+                                    Cliente
+                                </td>
+
+
+                                <td th:text="${credito.capitalOriginal != null ? 'S/ ' + credito.capitalOriginal : 'S/ 0'}">
+                                    S/ 0
+                                </td>
+
+
+                                <td>
+
+                                    <span class="estado-badge"
+                                          th:text="${credito.estado != null ? credito.estado : '-'}">
+
+                                        ACTIVO
+
+                                    </span>
+
+                                </td>
+
+
+                                <td th:text="${credito.fechaSolicitud != null ? credito.fechaSolicitud : '-'}">
+                                    -
+                                </td>
+
+
+                            </tr>
+
+
+                            </tbody>
+
+
+
+                            <!-- =====================================
+                                 SIN CREDITOS
+                                 ===================================== -->
+
+                            <tbody th:if="${creditosRecientes == null or #lists.isEmpty(creditosRecientes)}">
+
+
+                            <tr>
+
+                                <td colspan="5"
+                                    class="tabla-vacia">
+
+                                    Todavía no hay créditos para mostrar.
+
+                                </td>
+
+                            </tr>
+
+
+                            </tbody>
+
+
+                        </table>
+
+
+                    </div>
+
+
+                </article>
+
+
+            </section>
+
+
+
+            <!-- =================================================
+                 ESTADO GENERAL
+                 ================================================= -->
+
+            <section class="actividad-card">
+
+
+                <div class="panel-cabecera">
+
+
+                    <div>
+
+                        <span class="panel-etiqueta">
+                            SISTEMA
+                        </span>
+
+
+                        <h2>
+                            Estado general
+                        </h2>
+
+                    </div>
+
+
+                </div>
+
+
+
+                <div class="estado-general-grid">
+
+
+                    <!-- SISTEMA -->
+
+                    <div class="estado-general-item">
+
+
+                        <span class="estado-circulo correcto">
+                        </span>
+
+
+                        <div>
+
+                            <strong>
+                                Sistema operativo
+                            </strong>
+
+                            <small>
+                                crediNeyra está funcionando correctamente.
+                            </small>
+
+                        </div>
+
+
+                    </div>
+
+
+
+                    <!-- BASE DE DATOS -->
+
+                    <div class="estado-general-item">
+
+
+                        <span class="estado-circulo correcto">
+                        </span>
+
+
+                        <div>
+
+                            <strong>
+                                Base de datos
+                            </strong>
+
+                            <small>
+                                Conexión con Supabase activa.
+                            </small>
+
+                        </div>
+
+
+                    </div>
+
+
+
+                    <!-- SEGURIDAD -->
+
+                    <div class="estado-general-item">
+
+
+                        <span class="estado-circulo correcto">
+                        </span>
+
+
+                        <div>
+
+                            <strong>
+                                Sesión protegida
+                            </strong>
+
+                            <small>
+                                Acceso mediante Spring Security.
+                            </small>
+
+                        </div>
+
+
+                    </div>
+
+
+                </div>
+
+
+            </section>
+
+
+        </main>
+
+
+
+        <!-- =====================================================
+             MENU INFERIOR CELULAR
+             ===================================================== -->
+
+        <nav class="mobile-nav">
+
+
+            <!-- INICIO -->
+
+            <a th:href="@{/admin}"
+               class="mobile-item activo">
+
+
+                <svg viewBox="0 0 24 24">
+
+                    <path d="M3 11.5 12 4l9 7.5">
+                    </path>
+
+                    <path d="M5 10.5V20h14v-9.5">
+                    </path>
+
+                </svg>
+
+
+                <span>
+                    Inicio
+                </span>
+
+
+            </a>
+
+
+
+            <!-- CLIENTES -->
+
+            <a href="#"
+               class="mobile-item"
+               data-proximo="Clientes">
+
+
+                <svg viewBox="0 0 24 24">
+
+                    <circle
+                            cx="9"
+                            cy="8"
+                            r="3">
+                    </circle>
+
+                    <path d="M3 20c0-4 2-6 6-6s6 2 6 6">
+                    </path>
+
+                </svg>
+
+
+                <span>
+                    Clientes
+                </span>
+
+
+            </a>
+
+
+
+            <!-- CREDITOS -->
+
+            <a href="#"
+               class="mobile-item"
+               data-proximo="Créditos">
+
+
+                <svg viewBox="0 0 24 24">
+
+                    <path d="M7 3h8l4 4v14H7z">
+                    </path>
+
+                    <path d="M15 3v5h5">
+                    </path>
+
+                </svg>
+
+
+                <span>
+                    Créditos
+                </span>
+
+
+            </a>
+
+
+
+            <!-- PAGOS -->
+
+            <a href="#"
+               class="mobile-item"
+               data-proximo="Pagos">
+
+
+                <svg viewBox="0 0 24 24">
+
+                    <ellipse
+                            cx="12"
+                            cy="6"
+                            rx="7"
+                            ry="3">
+                    </ellipse>
+
+                    <path d="M5 6v12c0 1.7 3.1 3 7 3s7-1.3 7-3V6">
+                    </path>
+
+                </svg>
+
+
+                <span>
+                    Pagos
+                </span>
+
+
+            </a>
+
+
+
+            <!-- MAS -->
+
+            <button
+                    type="button"
+                    class="mobile-item mobile-mas"
+                    id="botonMasMobile">
+
+
+                <svg viewBox="0 0 24 24">
+
+                    <circle
+                            cx="5"
+                            cy="12"
+                            r="1">
+                    </circle>
+
+                    <circle
+                            cx="12"
+                            cy="12"
+                            r="1">
+                    </circle>
+
+                    <circle
+                            cx="19"
+                            cy="12"
+                            r="1">
+                    </circle>
+
+                </svg>
+
+
+                <span>
+                    Más
+                </span>
+
+
+            </button>
+
+
+        </nav>
+
+
+    </div>
+
+
+</div>
+
+
+
+<!-- =========================================================
+     TOAST
+     ========================================================= -->
+
+<div class="toast"
+     id="toast">
+
+    <span id="toastTexto">
+        Módulo próximamente
+    </span>
+
+</div>
+
+
+
+<!-- =========================================================
+     DATOS REALES ENVIADOS POR SPRING
+     ========================================================= -->
+
+<div id="datosDashboard"
+     hidden
+     th:attr="
+        data-pagos-semana=${pagosSemana},
+        data-pagos-mes=${pagosMes},
+        data-pagos-anio=${pagosAnio}">
+</div>
+
+
+
+<!-- =========================================================
+     JAVASCRIPT
+     ========================================================= -->
+
+<script th:src="@{/js/admin/dashboard.js}">
+</script>
+
+
+</body>
+
+</html>

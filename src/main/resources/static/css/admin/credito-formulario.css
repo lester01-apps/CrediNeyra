@@ -1,0 +1,1303 @@
+/* =========================================================
+   CREDINEYRA
+   NUEVO CRÉDITO
+   ========================================================= */
+
+:root {
+
+    --credito-fondo: #071525;
+
+    --credito-card: #0c1c30;
+
+    --credito-card-claro: #10243b;
+
+    --credito-borde: rgba(148, 163, 184, 0.14);
+
+    --credito-texto: #f8fafc;
+
+    --credito-secundario: #94a3b8;
+
+    --credito-tenue: #64748b;
+
+    --credito-azul: #38bdf8;
+
+    --credito-azul-fuerte: #2563eb;
+
+    --credito-verde: #22c55e;
+
+    --credito-rojo: #ef4444;
+
+    --credito-amarillo: #f59e0b;
+}
+
+
+/* =========================================================
+   GENERAL
+   ========================================================= */
+
+* {
+    box-sizing: border-box;
+}
+
+
+.credito-nuevo-contenido {
+
+    width: 100%;
+
+    min-width: 0;
+
+    min-height: 100vh;
+
+    padding: 32px;
+
+    color: var(--credito-texto);
+
+    background:
+        radial-gradient(
+            circle at 92% 0%,
+            rgba(56, 189, 248, 0.06),
+            transparent 26%
+        ),
+        var(--credito-fondo);
+}
+
+
+/* =========================================================
+   CABECERA
+   ========================================================= */
+
+.credito-nuevo-cabecera {
+
+    display: flex;
+
+    align-items: flex-end;
+
+    justify-content: space-between;
+
+    width: 100%;
+
+    gap: 24px;
+
+    margin-bottom: 24px;
+}
+
+
+.credito-breadcrumb {
+
+    display: flex;
+
+    align-items: center;
+
+    flex-wrap: wrap;
+
+    gap: 7px;
+
+    margin-bottom: 18px;
+
+    font-size: 0.7rem;
+}
+
+
+.credito-breadcrumb a {
+
+    color: var(--credito-secundario);
+
+    text-decoration: none;
+}
+
+
+.credito-breadcrumb a:hover {
+
+    color: var(--credito-azul);
+}
+
+
+.credito-breadcrumb span {
+
+    color: var(--credito-tenue);
+}
+
+
+.credito-breadcrumb strong {
+
+    color: #dbeafe;
+}
+
+
+.credito-kicker {
+
+    margin-bottom: 7px;
+
+    color: var(--credito-azul);
+
+    font-size: 0.68rem;
+
+    font-weight: 900;
+
+    letter-spacing: 0.12em;
+}
+
+
+.credito-nuevo-cabecera h1 {
+
+    margin: 0;
+
+    color: var(--credito-texto);
+
+    font-size: clamp(2rem, 3vw, 2.65rem);
+
+    line-height: 1;
+
+    letter-spacing: -0.04em;
+}
+
+
+.credito-nuevo-cabecera p {
+
+    max-width: 680px;
+
+    margin: 10px 0 0;
+
+    color: var(--credito-secundario);
+
+    font-size: 0.85rem;
+
+    line-height: 1.55;
+}
+
+
+.estado-simulacion {
+
+    flex: 0 0 auto;
+
+    padding: 9px 12px;
+
+    border: 1px solid var(--credito-borde);
+
+    border-radius: 10px;
+
+    color: var(--credito-secundario);
+
+    background: rgba(2, 8, 23, 0.3);
+
+    font-size: 0.68rem;
+
+    font-weight: 800;
+}
+
+
+.estado-simulacion.ok {
+
+    color: #4ade80;
+
+    border-color: rgba(34, 197, 94, 0.26);
+
+    background: rgba(34, 197, 94, 0.08);
+}
+
+
+.estado-simulacion.error {
+
+    color: #fb7185;
+
+    border-color: rgba(239, 68, 68, 0.26);
+
+    background: rgba(239, 68, 68, 0.08);
+}
+
+
+/* =========================================================
+   MENSAJES
+   ========================================================= */
+
+.mensaje-formulario {
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 5px;
+
+    width: 100%;
+
+    margin-bottom: 16px;
+
+    padding: 14px 16px;
+
+    border-radius: 12px;
+
+    font-size: 0.73rem;
+}
+
+
+.mensaje-formulario.error {
+
+    color: #fecaca;
+
+    border: 1px solid rgba(239, 68, 68, 0.22);
+
+    background: rgba(239, 68, 68, 0.08);
+}
+
+
+.mensaje-formulario ul {
+
+    margin: 5px 0 0;
+
+    padding-left: 18px;
+}
+
+
+/* =========================================================
+   GRID PRINCIPAL
+   ========================================================= */
+
+.credito-nuevo-grid {
+
+    display: grid;
+
+    grid-template-columns:
+        minmax(0, 1fr)
+        360px;
+
+    align-items: start;
+
+    width: 100%;
+
+    gap: 18px;
+}
+
+
+.credito-formulario-columna {
+
+    display: flex;
+
+    flex-direction: column;
+
+    min-width: 0;
+
+    gap: 16px;
+}
+
+
+/* =========================================================
+   CARDS
+   ========================================================= */
+
+.formulario-card,
+.resumen-credito-card,
+.acciones-credito-card,
+.cronograma-credito-card {
+
+    width: 100%;
+
+    min-width: 0;
+
+    border: 1px solid var(--credito-borde);
+
+    border-radius: 18px;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(15, 34, 57, 0.98),
+            rgba(8, 22, 38, 0.98)
+        );
+
+    box-shadow:
+        0 15px 40px rgba(0, 0, 0, 0.12);
+}
+
+
+.formulario-card {
+
+    display: block;
+
+    padding: 21px;
+}
+
+
+.formulario-card-cabecera {
+
+    display: flex;
+
+    align-items: flex-start;
+
+    width: 100%;
+
+    gap: 12px;
+
+    margin-bottom: 20px;
+}
+
+
+.numero-card {
+
+    display: grid;
+
+    place-items: center;
+
+    flex: 0 0 auto;
+
+    width: 35px;
+
+    height: 35px;
+
+    border-radius: 10px;
+
+    color: var(--credito-azul);
+
+    background: rgba(56, 189, 248, 0.1);
+
+    font-size: 0.66rem;
+
+    font-weight: 900;
+}
+
+
+.formulario-card-cabecera h2 {
+
+    margin: 0;
+
+    color: var(--credito-texto);
+
+    font-size: 0.98rem;
+}
+
+
+.formulario-card-cabecera p {
+
+    margin: 4px 0 0;
+
+    color: var(--credito-secundario);
+
+    font-size: 0.7rem;
+
+    line-height: 1.45;
+}
+
+
+/* =========================================================
+   CAMPOS
+   ========================================================= */
+
+.campos-grid {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, minmax(0, 1fr));
+
+    width: 100%;
+
+    gap: 15px;
+}
+
+
+.campo {
+
+    display: block;
+
+    min-width: 0;
+}
+
+
+.campo-completo {
+
+    grid-column: 1 / -1;
+}
+
+
+.campo label {
+
+    display: block;
+
+    margin-bottom: 7px;
+
+    color: #cbd5e1;
+
+    font-size: 0.71rem;
+
+    font-weight: 700;
+}
+
+
+.campo label b {
+
+    color: #fb7185;
+}
+
+
+.campo input,
+.campo select,
+.campo textarea {
+
+    display: block;
+
+    width: 100%;
+
+    max-width: 100%;
+
+    border: 1px solid var(--credito-borde);
+
+    border-radius: 11px;
+
+    outline: none;
+
+    color: var(--credito-texto);
+
+    background: rgba(2, 8, 23, 0.42);
+
+    font-family: inherit;
+
+    font-size: 0.78rem;
+
+    opacity: 1;
+
+    visibility: visible;
+
+    transition:
+        border-color 0.18s ease,
+        box-shadow 0.18s ease,
+        background 0.18s ease;
+}
+
+
+.campo input,
+.campo select {
+
+    height: 44px;
+
+    padding: 0 12px;
+}
+
+
+.campo textarea {
+
+    min-height: 90px;
+
+    padding: 11px 12px;
+
+    resize: vertical;
+}
+
+
+.campo input::placeholder,
+.campo textarea::placeholder {
+
+    color: #475569;
+}
+
+
+.campo input:focus,
+.campo select:focus,
+.campo textarea:focus {
+
+    border-color: rgba(56, 189, 248, 0.55);
+
+    background: rgba(2, 8, 23, 0.58);
+
+    box-shadow:
+        0 0 0 3px rgba(56, 189, 248, 0.07);
+}
+
+
+.campo select {
+
+    cursor: pointer;
+}
+
+
+.campo select option {
+
+    color: #f8fafc;
+
+    background: #0c1c30;
+}
+
+
+/* =========================================================
+   PREFIJO Y SUFIJO
+   ========================================================= */
+
+.campo-con-prefijo,
+.campo-con-sufijo {
+
+    display: flex;
+
+    align-items: center;
+
+    width: 100%;
+
+    border: 1px solid var(--credito-borde);
+
+    border-radius: 11px;
+
+    background: rgba(2, 8, 23, 0.42);
+
+    overflow: hidden;
+}
+
+
+.campo-con-prefijo:focus-within,
+.campo-con-sufijo:focus-within {
+
+    border-color: rgba(56, 189, 248, 0.55);
+
+    box-shadow:
+        0 0 0 3px rgba(56, 189, 248, 0.07);
+}
+
+
+.campo-con-prefijo > span,
+.campo-con-sufijo > span {
+
+    flex: 0 0 auto;
+
+    padding: 0 11px;
+
+    color: var(--credito-secundario);
+
+    font-size: 0.72rem;
+
+    font-weight: 800;
+}
+
+
+.campo-con-prefijo input,
+.campo-con-sufijo input {
+
+    flex: 1;
+
+    min-width: 0;
+
+    border: 0;
+
+    border-radius: 0;
+
+    background: transparent;
+
+    box-shadow: none;
+}
+
+
+.campo-con-prefijo input:focus,
+.campo-con-sufijo input:focus {
+
+    border: 0;
+
+    box-shadow: none;
+}
+
+
+/* =========================================================
+   CHECKBOX
+   ========================================================= */
+
+.checkbox-credito {
+
+    display: flex !important;
+
+    align-items: center;
+
+    width: 100%;
+
+    min-height: 44px;
+
+    gap: 9px;
+
+    margin: 0 !important;
+
+    padding: 0 12px;
+
+    border: 1px solid var(--credito-borde);
+
+    border-radius: 11px;
+
+    color: #cbd5e1;
+
+    background: rgba(2, 8, 23, 0.28);
+
+    cursor: pointer;
+}
+
+
+.checkbox-credito input {
+
+    display: block;
+
+    flex: 0 0 auto;
+
+    width: 16px;
+
+    height: 16px;
+
+    margin: 0;
+}
+
+
+.checkbox-credito span {
+
+    color: #cbd5e1;
+
+    font-size: 0.7rem;
+}
+
+
+/* =========================================================
+   GARANTÍA
+   ========================================================= */
+
+.badge-garantia {
+
+    flex: 0 0 auto;
+
+    margin-left: auto;
+
+    padding: 6px 9px;
+
+    border-radius: 999px;
+
+    color: var(--credito-secundario);
+
+    background: rgba(148, 163, 184, 0.09);
+
+    font-size: 0.62rem;
+
+    font-weight: 900;
+}
+
+
+#garantiaCard.obligatoria {
+
+    border-color: rgba(245, 158, 11, 0.32);
+}
+
+
+#garantiaCard.obligatoria .badge-garantia {
+
+    color: #fbbf24;
+
+    background: rgba(245, 158, 11, 0.12);
+}
+
+
+.aviso-documento {
+
+    display: flex;
+
+    align-items: center;
+
+    width: 100%;
+
+    gap: 10px;
+
+    margin-top: 16px;
+
+    padding: 12px;
+
+    border: 1px dashed rgba(148, 163, 184, 0.16);
+
+    border-radius: 11px;
+
+    background: rgba(2, 8, 23, 0.22);
+}
+
+
+.aviso-documento svg {
+
+    flex: 0 0 auto;
+
+    width: 23px;
+
+    height: 23px;
+
+    fill: none;
+
+    stroke: var(--credito-azul);
+
+    stroke-width: 1.6;
+
+    stroke-linecap: round;
+
+    stroke-linejoin: round;
+}
+
+
+.aviso-documento div {
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 3px;
+}
+
+
+.aviso-documento strong {
+
+    color: #cbd5e1;
+
+    font-size: 0.68rem;
+}
+
+
+.aviso-documento span {
+
+    color: var(--credito-secundario);
+
+    font-size: 0.64rem;
+
+    line-height: 1.4;
+}
+
+
+/* =========================================================
+   RESUMEN DERECHO
+   ========================================================= */
+
+.credito-resumen-columna {
+
+    position: sticky;
+
+    top: 18px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    min-width: 0;
+
+    gap: 13px;
+}
+
+
+.resumen-credito-card {
+
+    display: block;
+
+    padding: 20px;
+}
+
+
+.resumen-titulo {
+
+    display: flex;
+
+    align-items: flex-start;
+
+    justify-content: space-between;
+
+    width: 100%;
+
+    gap: 10px;
+
+    margin-bottom: 19px;
+}
+
+
+.resumen-titulo > div > span {
+
+    color: var(--credito-tenue);
+
+    font-size: 0.61rem;
+
+    font-weight: 900;
+
+    letter-spacing: 0.08em;
+}
+
+
+.resumen-titulo h2 {
+
+    margin: 4px 0 0;
+
+    color: var(--credito-texto);
+
+    font-size: 0.98rem;
+}
+
+
+.resumen-titulo > b {
+
+    flex: 0 0 auto;
+
+    padding: 5px 7px;
+
+    border-radius: 999px;
+
+    color: #4ade80;
+
+    background: rgba(34, 197, 94, 0.1);
+
+    font-size: 0.56rem;
+
+    font-weight: 900;
+}
+
+
+.resumen-total {
+
+    display: flex;
+
+    flex-direction: column;
+
+    width: 100%;
+
+    margin-bottom: 10px;
+
+    padding: 15px;
+
+    border-radius: 13px;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(56, 189, 248, 0.1),
+            rgba(37, 99, 235, 0.065)
+        );
+}
+
+
+.resumen-total span {
+
+    margin-bottom: 4px;
+
+    color: var(--credito-secundario);
+
+    font-size: 0.67rem;
+}
+
+
+.resumen-total strong {
+
+    color: #7dd3fc;
+
+    font-size: 1.65rem;
+
+    letter-spacing: -0.04em;
+}
+
+
+.resumen-datos {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, minmax(0, 1fr));
+
+    gap: 8px;
+}
+
+
+.resumen-datos > div {
+
+    display: flex;
+
+    flex-direction: column;
+
+    min-width: 0;
+
+    padding: 10px;
+
+    border: 1px solid rgba(148, 163, 184, 0.08);
+
+    border-radius: 10px;
+
+    background: rgba(255, 255, 255, 0.018);
+}
+
+
+.resumen-datos span {
+
+    margin-bottom: 4px;
+
+    color: var(--credito-tenue);
+
+    font-size: 0.59rem;
+}
+
+
+.resumen-datos strong {
+
+    color: var(--credito-texto);
+
+    font-size: 0.72rem;
+
+    overflow: hidden;
+
+    text-overflow: ellipsis;
+}
+
+
+.resumen-garantia {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    margin-top: 10px;
+
+    padding: 10px;
+
+    border-radius: 10px;
+
+    color: var(--credito-secundario);
+
+    background: rgba(148, 163, 184, 0.05);
+
+    font-size: 0.65rem;
+}
+
+
+.resumen-garantia strong {
+
+    color: var(--credito-texto);
+}
+
+
+.mensaje-simulacion {
+
+    margin-top: 11px;
+
+    padding: 10px;
+
+    border-radius: 9px;
+
+    color: var(--credito-secundario);
+
+    background: rgba(2, 8, 23, 0.3);
+
+    font-size: 0.64rem;
+
+    line-height: 1.45;
+}
+
+
+.mensaje-simulacion.ok {
+
+    color: #86efac;
+
+    background: rgba(34, 197, 94, 0.07);
+}
+
+
+.mensaje-simulacion.error {
+
+    color: #fca5a5;
+
+    background: rgba(239, 68, 68, 0.07);
+}
+
+
+/* =========================================================
+   ACCIONES
+   ========================================================= */
+
+.acciones-credito-card {
+
+    display: grid;
+
+    grid-template-columns:
+        1fr
+        1.5fr;
+
+    width: 100%;
+
+    gap: 8px;
+
+    padding: 13px;
+}
+
+
+.boton-cancelar-credito,
+.boton-confirmar-credito {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    min-height: 42px;
+
+    border-radius: 10px;
+
+    font-family: inherit;
+
+    font-size: 0.68rem;
+
+    font-weight: 800;
+
+    text-decoration: none;
+}
+
+
+.boton-cancelar-credito {
+
+    border: 1px solid var(--credito-borde);
+
+    color: var(--credito-secundario);
+
+    background: transparent;
+}
+
+
+.boton-cancelar-credito:hover {
+
+    color: #fff;
+
+    background: rgba(148, 163, 184, 0.05);
+}
+
+
+.boton-confirmar-credito {
+
+    border: 0;
+
+    color: #ffffff;
+
+    background:
+        linear-gradient(
+            135deg,
+            #0284c7,
+            #2563eb
+        );
+
+    cursor: pointer;
+}
+
+
+.boton-confirmar-credito:disabled {
+
+    opacity: 0.4;
+
+    cursor: not-allowed;
+}
+
+
+.acciones-credito-card p {
+
+    grid-column: 1 / -1;
+
+    margin: 1px 0 0;
+
+    color: var(--credito-tenue);
+
+    font-size: 0.59rem;
+
+    text-align: center;
+}
+
+
+/* =========================================================
+   CRONOGRAMA
+   ========================================================= */
+
+.cronograma-credito-card {
+
+    display: block;
+
+    width: 100%;
+
+    margin-top: 18px;
+
+    overflow: hidden;
+}
+
+
+.cronograma-cabecera {
+
+    padding: 20px 20px 12px;
+}
+
+
+.cronograma-cabecera > span {
+
+    color: var(--credito-azul);
+
+    font-size: 0.62rem;
+
+    font-weight: 900;
+
+    letter-spacing: 0.08em;
+}
+
+
+.cronograma-cabecera h2 {
+
+    margin: 4px 0 0;
+
+    color: var(--credito-texto);
+
+    font-size: 1rem;
+}
+
+
+.cronograma-cabecera p {
+
+    margin: 5px 0 0;
+
+    color: var(--credito-secundario);
+
+    font-size: 0.67rem;
+}
+
+
+.cronograma-vacio {
+
+    display: block;
+
+    padding: 45px 20px;
+
+    color: var(--credito-secundario);
+
+    font-size: 0.7rem;
+
+    text-align: center;
+}
+
+
+.cronograma-tabla-contenedor {
+
+    display: none;
+
+    width: 100%;
+
+    overflow-x: auto;
+}
+
+
+.cronograma-tabla {
+
+    width: 100%;
+
+    min-width: 880px;
+
+    border-collapse: collapse;
+}
+
+
+.cronograma-tabla thead {
+
+    background: rgba(2, 8, 23, 0.28);
+}
+
+
+.cronograma-tabla th {
+
+    padding: 11px 14px;
+
+    color: var(--credito-tenue);
+
+    font-size: 0.6rem;
+
+    font-weight: 900;
+
+    text-align: right;
+
+    text-transform: uppercase;
+}
+
+
+.cronograma-tabla td {
+
+    padding: 12px 14px;
+
+    border-top: 1px solid rgba(148, 163, 184, 0.07);
+
+    color: #cbd5e1;
+
+    font-size: 0.67rem;
+
+    text-align: right;
+}
+
+
+.cronograma-tabla th:first-child,
+.cronograma-tabla th:nth-child(2),
+.cronograma-tabla td:first-child,
+.cronograma-tabla td:nth-child(2) {
+
+    text-align: left;
+}
+
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+
+@media (max-width: 1180px) {
+
+    .credito-nuevo-grid {
+
+        grid-template-columns: 1fr;
+    }
+
+
+    .credito-resumen-columna {
+
+        position: static;
+
+        display: grid;
+
+        grid-template-columns:
+            minmax(0, 1fr)
+            320px;
+    }
+}
+
+
+@media (max-width: 850px) {
+
+    .credito-nuevo-contenido {
+
+        padding: 22px 18px 40px;
+    }
+
+
+    .credito-nuevo-cabecera {
+
+        flex-direction: column;
+
+        align-items: stretch;
+    }
+
+
+    .credito-resumen-columna {
+
+        grid-template-columns: 1fr;
+    }
+}
+
+
+@media (max-width: 620px) {
+
+    .credito-nuevo-contenido {
+
+        padding-left: 14px;
+
+        padding-right: 14px;
+    }
+
+
+    .campos-grid,
+    .resumen-datos {
+
+        grid-template-columns: 1fr;
+    }
+
+
+    .acciones-credito-card {
+
+        grid-template-columns: 1fr;
+    }
+
+
+    .acciones-credito-card p {
+
+        grid-column: auto;
+    }
+}

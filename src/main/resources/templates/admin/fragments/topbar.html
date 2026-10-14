@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="es"
+      xmlns:th="http://www.thymeleaf.org">
+
+<body>
+
+<header th:fragment="topbar"
+        class="topbar">
+
+    <div class="topbar-izquierda">
+
+        <button type="button"
+                class="boton-menu"
+                id="botonMenu"
+                aria-label="Abrir menú">
+
+            <span></span>
+            <span></span>
+            <span></span>
+
+        </button>
+
+
+        <div class="buscador">
+
+            <svg viewBox="0 0 24 24">
+                <circle cx="11" cy="11" r="6"/>
+                <path d="m16 16 4 4"/>
+            </svg>
+
+            <input type="search"
+                   placeholder="Buscar clientes, créditos o pagos..."
+                   id="busquedaGeneral">
+
+        </div>
+
+    </div>
+
+
+    <div class="topbar-derecha">
+
+        <button type="button"
+                class="boton-notificaciones"
+                aria-label="Notificaciones">
+
+            <svg viewBox="0 0 24 24">
+                <path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"/>
+                <path d="M10 21h4"/>
+            </svg>
+
+            <span class="notificacion-punto"></span>
+
+        </button>
+
+
+        <div class="usuario-topbar">
+
+            <div class="usuario-avatar">
+                AD
+            </div>
+
+            <div class="usuario-datos">
+
+                <strong th:text="${username}">
+                    Administrador
+                </strong>
+
+                <span>
+                    Administrador
+                </span>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</header>
+
+</body>
+</html>

@@ -1,0 +1,1288 @@
+<!DOCTYPE html>
+<html lang="es"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <meta name="theme-color"
+          content="#06162e">
+
+    <title th:text="${cliente.codigoCliente + ' | crediNeyra'}">
+        Cliente | crediNeyra
+    </title>
+
+
+    <link rel="stylesheet"
+          th:href="@{/css/admin/dashboard.css}">
+
+    <link rel="stylesheet"
+          th:href="@{/css/admin/cliente-detalle.css}">
+
+    <link rel="stylesheet"
+          th:href="@{/css/admin/cliente-contacto.css}">
+
+</head>
+
+<body>
+
+
+<div class="admin-layout">
+
+
+    <!-- =========================================================
+         SIDEBAR
+         ========================================================= -->
+
+    <div th:replace="~{admin/fragments/sidebar :: sidebar}">
+    </div>
+
+
+    <div th:replace="~{admin/fragments/sidebar :: sidebar-overlay}">
+    </div>
+
+
+
+    <div class="admin-main">
+
+
+        <!-- =====================================================
+             TOPBAR
+             ===================================================== -->
+
+        <div th:replace="~{admin/fragments/topbar :: topbar}">
+        </div>
+
+
+
+        <main class="detalle-contenido">
+
+
+            <!-- =================================================
+                 MENSAJES
+                 ================================================= -->
+
+            <div class="mensaje-flash exito"
+                 th:if="${mensajeExito != null}">
+
+                <span th:text="${mensajeExito}">
+                    Operación realizada correctamente.
+                </span>
+
+            </div>
+
+
+            <div class="mensaje-flash error"
+                 th:if="${mensajeError != null}">
+
+                <span th:text="${mensajeError}">
+                    No se pudo realizar la operación.
+                </span>
+
+            </div>
+
+
+
+            <!-- =================================================
+                 CABECERA
+                 ================================================= -->
+
+            <section class="detalle-cabecera">
+
+
+                <div>
+
+
+                    <div class="breadcrumb">
+
+                        <a th:href="@{/admin}">
+                            Panel principal
+                        </a>
+
+                        <span>›</span>
+
+
+                        <a th:href="@{/admin/clientes}">
+                            Clientes
+                        </a>
+
+                        <span>›</span>
+
+
+                        <strong th:text="${cliente.codigoCliente}">
+                            CLI-00001
+                        </strong>
+
+                    </div>
+
+
+
+                    <div class="titulo-cliente">
+
+
+                        <div class="avatar-cliente">
+
+                            <span th:text="${cliente.nombres != null and !cliente.nombres.isBlank()
+                                    ? #strings.substring(cliente.nombres, 0, 1)
+                                    : 'C'}">
+
+                                C
+
+                            </span>
+
+                        </div>
+
+
+
+                        <div>
+
+
+                            <div class="titulo-linea">
+
+
+                                <h1 th:text="${cliente.nombreCompleto}">
+                                    Cliente
+                                </h1>
+
+
+                                <span class="badge-estado"
+                                      th:classappend="${cliente.estado.toString() == 'ACTIVO'
+                                            ? ' estado-activo'
+                                            : ' estado-inactivo'}"
+                                      th:text="${cliente.estado}">
+
+                                    ACTIVO
+
+                                </span>
+
+
+                            </div>
+
+
+
+                            <div class="cliente-meta">
+
+
+                                <span class="codigo-principal"
+                                      th:text="${cliente.codigoCliente}">
+
+                                    CLI-00001
+
+                                </span>
+
+
+                                <span>•</span>
+
+
+                                <span th:text="${cliente.tipoOrigen}">
+                                    NUEVO
+                                </span>
+
+
+                                <span>•</span>
+
+
+                                <span th:text="${cliente.fechaRegistro != null
+                                        ? cliente.fechaRegistro.toLocalDate()
+                                        : '-'}">
+
+                                    -
+
+                                </span>
+
+
+                            </div>
+
+
+                        </div>
+
+
+                    </div>
+
+
+                </div>
+
+
+
+                <div class="cabecera-acciones">
+
+
+                    <!-- VOLVER -->
+
+                    <a th:href="@{/admin/clientes}"
+                       class="btn-secundario">
+
+                        <svg viewBox="0 0 24 24">
+
+                            <path d="m15 18-6-6 6-6">
+                            </path>
+
+                        </svg>
+
+                        Volver
+
+                    </a>
+
+
+
+                    <!-- EDITAR -->
+
+                    <a th:href="@{/admin/clientes/{id}/editar(id=${cliente.idCliente})}"
+                       class="btn-secundario">
+
+                        <svg viewBox="0 0 24 24">
+
+                            <path d="M12 20h9">
+                            </path>
+
+                            <path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z">
+                            </path>
+
+                        </svg>
+
+                        Editar
+
+                    </a>
+
+
+
+                    <!-- =================================================
+                         REGISTRAR CRÉDITO - FUNCIONAL
+                         ================================================= -->
+
+                    <a th:href="@{/admin/creditos/nuevo(idCliente=${cliente.idCliente})}"
+                       class="btn-principal">
+
+                        <svg viewBox="0 0 24 24">
+
+                            <path d="M12 5v14">
+                            </path>
+
+                            <path d="M5 12h14">
+                            </path>
+
+                        </svg>
+
+                        Registrar crédito
+
+                    </a>
+
+
+                </div>
+
+
+            </section>
+
+
+
+            <!-- =================================================
+                 INDICADORES
+                 ================================================= -->
+
+            <section class="indicadores-detalle">
+
+
+                <!-- SITUACION -->
+
+                <article class="indicador-card">
+
+
+                    <div class="indicador-icono situacion">
+
+                        <svg viewBox="0 0 24 24">
+
+                            <circle cx="12"
+                                    cy="12"
+                                    r="9">
+                            </circle>
+
+                            <path d="M8 12h8">
+                            </path>
+
+                        </svg>
+
+                    </div>
+
+
+                    <div class="indicador-info">
+
+                        <span>
+                            Situación
+                        </span>
+
+
+                        <strong class="texto-situacion"
+                                th:classappend="${' situacion-' + #strings.toLowerCase(cliente.situacionPago.toString())}"
+                                th:text="${cliente.situacionPago}">
+
+                            SIN_CREDITO
+
+                        </strong>
+
+                    </div>
+
+
+                </article>
+
+
+
+                <!-- SALDO -->
+
+                <article class="indicador-card">
+
+
+                    <div class="indicador-icono saldo">
+
+                        <svg viewBox="0 0 24 24">
+
+                            <rect x="3"
+                                  y="5"
+                                  width="18"
+                                  height="14"
+                                  rx="2">
+                            </rect>
+
+                            <path d="M16 12h5">
+                            </path>
+
+                        </svg>
+
+                    </div>
+
+
+                    <div class="indicador-info">
+
+                        <span>
+                            Saldo pendiente
+                        </span>
+
+                        <strong th:text="${'S/ ' + cliente.saldoPendienteTotal}">
+                            S/ 0.00
+                        </strong>
+
+                    </div>
+
+
+                </article>
+
+
+
+                <!-- CREDITOS -->
+
+                <article class="indicador-card">
+
+
+                    <div class="indicador-icono credito">
+
+                        <svg viewBox="0 0 24 24">
+
+                            <path d="M4 6h16v12H4z">
+                            </path>
+
+                            <path d="M8 10h8">
+                            </path>
+
+                        </svg>
+
+                    </div>
+
+
+                    <div class="indicador-info">
+
+                        <span>
+                            Créditos
+                        </span>
+
+
+                        <strong th:text="${cliente.totalCreditos}">
+                            0
+                        </strong>
+
+
+                        <small>
+
+                            <span th:text="${cliente.creditosActivos}">
+                                0
+                            </span>
+
+                            activos
+
+                        </small>
+
+                    </div>
+
+
+                </article>
+
+
+
+                <!-- PROXIMA CUOTA -->
+
+                <article class="indicador-card">
+
+
+                    <div class="indicador-icono cuota">
+
+                        <svg viewBox="0 0 24 24">
+
+                            <rect x="3"
+                                  y="5"
+                                  width="18"
+                                  height="16"
+                                  rx="2">
+                            </rect>
+
+                            <path d="M8 3v4">
+                            </path>
+
+                            <path d="M16 3v4">
+                            </path>
+
+                            <path d="M3 10h18">
+                            </path>
+
+                        </svg>
+
+                    </div>
+
+
+                    <div class="indicador-info">
+
+                        <span>
+                            Próxima cuota
+                        </span>
+
+
+                        <strong th:if="${cliente.fechaProximaCuota != null}"
+                                th:text="${cliente.fechaProximaCuota}">
+
+                            -
+
+                        </strong>
+
+
+                        <strong th:if="${cliente.fechaProximaCuota == null}">
+                            -
+                        </strong>
+
+
+                        <small th:if="${cliente.fechaProximaCuota != null}"
+                               th:text="${'S/ ' + cliente.montoProximaCuota}">
+
+                            S/ 0.00
+
+                        </small>
+
+
+                        <small th:if="${cliente.fechaProximaCuota == null}">
+                            Sin cuota pendiente
+                        </small>
+
+                    </div>
+
+
+                </article>
+
+
+            </section>
+
+
+
+            <!-- =================================================
+                 DATOS
+                 ================================================= -->
+
+            <section class="detalle-grid">
+
+
+                <!-- =================================================
+                     DATOS PERSONALES
+                     ================================================= -->
+
+                <article class="detalle-card">
+
+
+                    <div class="card-cabecera">
+
+
+                        <div class="card-icono">
+
+                            <svg viewBox="0 0 24 24">
+
+                                <circle cx="12"
+                                        cy="8"
+                                        r="4">
+                                </circle>
+
+                                <path d="M4 21c0-5 3-8 8-8s8 3 8 8">
+                                </path>
+
+                            </svg>
+
+                        </div>
+
+
+                        <div>
+
+                            <h2>
+                                Datos personales
+                            </h2>
+
+                            <p>
+                                Información principal del cliente.
+                            </p>
+
+                        </div>
+
+
+                    </div>
+
+
+
+                    <div class="datos-lista">
+
+
+                        <div class="dato-item">
+
+                            <span>
+                                DNI
+                            </span>
+
+                            <strong th:text="${cliente.dni}">
+                                -
+                            </strong>
+
+                        </div>
+
+
+
+                        <div class="dato-item">
+
+                            <span>
+                                Nombres
+                            </span>
+
+                            <strong th:text="${cliente.nombres}">
+                                -
+                            </strong>
+
+                        </div>
+
+
+
+                        <div class="dato-item">
+
+                            <span>
+                                Apellidos
+                            </span>
+
+                            <strong th:text="${cliente.apellidos}">
+                                -
+                            </strong>
+
+                        </div>
+
+
+
+                        <div class="dato-item">
+
+                            <span>
+                                Teléfono
+                            </span>
+
+                            <strong th:text="${cliente.telefono != null
+                                    ? cliente.telefono
+                                    : '-'}">
+
+                                -
+
+                            </strong>
+
+                        </div>
+
+
+
+                        <div class="dato-item dato-completo">
+
+                            <span>
+                                Correo
+                            </span>
+
+                            <strong th:text="${cliente.email != null
+                                    ? cliente.email
+                                    : '-'}">
+
+                                -
+
+                            </strong>
+
+                        </div>
+
+
+
+                        <div class="dato-item dato-completo">
+
+                            <span>
+                                Dirección
+                            </span>
+
+                            <strong th:text="${cliente.direccion != null
+                                    ? cliente.direccion
+                                    : '-'}">
+
+                                -
+
+                            </strong>
+
+                        </div>
+
+
+                    </div>
+
+
+                </article>
+
+
+
+                <!-- =================================================
+                     INFORMACION CREDINEYRA
+                     ================================================= -->
+
+                <article class="detalle-card">
+
+
+                    <div class="card-cabecera">
+
+
+                        <div class="card-icono azul">
+
+                            <svg viewBox="0 0 24 24">
+
+                                <path d="M7 3h8l4 4v14H7z">
+                                </path>
+
+                                <path d="M15 3v5h5">
+                                </path>
+
+                            </svg>
+
+                        </div>
+
+
+                        <div>
+
+                            <h2>
+                                Información crediNeyra
+                            </h2>
+
+                            <p>
+                                Datos internos y estado del cliente.
+                            </p>
+
+                        </div>
+
+
+                    </div>
+
+
+
+                    <div class="datos-lista">
+
+
+                        <div class="dato-item">
+
+                            <span>
+                                Código
+                            </span>
+
+                            <strong class="codigo-destacado"
+                                    th:text="${cliente.codigoCliente}">
+
+                                CLI-00001
+
+                            </strong>
+
+                        </div>
+
+
+
+                        <div class="dato-item">
+
+                            <span>
+                                Origen
+                            </span>
+
+                            <strong th:text="${cliente.tipoOrigen}">
+                                NUEVO
+                            </strong>
+
+                        </div>
+
+
+
+                        <div class="dato-item">
+
+                            <span>
+                                Estado
+                            </span>
+
+                            <span class="badge-estado"
+                                  th:classappend="${cliente.estado.toString() == 'ACTIVO'
+                                        ? ' estado-activo'
+                                        : ' estado-inactivo'}"
+                                  th:text="${cliente.estado}">
+
+                                ACTIVO
+
+                            </span>
+
+                        </div>
+
+
+
+                        <div class="dato-item">
+
+                            <span>
+                                Fecha de registro
+                            </span>
+
+                            <strong th:text="${cliente.fechaRegistro != null
+                                    ? cliente.fechaRegistro.toLocalDate()
+                                    : '-'}">
+
+                                -
+
+                            </strong>
+
+                        </div>
+
+
+
+                        <div class="dato-item dato-completo">
+
+                            <span>
+                                Observaciones
+                            </span>
+
+                            <div class="observaciones-box"
+                                 th:text="${cliente.observaciones != null
+                                        and !cliente.observaciones.isBlank()
+                                        ? cliente.observaciones
+                                        : 'Sin observaciones registradas.'}">
+
+                                Sin observaciones registradas.
+
+                            </div>
+
+                        </div>
+
+
+                    </div>
+
+
+
+                    <!-- =================================================
+                         ACCIONES
+                         ================================================= -->
+
+                    <div class="acciones-cliente-card">
+
+
+                        <!-- ESTADO -->
+
+                        <button type="button"
+                                class="accion-card js-cambiar-estado-detalle"
+                                th:data-id="${cliente.idCliente}"
+                                th:data-codigo="${cliente.codigoCliente}"
+                                th:data-nombre="${cliente.nombreCompleto}"
+                                th:data-estado="${cliente.estado}">
+
+
+                            <svg viewBox="0 0 24 24">
+
+                                <path d="M12 2v10">
+                                </path>
+
+                                <path d="M5.6 5.6a9 9 0 1 0 12.8 0">
+                                </path>
+
+                            </svg>
+
+                            Cambiar estado
+
+                        </button>
+
+
+
+                        <!-- =================================================
+                             CONTACTAR
+                             ================================================= -->
+
+                        <button type="button"
+                                class="accion-card js-abrir-contacto"
+                                th:data-id="${cliente.idCliente}"
+                                th:data-nombre="${cliente.nombreCompleto}"
+                                th:data-codigo="${cliente.codigoCliente}"
+                                th:data-dni="${cliente.dni}"
+                                th:data-telefono="${cliente.telefono}"
+                                th:data-email="${cliente.email}"
+                                th:data-situacion="${cliente.situacionPago}"
+                                th:data-fecha="${cliente.fechaProximaCuota}"
+                                th:data-monto="${cliente.montoProximaCuota}"
+                                data-volver="detalle">
+
+
+                            <svg viewBox="0 0 24 24">
+
+                                <path d="M4 4h16v13H7l-3 3z">
+                                </path>
+
+                            </svg>
+
+                            Contactar
+
+                        </button>
+
+
+                    </div>
+
+
+                </article>
+
+
+            </section>
+
+
+
+            <!-- =================================================
+                 CREDITOS
+                 ================================================= -->
+
+            <section class="creditos-seccion">
+
+
+                <div class="seccion-cabecera">
+
+
+                    <div>
+
+                        <h2>
+                            Créditos del cliente
+                        </h2>
+
+                        <p>
+                            Historial de créditos registrados.
+                        </p>
+
+                    </div>
+
+
+                    <!-- =================================================
+                         NUEVO CRÉDITO - FUNCIONAL
+                         ================================================= -->
+
+                    <a th:href="@{/admin/creditos/nuevo(idCliente=${cliente.idCliente})}"
+                       class="btn-principal pequeno">
+
+                        + Nuevo crédito
+
+                    </a>
+
+
+                </div>
+
+
+
+                <!-- =================================================
+                     SIN CREDITOS
+                     ================================================= -->
+
+                <div class="sin-creditos"
+                     th:if="${cliente.creditos == null
+                            or cliente.creditos.isEmpty()}">
+
+
+                    <div class="sin-creditos-icono">
+
+                        <svg viewBox="0 0 24 24">
+
+                            <path d="M4 6h16v12H4z">
+                            </path>
+
+                            <path d="M9 10h6">
+                            </path>
+
+                        </svg>
+
+                    </div>
+
+
+                    <h3>
+                        Este cliente aún no tiene créditos
+                    </h3>
+
+
+                    <p>
+                        La ficha está registrada correctamente.
+                        Puedes crear su primer crédito cuando corresponda.
+                    </p>
+
+
+                    <!-- =================================================
+                         PRIMER CRÉDITO - FUNCIONAL
+                         ================================================= -->
+
+                    <a th:href="@{/admin/creditos/nuevo(idCliente=${cliente.idCliente})}"
+                       class="btn-principal">
+
+                        Registrar primer crédito
+
+                    </a>
+
+
+                </div>
+
+
+
+                <!-- =================================================
+                     CREDITOS EXISTENTES
+                     ================================================= -->
+
+                <div class="tabla-contenedor"
+                     th:if="${cliente.creditos != null
+                            and !cliente.creditos.isEmpty()}">
+
+
+                    <table class="tabla-creditos">
+
+
+                        <thead>
+
+                        <tr>
+
+                            <th>Código</th>
+
+                            <th>Fecha</th>
+
+                            <th>Capital</th>
+
+                            <th>Capital pendiente</th>
+
+                            <th>Interés pendiente</th>
+
+                            <th>Saldo</th>
+
+                            <th>Estado</th>
+
+                            <th>Acción</th>
+
+                        </tr>
+
+                        </thead>
+
+
+                        <tbody>
+
+
+                        <tr th:each="credito : ${cliente.creditos}">
+
+
+                            <td>
+
+                                <strong class="codigo-credito"
+                                        th:text="${credito.codigoCredito}">
+                                    -
+                                </strong>
+
+                            </td>
+
+
+                            <td th:text="${credito.fechaSolicitud != null
+                                    ? credito.fechaSolicitud.toLocalDate()
+                                    : '-'}">
+
+                                -
+
+                            </td>
+
+
+                            <td th:text="${'S/ ' + credito.capitalOriginal}">
+                                S/ 0.00
+                            </td>
+
+
+                            <td th:text="${'S/ ' + credito.capitalPendiente}">
+                                S/ 0.00
+                            </td>
+
+
+                            <td th:text="${'S/ ' + credito.interesPendiente}">
+                                S/ 0.00
+                            </td>
+
+
+                            <td>
+
+                                <strong th:text="${'S/ ' + credito.saldoPendiente}">
+                                    S/ 0.00
+                                </strong>
+
+                            </td>
+
+
+                            <td>
+
+                                <span class="badge-credito"
+                                      th:text="${credito.estado}">
+
+                                    ACTIVO
+
+                                </span>
+
+                            </td>
+
+
+                            <td>
+
+                                <!-- =========================================
+                                     VER CRÉDITO - FUNCIONAL
+                                     ========================================= -->
+
+                                <a th:href="@{/admin/creditos/{id}(id=${credito.idCredito})}"
+                                   class="btn-tabla">
+
+                                    <svg viewBox="0 0 24 24">
+
+                                        <path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12Z">
+                                        </path>
+
+                                        <circle cx="12"
+                                                cy="12"
+                                                r="3">
+                                        </circle>
+
+                                    </svg>
+
+                                </a>
+
+                            </td>
+
+
+                        </tr>
+
+
+                        </tbody>
+
+
+                    </table>
+
+
+                </div>
+
+
+            </section>
+
+
+        </main>
+
+
+    </div>
+
+
+</div>
+
+
+
+<!-- =========================================================
+     MODAL CAMBIO DE ESTADO
+     ========================================================= -->
+
+<div class="modal-fondo"
+     id="modalEstadoDetalle">
+
+
+    <div class="modal-panel">
+
+
+        <button type="button"
+                class="modal-cerrar"
+                data-cerrar-modal-detalle>
+
+            ×
+
+        </button>
+
+
+
+        <div class="modal-icono estado">
+
+            <svg viewBox="0 0 24 24">
+
+                <path d="M12 2v10">
+                </path>
+
+                <path d="M5.6 5.6a9 9 0 1 0 12.8 0">
+                </path>
+
+            </svg>
+
+        </div>
+
+
+
+        <h2>
+            Cambiar estado
+        </h2>
+
+
+        <p id="estadoDescripcionDetalle">
+            Cliente
+        </p>
+
+
+
+        <div class="cambio-estado-info">
+
+
+            <div>
+
+                <span>
+                    Estado actual
+                </span>
+
+                <strong id="estadoActualDetalle">
+                    ACTIVO
+                </strong>
+
+            </div>
+
+
+            <span class="flecha-estado">
+                →
+            </span>
+
+
+            <div>
+
+                <span>
+                    Nuevo estado
+                </span>
+
+                <strong id="estadoNuevoDetalle">
+                    INACTIVO
+                </strong>
+
+            </div>
+
+
+        </div>
+
+
+
+        <div class="advertencia-estado">
+
+            Si existen créditos pendientes,
+            crediNeyra bloqueará la inactivación.
+
+        </div>
+
+
+
+        <form method="post"
+              id="formEstadoDetalle">
+
+
+            <input type="hidden"
+                   th:name="${_csrf.parameterName}"
+                   th:value="${_csrf.token}">
+
+
+            <input type="hidden"
+                   name="nuevoEstado"
+                   id="inputEstadoDetalle">
+
+
+            <input type="hidden"
+                   name="volver"
+                   value="detalle">
+
+
+
+            <div class="modal-acciones">
+
+
+                <button type="button"
+                        class="btn-modal-cancelar"
+                        data-cerrar-modal-detalle>
+
+                    Cancelar
+
+                </button>
+
+
+                <button type="submit"
+                        class="btn-modal-confirmar">
+
+                    Confirmar cambio
+
+                </button>
+
+
+            </div>
+
+
+        </form>
+
+
+    </div>
+
+
+</div>
+
+
+
+<!-- =========================================================
+     PANEL GRANDE DE CONTACTO
+     ========================================================= -->
+
+<div th:replace="~{admin/clientes/fragments/contacto-modal :: contacto-modal}">
+</div>
+
+
+<div th:replace="~{admin/clientes/fragments/contacto-modal :: contacto-toast}">
+</div>
+
+
+
+<!-- =========================================================
+     TOAST DETALLE
+     ========================================================= -->
+
+<div id="toastDetalle"
+     class="toast-detalle">
+
+    <span id="toastDetalleTexto">
+        Acción
+    </span>
+
+</div>
+
+
+
+<!-- =========================================================
+     SCRIPTS
+     ========================================================= -->
+
+<script th:src="@{/js/admin/cliente-detalle.js}">
+</script>
+
+<script th:src="@{/js/admin/cliente-contacto.js}">
+</script>
+
+
+</body>
+</html>

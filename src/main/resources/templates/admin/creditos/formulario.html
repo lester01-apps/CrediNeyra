@@ -1,0 +1,1054 @@
+<!DOCTYPE html>
+<html lang="es"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <meta name="_csrf"
+          th:content="${_csrf.token}">
+
+    <meta name="_csrf_header"
+          th:content="${_csrf.headerName}">
+
+    <title>
+        Nuevo crédito | crediNeyra
+    </title>
+
+    <link rel="stylesheet"
+          th:href="@{/css/admin/dashboard.css}">
+
+    <link rel="stylesheet"
+          th:href="@{/css/admin/credito-formulario.css}">
+
+    <link rel="stylesheet"
+          th:href="@{/css/admin/credito-formulario-extra.css}">
+
+</head>
+
+<body>
+
+
+<div class="admin-layout">
+
+
+    <div th:replace="~{admin/fragments/sidebar :: sidebar}">
+    </div>
+
+
+    <div th:replace="~{admin/fragments/sidebar :: sidebar-overlay}">
+    </div>
+
+
+    <div class="admin-main">
+
+
+        <div th:replace="~{admin/fragments/topbar :: topbar}">
+        </div>
+
+
+        <main class="credito-nuevo-contenido">
+
+
+            <section class="credito-nuevo-cabecera">
+
+                <div>
+
+                    <div class="credito-breadcrumb">
+
+                        <a th:href="@{/admin}">
+                            Panel principal
+                        </a>
+
+                        <span>›</span>
+
+                        <a th:href="@{/admin/creditos}">
+                            Créditos
+                        </a>
+
+                        <span>›</span>
+
+                        <strong>
+                            Nuevo crédito
+                        </strong>
+
+                    </div>
+
+
+                    <div class="credito-kicker">
+                        GESTIÓN FINANCIERA
+                    </div>
+
+
+                    <h1>
+                        Nuevo crédito
+                    </h1>
+
+
+                    <p>
+                        Busca al cliente, configura las condiciones,
+                        adjunta la garantía cuando corresponda
+                        y revisa el cronograma.
+                    </p>
+
+                </div>
+
+
+                <div id="simulationState"
+                     class="estado-simulacion">
+
+                    Completa los datos
+
+                </div>
+
+            </section>
+
+
+            <form id="creditoForm"
+                  th:action="@{/admin/creditos/guardar}"
+                  th:object="${creditoDto}"
+                  method="post"
+                  enctype="multipart/form-data"
+                  autocomplete="off">
+
+
+                <div class="mensaje-formulario error"
+                     th:if="${errorRegistro != null}">
+
+                    <strong>
+                        No se pudo registrar
+                    </strong>
+
+                    <span th:text="${errorRegistro}">
+                        Error
+                    </span>
+
+                </div>
+
+
+                <div class="mensaje-formulario error"
+                     th:if="${#fields.hasErrors('*')}">
+
+                    <strong>
+                        Revisa los campos obligatorios.
+                    </strong>
+
+                    <ul>
+
+                        <li th:each="error : ${#fields.errors('*')}"
+                            th:text="${error}">
+                        </li>
+
+                    </ul>
+
+                </div>
+
+
+                <div class="credito-nuevo-grid">
+
+
+                    <div class="credito-formulario-columna">
+
+
+                        <!-- CLIENTE -->
+
+                        <section class="formulario-card">
+
+
+                            <div class="formulario-card-cabecera">
+
+                                <div class="numero-card">
+                                    01
+                                </div>
+
+                                <div>
+
+                                    <h2>
+                                        Cliente
+                                    </h2>
+
+                                    <p>
+                                        Busca por nombre, DNI o código.
+                                    </p>
+
+                                </div>
+
+                            </div>
+
+
+                            <input id="idCliente"
+                                   type="hidden"
+                                   th:field="*{idCliente}">
+
+
+                            <div class="campo">
+
+                                <label for="buscarCliente">
+                                    Buscar cliente
+                                    <b>*</b>
+                                </label>
+
+
+                                <div class="buscador-cliente">
+
+                                    <svg viewBox="0 0 24 24">
+
+                                        <circle cx="11"
+                                                cy="11"
+                                                r="7">
+                                        </circle>
+
+                                        <path d="m20 20-4-4">
+                                        </path>
+
+                                    </svg>
+
+
+                                    <input id="buscarCliente"
+                                           type="search"
+                                           placeholder="Nombre, DNI o código..."
+                                           autocomplete="off">
+
+                                </div>
+
+
+                                <div id="clienteResultados"
+                                     class="cliente-resultados">
+
+
+                                    <button type="button"
+                                            class="cliente-resultado"
+                                            th:each="cliente : ${clientes}"
+                                            th:attr="
+                                                data-id=${cliente.idCliente},
+                                                data-codigo=${cliente.codigoCliente},
+                                                data-nombre=${cliente.persona.nombres + ' ' + cliente.persona.apellidos},
+                                                data-dni=${cliente.persona.dni}
+                                            ">
+
+                                        <div class="cliente-avatar-busqueda"
+                                             th:text="${#strings.substring(cliente.persona.nombres,0,1)}">
+                                            C
+                                        </div>
+
+
+                                        <div class="cliente-resultado-info">
+
+                                            <strong th:text="${cliente.persona.nombres + ' ' + cliente.persona.apellidos}">
+                                                Cliente
+                                            </strong>
+
+                                            <span>
+
+                                                <b th:text="${cliente.codigoCliente}">
+                                                    CLI-00001
+                                                </b>
+
+                                                · DNI
+
+                                                <span th:text="${cliente.persona.dni}">
+                                                    00000000
+                                                </span>
+
+                                            </span>
+
+                                        </div>
+
+                                    </button>
+
+
+                                    <div id="clienteSinResultados"
+                                         class="cliente-sin-resultados">
+
+                                        No se encontraron clientes.
+
+                                    </div>
+
+                                </div>
+
+
+                                <div id="clienteSeleccionado"
+                                     class="cliente-seleccionado">
+
+                                    <div>
+
+                                        <span>
+                                            Cliente seleccionado
+                                        </span>
+
+                                        <strong id="clienteSeleccionadoNombre">
+                                        </strong>
+
+                                        <small id="clienteSeleccionadoDatos">
+                                        </small>
+
+                                    </div>
+
+
+                                    <button id="quitarCliente"
+                                            type="button">
+
+                                        Cambiar
+
+                                    </button>
+
+                                </div>
+
+                            </div>
+
+                        </section>
+
+
+                        <!-- DATOS -->
+
+                        <section class="formulario-card">
+
+
+                            <div class="formulario-card-cabecera">
+
+                                <div class="numero-card">
+                                    02
+                                </div>
+
+                                <div>
+
+                                    <h2>
+                                        Datos del crédito
+                                    </h2>
+
+                                    <p>
+                                        Código automático, capital, tasa y plazo.
+                                    </p>
+
+                                </div>
+
+                            </div>
+
+
+                            <div class="campos-grid">
+
+
+                                <div class="campo">
+
+                                    <label for="codigoCredito">
+                                        Código del crédito
+                                    </label>
+
+                                    <input id="codigoCredito"
+                                           type="text"
+                                           th:field="*{codigoCredito}"
+                                           readonly>
+
+                                    <small class="campo-ayuda">
+                                        Generado automáticamente.
+                                    </small>
+
+                                </div>
+
+
+                                <div class="campo">
+
+                                    <label for="capitalOriginal">
+                                        Capital
+                                        <b>*</b>
+                                    </label>
+
+                                    <div class="campo-con-prefijo">
+
+                                        <span>
+                                            S/
+                                        </span>
+
+                                        <input id="capitalOriginal"
+                                               type="number"
+                                               th:field="*{capitalOriginal}"
+                                               min="0.01"
+                                               step="0.01"
+                                               placeholder="2000.00"
+                                               required>
+
+                                    </div>
+
+                                </div>
+
+
+                                <div class="campo">
+
+                                    <label for="plazoMeses">
+                                        Plazo
+                                        <b>*</b>
+                                    </label>
+
+                                    <div class="campo-con-sufijo">
+
+                                        <input id="plazoMeses"
+                                               type="number"
+                                               th:field="*{plazoMeses}"
+                                               min="1"
+                                               max="120"
+                                               required>
+
+                                        <span>
+                                            meses
+                                        </span>
+
+                                    </div>
+
+                                </div>
+
+
+                                <div class="campo">
+
+                                    <label for="tasaInteres">
+                                        Tasa de interés
+                                        <b>*</b>
+                                    </label>
+
+                                    <div class="campo-con-sufijo">
+
+                                        <input id="tasaInteres"
+                                               type="number"
+                                               th:field="*{tasaInteres}"
+                                               min="0"
+                                               step="0.01"
+                                               required>
+
+                                        <span>
+                                            %
+                                        </span>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </section>
+
+
+                        <!-- CONDICIONES -->
+
+                        <section class="formulario-card">
+
+
+                            <div class="formulario-card-cabecera">
+
+                                <div class="numero-card">
+                                    03
+                                </div>
+
+                                <div>
+
+                                    <h2>
+                                        Condiciones financieras
+                                    </h2>
+
+                                    <p>
+                                        Tipo y periodicidades.
+                                    </p>
+
+                                </div>
+
+                            </div>
+
+
+                            <div class="campos-grid">
+
+
+                                <div class="campo">
+
+                                    <label for="tipoCalculo">
+                                        Tipo de interés
+                                        <b>*</b>
+                                    </label>
+
+                                    <select id="tipoCalculo"
+                                            th:field="*{tipoCalculo}"
+                                            required>
+
+                                        <option th:each="tipo : ${tiposInteres}"
+                                                th:value="${tipo}"
+                                                th:text="${tipo.name() == 'NORMAL'
+                                                        ? 'Normal'
+                                                        : 'Interés económico'}">
+                                        </option>
+
+                                    </select>
+
+                                </div>
+
+
+                                <div class="campo">
+
+                                    <label for="periodicidadTasa">
+                                        Periodicidad del interés
+                                        <b>*</b>
+                                    </label>
+
+                                    <select id="periodicidadTasa"
+                                            th:field="*{periodicidadTasa}"
+                                            required>
+
+                                        <option th:each="periodo : ${periodicidadesInteres}"
+                                                th:value="${periodo}"
+                                                th:text="${#strings.capitalize(#strings.toLowerCase(periodo.name()))}">
+                                        </option>
+
+                                    </select>
+
+                                </div>
+
+
+                                <div class="campo">
+
+                                    <label for="frecuenciaPago">
+                                        Frecuencia de pago
+                                        <b>*</b>
+                                    </label>
+
+                                    <select id="frecuenciaPago"
+                                            th:field="*{frecuenciaPago}"
+                                            required>
+
+                                        <option th:each="frecuencia : ${frecuenciasPago}"
+                                                th:value="${frecuencia}"
+                                                th:text="${#strings.capitalize(#strings.toLowerCase(frecuencia.name()))}">
+                                        </option>
+
+                                    </select>
+
+                                </div>
+
+
+                                <div class="campo">
+
+                                    <label>
+                                        Opción adicional
+                                    </label>
+
+                                    <label class="checkbox-credito">
+
+                                        <input id="permitePagoSoloInteres"
+                                               type="checkbox"
+                                               th:field="*{permitePagoSoloInteres}">
+
+                                        <span>
+                                            Permitir pago solo de interés
+                                        </span>
+
+                                    </label>
+
+                                </div>
+
+                            </div>
+
+                        </section>
+
+
+                        <!-- FECHAS -->
+
+                        <section class="formulario-card">
+
+
+                            <div class="formulario-card-cabecera">
+
+                                <div class="numero-card">
+                                    04
+                                </div>
+
+                                <div>
+
+                                    <h2>
+                                        Fechas
+                                    </h2>
+
+                                    <p>
+                                        Desembolso y primer pago.
+                                    </p>
+
+                                </div>
+
+                            </div>
+
+
+                            <div class="campos-grid">
+
+
+                                <div class="campo">
+
+                                    <label for="fechaInicio">
+                                        Fecha de desembolso
+                                        <b>*</b>
+                                    </label>
+
+                                    <input id="fechaInicio"
+                                           type="date"
+                                           th:field="*{fechaInicio}"
+                                           required>
+
+                                </div>
+
+
+                                <div class="campo">
+
+                                    <label for="fechaPrimerPago">
+                                        Primer pago
+                                        <b>*</b>
+                                    </label>
+
+                                    <input id="fechaPrimerPago"
+                                           type="date"
+                                           th:field="*{fechaPrimerPago}"
+                                           required>
+
+                                </div>
+
+                            </div>
+
+                        </section>
+
+
+                        <!-- GARANTÍA -->
+
+                        <section id="garantiaCard"
+                                 class="formulario-card">
+
+
+                            <div class="formulario-card-cabecera">
+
+                                <div class="numero-card">
+                                    05
+                                </div>
+
+                                <div>
+
+                                    <h2>
+                                        Garantía
+                                    </h2>
+
+                                    <p id="garantiaMensaje">
+                                        Opcional para créditos menores a S/500.
+                                    </p>
+
+                                </div>
+
+
+                                <span id="garantiaStatus"
+                                      class="badge-garantia">
+
+                                    Opcional
+
+                                </span>
+
+                            </div>
+
+
+                            <div class="campos-grid">
+
+
+                                <div class="campo">
+
+                                    <label for="tipoGarantia">
+                                        Tipo de garantía
+                                        <b class="marca-garantia">*</b>
+                                    </label>
+
+                                    <input id="tipoGarantia"
+                                           type="text"
+                                           th:field="*{tipoGarantia}"
+                                           maxlength="50"
+                                           placeholder="Ej. Televisor">
+
+                                </div>
+
+
+                                <div class="campo">
+
+                                    <label for="valorEstimadoGarantia">
+                                        Valor estimado
+                                        <b class="marca-garantia">*</b>
+                                    </label>
+
+                                    <div class="campo-con-prefijo">
+
+                                        <span>
+                                            S/
+                                        </span>
+
+                                        <input id="valorEstimadoGarantia"
+                                               type="number"
+                                               th:field="*{valorEstimadoGarantia}"
+                                               min="0.01"
+                                               step="0.01">
+
+                                    </div>
+
+                                </div>
+
+
+                                <div class="campo campo-completo">
+
+                                    <label for="descripcionGarantia">
+                                        Descripción
+                                        <b class="marca-garantia">*</b>
+                                    </label>
+
+                                    <textarea id="descripcionGarantia"
+                                              th:field="*{descripcionGarantia}"
+                                              maxlength="200"
+                                              rows="3"
+                                              placeholder="Marca, modelo, estado, características...">
+                                    </textarea>
+
+                                </div>
+
+
+                                <!-- ARCHIVO REAL -->
+
+                                <div class="campo campo-completo">
+
+                                    <label>
+                                        Documento o foto
+                                        <b class="marca-garantia">*</b>
+                                    </label>
+
+
+                                    <input id="archivoGarantia"
+                                           name="archivoGarantia"
+                                           class="archivo-real"
+                                           type="file"
+                                           accept=".pdf,.jpg,.jpeg,.png,application/pdf,image/jpeg,image/png">
+
+
+                                    <label for="archivoGarantia"
+                                           class="archivo-zona">
+
+                                        <svg viewBox="0 0 24 24">
+
+                                            <path d="M12 16V4">
+                                            </path>
+
+                                            <path d="m7 9 5-5 5 5">
+                                            </path>
+
+                                            <path d="M5 14v5h14v-5">
+                                            </path>
+
+                                        </svg>
+
+
+                                        <div>
+
+                                            <strong>
+                                                Seleccionar documento
+                                            </strong>
+
+                                            <span>
+                                                PDF, JPG, JPEG o PNG · máximo 10 MB
+                                            </span>
+
+                                        </div>
+
+
+                                        <b>
+                                            Examinar
+                                        </b>
+
+                                    </label>
+
+
+                                    <div id="archivoGarantiaSeleccionado"
+                                         class="archivo-seleccionado">
+
+                                        <div>
+
+                                            <strong id="archivoNombre">
+                                            </strong>
+
+                                            <span id="archivoDatos">
+                                            </span>
+
+                                        </div>
+
+
+                                        <button id="quitarArchivo"
+                                                type="button">
+
+                                            Quitar
+
+                                        </button>
+
+                                    </div>
+
+                                </div>
+
+
+                                <div class="campo campo-completo">
+
+                                    <label for="observacionesGarantia">
+
+                                        Observaciones
+
+                                        <span class="opcional">
+                                            Opcional
+                                        </span>
+
+                                    </label>
+
+                                    <textarea id="observacionesGarantia"
+                                              th:field="*{observacionesGarantia}"
+                                              maxlength="200"
+                                              rows="2">
+                                    </textarea>
+
+                                </div>
+
+                            </div>
+
+                        </section>
+
+
+                        <!-- OBSERVACIONES -->
+
+                        <section class="formulario-card">
+
+
+                            <div class="formulario-card-cabecera">
+
+                                <div class="numero-card">
+                                    06
+                                </div>
+
+                                <div>
+
+                                    <h2>
+                                        Observaciones
+                                    </h2>
+
+                                    <p>
+                                        Opcional.
+                                    </p>
+
+                                </div>
+
+                            </div>
+
+
+                            <div class="campo">
+
+                                <textarea id="observaciones"
+                                          th:field="*{observaciones}"
+                                          maxlength="200"
+                                          rows="4"
+                                          placeholder="Observaciones opcionales">
+                                </textarea>
+
+                            </div>
+
+                        </section>
+
+                    </div>
+
+
+                    <!-- RESUMEN -->
+
+                    <aside class="credito-resumen-columna">
+
+
+                        <section class="resumen-credito-card">
+
+
+                            <div class="resumen-titulo">
+
+                                <div>
+
+                                    <span>
+                                        VISTA PREVIA
+                                    </span>
+
+                                    <h2>
+                                        Resumen del crédito
+                                    </h2>
+
+                                </div>
+
+                                <b>
+                                    EN VIVO
+                                </b>
+
+                            </div>
+
+
+                            <div class="resumen-total">
+
+                                <span>
+                                    Total a pagar
+                                </span>
+
+                                <strong id="resTotalPagar">
+                                    S/ 0.00
+                                </strong>
+
+                            </div>
+
+
+                            <div class="resumen-datos">
+
+                                <div>
+                                    <span>Capital</span>
+                                    <strong id="resCapital">S/ 0.00</strong>
+                                </div>
+
+                                <div>
+                                    <span>Interés</span>
+                                    <strong id="resInteres">S/ 0.00</strong>
+                                </div>
+
+                                <div>
+                                    <span>N° pagos</span>
+                                    <strong id="resNumeroCuotas">0</strong>
+                                </div>
+
+                                <div>
+                                    <span>Primera cuota</span>
+                                    <strong id="resPrimeraCuota">S/ 0.00</strong>
+                                </div>
+
+                                <div>
+                                    <span>Última cuota</span>
+                                    <strong id="resUltimaCuota">S/ 0.00</strong>
+                                </div>
+
+                                <div>
+                                    <span>Último pago</span>
+                                    <strong id="resUltimaFecha">—</strong>
+                                </div>
+
+                            </div>
+
+
+                            <div class="resumen-garantia">
+
+                                <span>
+                                    Garantía
+                                </span>
+
+                                <strong id="resGarantia">
+                                    Opcional
+                                </strong>
+
+                            </div>
+
+
+                            <div id="simulationMessage"
+                                 class="mensaje-simulacion">
+
+                                Completa los datos para calcular.
+
+                            </div>
+
+                        </section>
+
+
+                        <section class="acciones-credito-card">
+
+                            <a th:href="@{/admin/creditos}"
+                               class="boton-cancelar-credito">
+
+                                Cancelar
+
+                            </a>
+
+
+                            <button id="btnRegistrar"
+                                    type="submit"
+                                    class="boton-confirmar-credito"
+                                    disabled>
+
+                                Confirmar y registrar
+
+                            </button>
+
+
+                            <p id="mensajeBoton">
+                                Completa todos los campos obligatorios.
+                            </p>
+
+                        </section>
+
+                    </aside>
+
+                </div>
+
+
+                <!-- CRONOGRAMA -->
+
+                <section class="cronograma-credito-card">
+
+                    <div class="cronograma-cabecera">
+
+                        <span>
+                            SIMULACIÓN
+                        </span>
+
+                        <h2>
+                            Cronograma estimado
+                        </h2>
+
+                    </div>
+
+
+                    <div id="cronogramaEmpty"
+                         class="cronograma-vacio">
+
+                        Completa los datos para visualizar el cronograma.
+
+                    </div>
+
+
+                    <div id="cronogramaWrapper"
+                         class="cronograma-tabla-contenedor">
+
+                        <table class="cronograma-tabla">
+
+                            <thead>
+
+                            <tr>
+                                <th>#</th>
+                                <th>Fecha</th>
+                                <th>Saldo inicial</th>
+                                <th>Capital</th>
+                                <th>Interés</th>
+                                <th>Pago</th>
+                                <th>Saldo final</th>
+                            </tr>
+
+                            </thead>
+
+                            <tbody id="cronogramaBody">
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+                </section>
+
+            </form>
+
+        </main>
+
+    </div>
+
+</div>
+
+
+<script th:src="@{/js/admin/credito-formulario.js}">
+</script>
+
+</body>
+</html>

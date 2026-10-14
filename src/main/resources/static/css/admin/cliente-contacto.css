@@ -1,0 +1,1009 @@
+/* =========================================================
+   CREDINEYRA - PANEL DE CONTACTO
+   ========================================================= */
+
+.contacto-modal-fondo {
+    position: fixed;
+    inset: 0;
+
+    z-index: 20000;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    box-sizing: border-box;
+
+    padding: 28px;
+
+    background:
+        rgba(0, 7, 16, 0.83);
+
+    backdrop-filter:
+        blur(8px);
+
+    opacity: 0;
+    visibility: hidden;
+
+    transition:
+        opacity 0.22s,
+        visibility 0.22s;
+}
+
+
+.contacto-modal-fondo.visible {
+    opacity: 1;
+    visibility: visible;
+}
+
+
+/* =========================================================
+   PANEL
+   ========================================================= */
+
+.contacto-panel {
+    position: relative;
+
+    width: min(
+        900px,
+        100%
+    );
+
+    max-height:
+        calc(100vh - 50px);
+
+    overflow-y: auto;
+
+    border:
+        1px solid
+        rgba(77, 151, 230, 0.20);
+
+    border-radius: 20px;
+
+    background:
+        linear-gradient(
+            145deg,
+            #092641,
+            #05192f
+        );
+
+    box-shadow:
+        0 35px 100px
+        rgba(0, 0, 0, 0.52);
+
+    transform:
+        translateY(18px)
+        scale(0.985);
+
+    transition:
+        transform 0.22s;
+}
+
+
+.contacto-modal-fondo.visible
+.contacto-panel {
+    transform:
+        translateY(0)
+        scale(1);
+}
+
+
+/* =========================================================
+   CERRAR
+   ========================================================= */
+
+.contacto-cerrar {
+    position: absolute;
+
+    top: 17px;
+    right: 17px;
+
+    z-index: 2;
+
+    width: 36px;
+    height: 36px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    border:
+        1px solid
+        rgba(109, 159, 213, 0.13);
+
+    border-radius: 9px;
+
+    background:
+        rgba(5, 27, 50, 0.78);
+
+    color: #7998b7;
+
+    cursor: pointer;
+
+    transition: 0.2s;
+}
+
+
+.contacto-cerrar:hover {
+    background: #0d3b67;
+
+    color: white;
+}
+
+
+.contacto-cerrar svg {
+    width: 17px;
+    height: 17px;
+
+    fill: none;
+
+    stroke: currentColor;
+
+    stroke-width: 1.8;
+
+    stroke-linecap: round;
+}
+
+
+/* =========================================================
+   CABECERA
+   ========================================================= */
+
+.contacto-header {
+    display: flex;
+
+    align-items: center;
+
+    gap: 14px;
+
+    padding:
+        25px
+        70px
+        21px
+        27px;
+
+    border-bottom:
+        1px solid
+        rgba(97, 151, 211, 0.10);
+
+    background:
+        linear-gradient(
+            90deg,
+            rgba(12, 51, 87, 0.30),
+            transparent
+        );
+}
+
+
+.contacto-header-icono {
+    width: 48px;
+    height: 48px;
+
+    flex-shrink: 0;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 13px;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(23, 147, 255, 0.20),
+            rgba(16, 87, 164, 0.13)
+        );
+
+    color: #5eb3ff;
+}
+
+
+.contacto-header-icono svg {
+    width: 23px;
+    height: 23px;
+
+    fill: none;
+
+    stroke: currentColor;
+
+    stroke-width: 1.8;
+
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+
+.contacto-mini-titulo {
+    display: block;
+
+    margin-bottom: 4px;
+
+    color: #408fd8;
+
+    font-size: 7px;
+
+    font-weight: 800;
+
+    letter-spacing: 1.3px;
+}
+
+
+.contacto-header h2 {
+    margin: 0 0 4px;
+
+    color: #edf6ff;
+
+    font-size: 21px;
+}
+
+
+.contacto-header p {
+    margin: 0;
+
+    color: #6684a2;
+
+    font-size: 9px;
+
+    line-height: 1.5;
+}
+
+
+/* =========================================================
+   LAYOUT
+   ========================================================= */
+
+.contacto-layout {
+    display: grid;
+
+    grid-template-columns:
+        270px
+        minmax(0, 1fr);
+
+    min-height: 510px;
+}
+
+
+/* =========================================================
+   CLIENTE
+   ========================================================= */
+
+.contacto-cliente-card {
+    padding: 26px 22px;
+
+    border-right:
+        1px solid
+        rgba(94, 150, 210, 0.10);
+
+    background:
+        rgba(4, 19, 36, 0.38);
+}
+
+
+.contacto-avatar {
+    width: 58px;
+    height: 58px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    margin-bottom: 13px;
+
+    border:
+        1px solid
+        rgba(59, 151, 247, 0.21);
+
+    border-radius: 16px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #116bb7,
+            #07447d
+        );
+
+    color: white;
+
+    font-size: 22px;
+
+    font-weight: 700;
+
+    text-transform: uppercase;
+}
+
+
+.contacto-cliente-card h3 {
+    margin: 0 0 4px;
+
+    color: #e5f0fb;
+
+    font-size: 16px;
+
+    overflow-wrap: anywhere;
+}
+
+
+.contacto-codigo {
+    color: #51a9ff;
+
+    font-size: 9px;
+
+    font-weight: 700;
+}
+
+
+.contacto-separador {
+    height: 1px;
+
+    margin: 19px 0;
+
+    background:
+        rgba(92, 149, 210, 0.09);
+}
+
+
+.contacto-dato {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 5px;
+
+    margin-bottom: 13px;
+}
+
+
+.contacto-dato span {
+    color: #597796;
+
+    font-size: 7px;
+
+    text-transform: uppercase;
+
+    letter-spacing: 0.4px;
+}
+
+
+.contacto-dato strong {
+    color: #c8d9e9;
+
+    font-size: 9px;
+
+    overflow-wrap: anywhere;
+}
+
+
+.contacto-cuota-resumen {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 5px;
+
+    padding: 13px;
+
+    border:
+        1px solid
+        rgba(58, 139, 226, 0.12);
+
+    border-radius: 10px;
+
+    background:
+        rgba(6, 33, 59, 0.66);
+}
+
+
+.contacto-cuota-resumen span {
+    color: #6483a3;
+
+    font-size: 7px;
+}
+
+
+.contacto-cuota-resumen strong {
+    color: #eef5fc;
+
+    font-size: 16px;
+}
+
+
+.contacto-cuota-resumen small {
+    color: #6c8aaa;
+
+    font-size: 8px;
+}
+
+
+.contacto-situacion {
+    display: inline-flex;
+
+    width: fit-content;
+
+    margin-top: 12px;
+
+    padding:
+        6px
+        10px;
+
+    border-radius: 30px;
+
+    background:
+        rgba(87, 117, 146, 0.11);
+
+    color: #91a8bf;
+
+    font-size: 7px;
+
+    font-weight: 700;
+}
+
+
+/* =========================================================
+   EDITOR
+   ========================================================= */
+
+.contacto-editor {
+    padding: 25px;
+}
+
+
+.contacto-bloque {
+    margin-bottom: 20px;
+}
+
+
+.contacto-label {
+    display: block;
+
+    margin-bottom: 8px;
+
+    color: #abc1d8;
+
+    font-size: 9px;
+
+    font-weight: 600;
+}
+
+
+/* =========================================================
+   CANALES
+   ========================================================= */
+
+.contacto-canales {
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, 1fr);
+
+    gap: 10px;
+}
+
+
+.contacto-canal {
+    min-height: 66px;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 11px;
+
+    padding: 11px;
+
+    box-sizing: border-box;
+
+    border:
+        1px solid
+        rgba(98, 151, 211, 0.13);
+
+    border-radius: 11px;
+
+    background:
+        rgba(5, 25, 47, 0.75);
+
+    color: #8ca7c3;
+
+    text-align: left;
+
+    font-family: inherit;
+
+    cursor: pointer;
+
+    transition: 0.18s;
+}
+
+
+.contacto-canal:hover {
+    border-color:
+        rgba(76, 152, 234, 0.28);
+
+    background:
+        rgba(8, 37, 67, 0.87);
+}
+
+
+.contacto-canal.activo {
+    border-color:
+        rgba(32, 173, 247, 0.38);
+
+    background:
+        rgba(12, 66, 111, 0.42);
+
+    box-shadow:
+        inset 0 0 0 1px
+        rgba(41, 147, 255, 0.07);
+}
+
+
+.contacto-canal-icono {
+    width: 36px;
+    height: 36px;
+
+    flex-shrink: 0;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 9px;
+}
+
+
+.contacto-canal-icono.whatsapp {
+    background:
+        rgba(25, 196, 119, 0.13);
+
+    color: #40d995;
+}
+
+
+.contacto-canal-icono.correo {
+    background:
+        rgba(34, 132, 239, 0.13);
+
+    color: #55aaff;
+}
+
+
+.contacto-canal-icono svg {
+    width: 18px;
+    height: 18px;
+
+    fill: none;
+
+    stroke: currentColor;
+
+    stroke-width: 1.7;
+
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+
+.contacto-canal > span:last-child {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 3px;
+}
+
+
+.contacto-canal strong {
+    color: #d8e5f2;
+
+    font-size: 9px;
+}
+
+
+.contacto-canal small {
+    color: #5f7d9b;
+
+    font-size: 7px;
+}
+
+
+/* =========================================================
+   CAMPOS
+   ========================================================= */
+
+.contacto-campo {
+    margin-bottom: 16px;
+}
+
+
+.contacto-campo label {
+    display: block;
+
+    margin-bottom: 7px;
+
+    color: #abc1d8;
+
+    font-size: 9px;
+
+    font-weight: 600;
+}
+
+
+.contacto-campo label span {
+    color: #ff6579;
+}
+
+
+.contacto-label-linea {
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 15px;
+}
+
+
+.contacto-label-linea label {
+    margin: 0 0 7px;
+}
+
+
+.contacto-campo input,
+.contacto-campo textarea {
+    width: 100%;
+
+    box-sizing: border-box;
+
+    outline: none;
+
+    border:
+        1px solid
+        rgba(101, 155, 216, 0.16);
+
+    border-radius: 9px;
+
+    background:
+        rgba(4, 23, 44, 0.86);
+
+    color: #deebf7;
+
+    font-family: inherit;
+
+    font-size: 9px;
+
+    transition: 0.18s;
+}
+
+
+.contacto-campo input {
+    height: 42px;
+
+    padding:
+        0
+        12px;
+}
+
+
+.contacto-campo textarea {
+    min-height: 245px;
+
+    padding: 13px;
+
+    resize: vertical;
+
+    line-height: 1.55;
+}
+
+
+.contacto-campo input:focus,
+.contacto-campo textarea:focus {
+    border-color:
+        rgba(35, 143, 255, 0.62);
+
+    background:
+        rgba(6, 30, 56, 0.98);
+
+    box-shadow:
+        0 0 0 3px
+        rgba(13, 116, 225, 0.07);
+}
+
+
+.btn-regenerar {
+    border: none;
+
+    background: transparent;
+
+    color: #599fe5;
+
+    font-family: inherit;
+
+    font-size: 8px;
+
+    cursor: pointer;
+}
+
+
+.btn-regenerar:hover {
+    color: #89c3ff;
+}
+
+
+.contacto-textarea-footer {
+    display: flex;
+
+    justify-content: space-between;
+
+    gap: 15px;
+
+    margin-top: 6px;
+
+    color: #536f8c;
+
+    font-size: 7px;
+}
+
+
+/* =========================================================
+   BOTONES
+   ========================================================= */
+
+.contacto-acciones {
+    display: flex;
+
+    align-items: center;
+
+    justify-content: flex-end;
+
+    flex-wrap: wrap;
+
+    gap: 8px;
+
+    padding-top: 5px;
+}
+
+
+.btn-contacto-secundario,
+.btn-contacto-cancelar,
+.btn-contacto-principal {
+    min-height: 41px;
+
+    display: inline-flex;
+
+    align-items: center;
+    justify-content: center;
+
+    gap: 7px;
+
+    box-sizing: border-box;
+
+    padding:
+        0
+        14px;
+
+    border-radius: 8px;
+
+    font-family: inherit;
+
+    font-size: 8px;
+
+    font-weight: 600;
+
+    cursor: pointer;
+}
+
+
+.btn-contacto-secundario {
+    margin-right: auto;
+
+    border:
+        1px solid
+        rgba(94, 151, 211, 0.13);
+
+    background:
+        rgba(7, 29, 53, 0.68);
+
+    color: #7595b5;
+}
+
+
+.btn-contacto-cancelar {
+    border:
+        1px solid
+        rgba(102, 154, 212, 0.16);
+
+    background:
+        rgba(8, 28, 51, 0.77);
+
+    color: #8ea9c4;
+}
+
+
+.btn-contacto-principal {
+    border: none;
+
+    color: white;
+}
+
+
+.btn-contacto-principal.whatsapp {
+    background:
+        linear-gradient(
+            135deg,
+            #15a96f,
+            #0d8759
+        );
+}
+
+
+.btn-contacto-principal.correo {
+    background:
+        linear-gradient(
+            135deg,
+            #108aff,
+            #0968d9
+        );
+}
+
+
+.btn-contacto-secundario svg,
+.btn-contacto-principal svg {
+    width: 15px;
+    height: 15px;
+
+    fill: none;
+
+    stroke: currentColor;
+
+    stroke-width: 1.8;
+
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+
+/* =========================================================
+   TOAST
+   ========================================================= */
+
+.contacto-toast {
+    position: fixed;
+
+    right: 24px;
+    bottom: 24px;
+
+    z-index: 22000;
+
+    min-width: 240px;
+
+    max-width: 380px;
+
+    box-sizing: border-box;
+
+    padding:
+        13px
+        16px;
+
+    border:
+        1px solid
+        rgba(71, 155, 241, 0.19);
+
+    border-radius: 10px;
+
+    background: #0b2d50;
+
+    color: #c6dcf3;
+
+    font-size: 9px;
+
+    box-shadow:
+        0 16px 45px
+        rgba(0, 0, 0, 0.35);
+
+    opacity: 0;
+
+    pointer-events: none;
+
+    transform:
+        translateY(15px);
+
+    transition: 0.2s;
+}
+
+
+.contacto-toast.visible {
+    opacity: 1;
+
+    transform:
+        translateY(0);
+}
+
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+
+@media (max-width: 800px) {
+
+    .contacto-modal-fondo {
+        padding: 13px;
+    }
+
+
+    .contacto-panel {
+        max-height:
+            calc(100vh - 26px);
+    }
+
+
+    .contacto-layout {
+        grid-template-columns: 1fr;
+    }
+
+
+    .contacto-cliente-card {
+        border-right: none;
+
+        border-bottom:
+            1px solid
+            rgba(94, 150, 210, 0.10);
+    }
+
+
+    .contacto-canales {
+        grid-template-columns: 1fr;
+    }
+}
+
+
+@media (max-width: 520px) {
+
+    .contacto-header {
+        padding:
+            22px
+            55px
+            18px
+            18px;
+    }
+
+
+    .contacto-header-icono {
+        width: 42px;
+        height: 42px;
+    }
+
+
+    .contacto-header h2 {
+        font-size: 18px;
+    }
+
+
+    .contacto-cliente-card,
+    .contacto-editor {
+        padding: 18px;
+    }
+
+
+    .contacto-acciones {
+        display: grid;
+
+        grid-template-columns:
+            repeat(2, 1fr);
+    }
+
+
+    .btn-contacto-secundario {
+        grid-column:
+            1 / -1;
+
+        margin-right: 0;
+    }
+
+
+    .btn-contacto-principal {
+        grid-column:
+            1 / -1;
+    }
+}

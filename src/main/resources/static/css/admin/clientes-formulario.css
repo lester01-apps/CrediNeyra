@@ -1,0 +1,984 @@
+/* =========================================================
+   CREDINEYRA - FORMULARIO CLIENTE
+   ========================================================= */
+
+.contenido-formulario-cliente {
+
+    max-width: 1350px;
+
+    margin: 0 auto;
+
+    padding:
+        28px 30px
+        70px;
+}
+
+
+/* =========================================================
+   CABECERA
+   ========================================================= */
+
+.formulario-cabecera {
+
+    display: flex;
+
+    align-items: flex-end;
+
+    justify-content: space-between;
+
+    gap: 25px;
+
+    margin-bottom: 22px;
+}
+
+
+.breadcrumb {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 7px;
+
+    margin-bottom: 9px;
+
+    color: #6985a4;
+
+    font-size: 11px;
+}
+
+
+.breadcrumb a {
+
+    color: #7ea9dc;
+
+    text-decoration: none;
+}
+
+
+.breadcrumb a:hover {
+
+    color: white;
+}
+
+
+.breadcrumb strong {
+
+    color: #d9e7f8;
+}
+
+
+.formulario-titulo h1 {
+
+    margin: 0 0 7px;
+
+    color: white;
+
+    font-size: 31px;
+
+    letter-spacing: -0.8px;
+}
+
+
+.formulario-titulo p {
+
+    margin: 0;
+
+    color: #7992af;
+
+    font-size: 12px;
+}
+
+
+.boton-volver {
+
+    height: 42px;
+
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 7px;
+
+    padding: 0 14px;
+
+    border:
+        1px solid
+        rgba(110, 157, 211, 0.18);
+
+    border-radius: 9px;
+
+    background:
+        rgba(8, 30, 55, 0.75);
+
+    color: #b3c8df;
+
+    text-decoration: none;
+
+    font-size: 10px;
+
+    transition: 0.2s;
+}
+
+
+.boton-volver:hover {
+
+    color: white;
+
+    background: #0b3158;
+}
+
+
+.boton-volver svg {
+
+    width: 16px;
+    height: 16px;
+
+    fill: none;
+
+    stroke: currentColor;
+
+    stroke-width: 2;
+}
+
+
+/* =========================================================
+   TIPO
+   ========================================================= */
+
+.tipo-registro-card {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 14px;
+
+    margin-bottom: 18px;
+
+    padding: 15px 18px;
+
+    border:
+        1px solid
+        rgba(25, 138, 255, 0.24);
+
+    border-radius: 13px;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(7, 65, 124, 0.52),
+            rgba(7, 30, 57, 0.85)
+        );
+}
+
+
+.tipo-registro-icono {
+
+    width: 43px;
+    height: 43px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    flex-shrink: 0;
+
+    border-radius: 11px;
+
+    background:
+        rgba(16, 130, 255, 0.17);
+}
+
+
+.tipo-registro-icono svg {
+
+    width: 23px;
+    height: 23px;
+
+    fill: none;
+
+    stroke: #58aaff;
+
+    stroke-width: 1.8;
+
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+
+.tipo-registro-card > div:nth-child(2) {
+
+    flex: 1;
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 3px;
+}
+
+
+.tipo-registro-card strong {
+
+    color: #e9f3ff;
+
+    font-size: 12px;
+}
+
+
+.tipo-registro-card span {
+
+    color: #7895b5;
+
+    font-size: 9px;
+}
+
+
+.tipo-badge {
+
+    padding: 7px 12px;
+
+    border-radius: 30px;
+
+    background:
+        rgba(15, 125, 255, 0.18);
+
+    color: #64b0ff !important;
+
+    font-size: 8px !important;
+
+    font-weight: 700;
+}
+
+
+/* =========================================================
+   ERROR
+   ========================================================= */
+
+.alerta-formulario {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px;
+
+    margin-bottom: 16px;
+
+    padding: 13px 15px;
+
+    border-radius: 10px;
+}
+
+
+.alerta-formulario.error {
+
+    border:
+        1px solid
+        rgba(255, 69, 91, 0.22);
+
+    background:
+        rgba(156, 33, 55, 0.16);
+
+    color: #ff8795;
+}
+
+
+.alerta-formulario svg {
+
+    width: 18px;
+    height: 18px;
+
+    flex-shrink: 0;
+
+    fill: none;
+
+    stroke: currentColor;
+
+    stroke-width: 1.8;
+}
+
+
+.alerta-formulario span {
+
+    font-size: 10px;
+}
+
+
+/* =========================================================
+   GRID PRINCIPAL
+   ========================================================= */
+
+.formulario-grid {
+
+    display: grid;
+
+    grid-template-columns:
+        minmax(0, 1.35fr)
+        minmax(320px, 0.65fr);
+
+    gap: 18px;
+}
+
+
+.formulario-card {
+
+    padding: 22px;
+
+    border:
+        1px solid
+        rgba(105, 158, 217, 0.13);
+
+    border-radius: 15px;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(9, 30, 55, 0.97),
+            rgba(6, 23, 44, 0.97)
+        );
+
+    box-shadow:
+        0 12px 35px
+        rgba(0, 0, 0, 0.08);
+}
+
+
+.formulario-card-cabecera {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 11px;
+
+    margin-bottom: 21px;
+
+    padding-bottom: 16px;
+
+    border-bottom:
+        1px solid
+        rgba(106, 155, 211, 0.10);
+}
+
+
+.seccion-icono {
+
+    width: 40px;
+    height: 40px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    flex-shrink: 0;
+
+    border-radius: 10px;
+
+    background:
+        rgba(17, 196, 119, 0.10);
+}
+
+
+.seccion-icono.azul {
+
+    background:
+        rgba(14, 125, 255, 0.12);
+}
+
+
+.seccion-icono svg {
+
+    width: 21px;
+    height: 21px;
+
+    fill: none;
+
+    stroke: #39d392;
+
+    stroke-width: 1.8;
+
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+
+.seccion-icono.azul svg {
+
+    stroke: #4da4ff;
+}
+
+
+.formulario-card-cabecera h2 {
+
+    margin: 0 0 4px;
+
+    color: #e4eef9;
+
+    font-size: 14px;
+}
+
+
+.formulario-card-cabecera p {
+
+    margin: 0;
+
+    color: #647f9e;
+
+    font-size: 9px;
+}
+
+
+/* =========================================================
+   CAMPOS
+   ========================================================= */
+
+.campos-grid {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, minmax(0, 1fr));
+
+    gap: 17px;
+}
+
+
+.campos-grid.una-columna {
+
+    grid-template-columns: 1fr;
+}
+
+
+.campo-completo {
+
+    grid-column:
+        1 / -1;
+}
+
+
+.campo-formulario {
+
+    min-width: 0;
+
+    display: flex;
+
+    flex-direction: column;
+}
+
+
+.campo-formulario label {
+
+    margin-bottom: 7px;
+
+    color: #afc4db;
+
+    font-size: 9px;
+
+    font-weight: 600;
+}
+
+
+.campo-formulario label span {
+
+    color: #ff6074;
+}
+
+
+.campo-formulario input,
+.campo-formulario textarea {
+
+    width: 100%;
+
+    box-sizing: border-box;
+
+    border:
+        1px solid
+        rgba(106, 158, 220, 0.17);
+
+    border-radius: 9px;
+
+    outline: none;
+
+    background:
+        rgba(5, 25, 48, 0.92);
+
+    color: #e4edf8;
+
+    font-family: inherit;
+
+    font-size: 10px;
+
+    transition:
+        border-color 0.2s,
+        box-shadow 0.2s,
+        background 0.2s;
+}
+
+
+.campo-formulario input {
+
+    height: 44px;
+
+    padding:
+        0 13px;
+}
+
+
+.campo-formulario textarea {
+
+    min-height: 125px;
+
+    resize: vertical;
+
+    padding: 12px 13px;
+
+    line-height: 1.5;
+}
+
+
+.campo-formulario input:focus,
+.campo-formulario textarea:focus {
+
+    border-color:
+        rgba(26, 137, 255, 0.70);
+
+    background:
+        rgba(7, 32, 59, 0.98);
+
+    box-shadow:
+        0 0 0 3px
+        rgba(7, 119, 255, 0.07);
+}
+
+
+.campo-formulario input::placeholder,
+.campo-formulario textarea::placeholder {
+
+    color: #4e6a88;
+}
+
+
+.campo-ayuda {
+
+    margin-top: 5px;
+
+    color: #526e8d;
+
+    font-size: 8px;
+}
+
+
+.campo-error {
+
+    display: block;
+
+    margin-top: 5px;
+
+    color: #ff7385;
+
+    font-size: 8px;
+}
+
+
+/* =========================================================
+   BLOQUE ORIGEN
+   ========================================================= */
+
+.campo-bloqueado {
+
+    min-height: 64px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 15px;
+
+    padding: 12px 14px;
+
+    border:
+        1px solid
+        rgba(68, 155, 255, 0.15);
+
+    border-radius: 9px;
+
+    background:
+        rgba(9, 48, 86, 0.45);
+}
+
+
+.campo-bloqueado > div {
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 4px;
+}
+
+
+.campo-bloqueado strong {
+
+    color: #dceafa;
+
+    font-size: 10px;
+}
+
+
+.campo-bloqueado span {
+
+    color: #6382a5;
+
+    font-size: 8px;
+}
+
+
+.badge-nuevo {
+
+    padding: 6px 10px;
+
+    border-radius: 30px;
+
+    background:
+        rgba(13, 123, 255, 0.18);
+
+    color: #63acff !important;
+
+    font-size: 8px !important;
+
+    font-weight: 700;
+}
+
+
+/* =========================================================
+   TEXTAREA
+   ========================================================= */
+
+.textarea-pie {
+
+    min-height: 18px;
+
+    display: flex;
+
+    align-items: flex-start;
+
+    justify-content: space-between;
+
+    gap: 10px;
+
+    margin-top: 5px;
+}
+
+
+.textarea-pie small:last-child {
+
+    margin-left: auto;
+
+    color: #55718e;
+
+    font-size: 8px;
+}
+
+
+/* =========================================================
+   NOTA
+   ========================================================= */
+
+.nota-formulario {
+
+    display: flex;
+
+    align-items: flex-start;
+
+    gap: 12px;
+
+    margin-top: 18px;
+
+    padding: 15px 17px;
+
+    border:
+        1px solid
+        rgba(255, 176, 44, 0.14);
+
+    border-radius: 12px;
+
+    background:
+        rgba(117, 70, 9, 0.10);
+}
+
+
+.nota-icono {
+
+    width: 35px;
+    height: 35px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    flex-shrink: 0;
+
+    border-radius: 9px;
+
+    background:
+        rgba(255, 170, 27, 0.11);
+}
+
+
+.nota-icono svg {
+
+    width: 18px;
+
+    fill: none;
+
+    stroke: #e9a83b;
+
+    stroke-width: 1.8;
+}
+
+
+.nota-formulario strong {
+
+    display: block;
+
+    margin-bottom: 5px;
+
+    color: #d7b16b;
+
+    font-size: 10px;
+}
+
+
+.nota-formulario p {
+
+    margin: 0;
+
+    color: #8b7757;
+
+    font-size: 9px;
+
+    line-height: 1.55;
+}
+
+
+/* =========================================================
+   ACCIONES
+   ========================================================= */
+
+.formulario-acciones {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: flex-end;
+
+    gap: 10px;
+
+    margin-top: 20px;
+}
+
+
+.boton-cancelar,
+.boton-guardar {
+
+    min-height: 44px;
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 8px;
+
+    padding:
+        0 20px;
+
+    border-radius: 9px;
+
+    font-size: 10px;
+
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition: 0.2s;
+}
+
+
+.boton-cancelar {
+
+    border:
+        1px solid
+        rgba(109, 156, 211, 0.18);
+
+    background:
+        rgba(8, 28, 51, 0.75);
+
+    color: #9db5d0;
+
+    text-decoration: none;
+}
+
+
+.boton-cancelar:hover {
+
+    color: white;
+
+    background: #0c345e;
+}
+
+
+.boton-guardar {
+
+    border: none;
+
+    background:
+        linear-gradient(
+            135deg,
+            #0d8aff,
+            #086be2
+        );
+
+    color: white;
+}
+
+
+.boton-guardar:hover {
+
+    transform:
+        translateY(-1px);
+
+    box-shadow:
+        0 8px 25px
+        rgba(8, 117, 245, 0.22);
+}
+
+
+.boton-guardar:disabled {
+
+    opacity: 0.65;
+
+    cursor: wait;
+
+    transform: none;
+}
+
+
+.boton-guardar svg {
+
+    width: 16px;
+    height: 16px;
+
+    fill: none;
+
+    stroke: currentColor;
+
+    stroke-width: 1.8;
+
+    stroke-linejoin: round;
+}
+
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+
+@media (max-width: 1050px) {
+
+    .formulario-grid {
+
+        grid-template-columns: 1fr;
+    }
+}
+
+
+@media (max-width: 800px) {
+
+    .contenido-formulario-cliente {
+
+        padding:
+            22px 14px
+            100px;
+    }
+
+
+    .formulario-cabecera {
+
+        align-items: flex-start;
+
+        flex-direction: column;
+    }
+
+
+    .boton-volver {
+
+        width: 100%;
+
+        box-sizing: border-box;
+
+        justify-content: center;
+    }
+
+
+    .campos-grid {
+
+        grid-template-columns: 1fr;
+    }
+
+
+    .campo-completo {
+
+        grid-column: auto;
+    }
+
+
+    .formulario-card {
+
+        padding: 17px;
+    }
+}
+
+
+@media (max-width: 480px) {
+
+    .formulario-titulo h1 {
+
+        font-size: 25px;
+    }
+
+
+    .tipo-registro-card {
+
+        align-items: flex-start;
+    }
+
+
+    .tipo-badge {
+
+        margin-left: auto;
+    }
+
+
+    .formulario-acciones {
+
+        flex-direction: column-reverse;
+    }
+
+
+    .boton-cancelar,
+    .boton-guardar {
+
+        width: 100%;
+
+        box-sizing: border-box;
+    }
+}
