@@ -945,6 +945,7 @@ CREATE TABLE IF NOT EXISTS "public"."usuario" (
     "ultimo_acceso" timestamp with time zone,
     "fecha_creacion" timestamp with time zone DEFAULT "now"() NOT NULL,
     "version" integer DEFAULT 0 NOT NULL,
+    "foto_perfil_ruta" character varying(500),
     CONSTRAINT "usuario_estado_check" CHECK ((("estado")::"text" = ANY ((ARRAY['ACTIVA'::character varying, 'RESTRINGIDA'::character varying, 'BLOQUEADA'::character varying])::"text"[])))
 );
 
