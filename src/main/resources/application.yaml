@@ -22,6 +22,12 @@ spring:
     show-sql: true
     open-in-view: false
 
+  # Ejecuta migraciones SQL idempotentes antes de validar entidades JPA.
+  sql:
+    init:
+      mode: always
+      schema-locations: classpath:schema.sql
+
   # =========================================================
   # CORREO GMAIL
   # =========================================================
@@ -68,6 +74,16 @@ credineyra:
   app:
     base-url: http://localhost:8087
 
+  # Datos visibles para el flujo de pago del cliente.
+  # Los enlaces apuntan a los canales reales ya publicados en Contáctanos.
+  pagos:
+    yape:
+      numero: ${CREDINEYRA_YAPE_NUMERO:973860581}
+      titular: ${CREDINEYRA_YAPE_TITULAR:Fransisco Neyra Mijahuanga}
+      qr-url: ${CREDINEYRA_YAPE_QR_URL:}
+    efectivo:
+      mapa-url: ${CREDINEYRA_MAPA_URL:https://maps.app.goo.gl/Nukh3SaFxVjLiC5DA}
+
 
   # =========================================================
   # REGLAS DE MORA
@@ -75,6 +91,24 @@ credineyra:
   mora:
     dias-gracia: 3
     meses-atraso-prolongado: 4
+
+
+  # =========================================================
+  # WHATSAPP BUSINESS (recordatorios automáticos)
+  #
+  # La plantilla de Meta debe estar aprobada y aceptar cinco
+  # parámetros: nombre, cuota, crédito, monto y vencimiento.
+  # Mantener las credenciales como variables de entorno.
+  # =========================================================
+  whatsapp:
+    admin-numero: ${CREDINEYRA_WHATSAPP_NUMERO:51973860581}
+    enabled: ${WHATSAPP_ENABLED:false}
+    access-token: ${WHATSAPP_ACCESS_TOKEN:}
+    phone-number-id: ${WHATSAPP_PHONE_NUMBER_ID:}
+    api-version: ${WHATSAPP_API_VERSION:v23.0}
+    reminder-template: ${WHATSAPP_REMINDER_TEMPLATE:recordatorio_cuota}
+    template-language: ${WHATSAPP_TEMPLATE_LANGUAGE:es_PE}
+    country-code: ${WHATSAPP_COUNTRY_CODE:51}
 
 
   # =========================================================

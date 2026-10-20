@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org"><body>
+<th:block th:fragment="menu">
+<aside class="portal-menu">
+    <a class="portal-logo" th:href="@{/cliente/inicio}">credi<span>Neyra</span><small>GESTIÓN DE CRÉDITOS</small></a>
+    <nav>
+        <a th:href="@{/cliente/inicio}" th:classappend="${seccionActiva == 'inicio'} ? 'activo' : ''">⌂ Inicio</a>
+        <a th:href="@{/cliente/creditos}" th:classappend="${seccionActiva == 'creditos'} ? 'activo' : ''">▣ Mis créditos</a>
+        <a th:href="@{/cliente/pagos}" th:classappend="${seccionActiva == 'pagos'} ? 'activo' : ''">▤ Mis pagos</a>
+        <a th:href="@{/cliente/historial}" th:classappend="${seccionActiva == 'historial'} ? 'activo' : ''">◷ Historial</a>
+        <hr><a th:href="@{/cliente/sobre-nosotros}" th:classappend="${seccionActiva == 'nosotros'} ? 'activo' : ''">♧ Sobre nosotros</a>
+        <a th:href="@{/cliente/soporte}" th:classappend="${seccionActiva == 'soporte'} ? 'activo' : ''">? Soporte y ayuda</a>
+        <a th:href="@{/cliente/contacto}" th:classappend="${seccionActiva == 'contacto'} ? 'activo' : ''">☎ Contáctanos</a>
+    </nav>
+    <form th:action="@{/logout}" method="post"><input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"><button>Cerrar sesión</button></form>
+</aside>
+</th:block>
+<header th:fragment="cabecera" class="portal-top"><span>Portal del cliente</span><a th:href="@{/cliente/perfil}" th:text="${clienteNombre}">Cliente</a></header>
+</body></html>

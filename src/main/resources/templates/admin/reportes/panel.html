@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reportes · crediNeyra</title>
+    <link rel="stylesheet" th:href="@{/css/admin/dashboard.css}">
+    <link rel="stylesheet" th:href="@{/css/admin/reportes.css}">
+</head>
+<body>
+<div class="admin-layout">
+    <aside th:replace="~{admin/fragments/sidebar :: sidebar}"></aside>
+    <div th:replace="~{admin/fragments/sidebar :: sidebar-overlay}"></div>
+
+    <main class="admin-main">
+        <header th:replace="~{admin/fragments/topbar :: topbar}"></header>
+
+        <section class="contenido-reportes">
+            <div class="reportes-cabecera">
+                <div>
+                    <p class="eyebrow">INFORMACIÓN FINANCIERA</p>
+                    <h1>Reportes</h1>
+                    <p>Analiza créditos, pagos, mora y rendimiento con información registrada.</p>
+                </div>
+                <div class="periodo-visible">
+                    <span>Período consultado</span>
+                    <strong th:text="${#temporals.format(inicio, 'dd/MM/yyyy') + ' — ' + #temporals.format(fin, 'dd/MM/yyyy')}">Período</strong>
+                </div>
+            </div>
+
+            <form class="filtros-reportes" method="get" th:action="@{/admin/reportes}">
+                <label>
+                    <span>Desde</span>
+                    <input type="date" name="inicio" th:value="${inicio}">
+                </label>
+                <label>
+                    <span>Hasta</span>
+                    <input type="date" name="fin" th:value="${fin}">
+                </label>
+                <label>
+                    <span>Estado del crédito</span>
+                    <select name="estado">
+                        <option value="">Todos los estados</option>
+                        <option th:each="item : ${estadosCredito}" th:value="${item.name()}" th:text="${#strings.replace(item.name(), '_', ' ')}" th:selected="${item.name() == estadoSeleccionado}"></option>
+                    </select>
+                </label>
+                <label>
+                    <span>Tipo de reporte</span>
+                    <select name="tipo">
+                        <option th:each="item : ${tiposReporte}" th:value="${item.name()}" th:text="${item.etiqueta}" th:selected="${item.name() == tipoSeleccionado}"></option>
+                    </select>
+                </label>
+                <button class="btn btn-primario" type="submit">Actualizar</button>
+                <div class="exportar-grupo">
+                    <a class="btn btn-secundario" th:href="@{/admin/reportes/exportar/pdf(inicio=${inicio},fin=${fin},estado=${estadoSeleccionado},tipo=${tipoSeleccionado})}">Exportar PDF</a>
+                    <a class="btn btn-excel" th:href="@{/admin/reportes/exportar/excel(inicio=${inicio},fin=${fin},estado=${estadoSeleccionado},tipo=${tipoSeleccionado})}">Exportar Excel</a>
+                </div>
+            </form>
+
+            <div class="indicadores-grid">
+                <article class="indicador azul">
+                    <span>Créditos activos</span>
+                    <strong th:text="${reporte.indicadores.creditosActivos}">0</strong>
+                    <small>ACTIVO y AL DÍA en el período</small>
+                </article>
+                <article class="indicador verde">
+                    <span>Pagos aprobados</span>
+                    <strong th:text="${'S/ ' + #numbers.formatDecimal(reporte.indicadores.pagoAprobadoPeriodo, 1, 'COMMA', 2, 'POINT')}">S/ 0.00</strong>
+                    <small th:text="${reporte.indicadores.pagosAprobados + ' pago(s) confirmados'}">0 pagos confirmados</small>
+                </article>
+                <article class="indicador rojo">
+                    <span>Créditos en mora</span>
+                    <strong th:text="${reporte.indicadores.creditosEnMora}">0</strong>
+                    <small th:text="${reporte.indicadores.cuotasVencidas + ' cuota(s) vencidas'}">0 cuotas vencidas</small>
+                </article>
+                <article class="indicador dorado">
+                    <span>Capital recuperado</span>
+                    <strong th:text="${'S/ ' + #numbers.formatDecimal(reporte.indicadores.capitalRecuperado, 1, 'COMMA', 2, 'POINT')}">S/ 0.00</strong>
+                    <small>Sin mezclar intereses cobrados</small>
+                </article>
+                <article class="indicador morado">
+                    <span>Saldo pendiente total</span>
+                    <strong th:text="${'S/ ' + #numbers.formatDecimal(reporte.indicadores.saldoPendiente, 1, 'COMMA', 2, 'POINT')}">S/ 0.00</strong>
+                    <small th:text="${'Deuda vencida: S/ ' + #numbers.formatDecimal(reporte.deudaVencida, 1, 'COMMA', 2, 'POINT')}">Deuda vencida: S/ 0.00</small>
+                </article>
+            </div>
+
+            <div class="graficos-grid">
+                <article class="panel-reporte panel-amplio">
+                    <div class="panel-titulo">
+                        <div>
+                            <p>RECUPERACIÓN</p>
+                            <h2>Pagos y recuperación mensual</h2>
+                        </div>
+                        <span>Capital + interés</span>
+                    </div>
+                    <div class="grafico-barras-reportes" th:if="${!#lists.isEmpty(reporte.recuperacionMensual)}">
+                        <div class="columna-grafico" th:each="serie : ${reporte.recuperacionMensual}">
+                            <div class="barras-apiladas">
+                                <div class="barra-capital" th:title="${'Capital: S/ ' + #numbers.formatDecimal(serie.capital, 1, 'COMMA', 2, 'POINT')}" th:style="${'height: ' + (serie.capital * 100 / reporte.maximoRecuperacion()) + '%'}"></div>
+                                <div class="barra-interes" th:title="${'Interés: S/ ' + #numbers.formatDecimal(serie.interes, 1, 'COMMA', 2, 'POINT')}" th:style="${'height: ' + (serie.interes * 100 / reporte.maximoRecuperacion()) + '%'}"></div>
+                            </div>
+                            <span th:text="${serie.etiqueta}">Mes</span>
+                        </div>
+                    </div>
+                    <div class="estado-vacio" th:if="${#lists.isEmpty(reporte.recuperacionMensual)}">Aún no existen pagos aprobados para el período elegido.</div>
+                    <div class="leyenda"><span><i class="leyenda-capital"></i>Capital recuperado</span><span><i class="leyenda-interes"></i>Intereses cobrados</span></div>
+                </article>
+
+                <article class="panel-reporte">
+                    <div class="panel-titulo">
+                        <div><p>CARTERA</p><h2>Estado de créditos</h2></div>
+                        <span th:text="${reporte.totalEstados() + ' total'}">0 total</span>
+                    </div>
+                    <div class="estados-lista" th:if="${!#lists.isEmpty(reporte.distribucionEstados)}">
+                        <div class="estado-linea" th:each="item : ${reporte.distribucionEstados}">
+                            <div><span th:text="${#strings.replace(item.estado, '_', ' ')}">ACTIVO</span><strong th:text="${item.cantidad}">0</strong></div>
+                            <div class="progreso"><i th:style="${'width: ' + (item.cantidad * 100 / reporte.totalEstados()) + '%'}"></i></div>
+                        </div>
+                    </div>
+                    <div class="estado-vacio compacto" th:if="${#lists.isEmpty(reporte.distribucionEstados)}">No hay créditos registrados en este período.</div>
+                </article>
+
+                <article class="panel-reporte panel-amplio">
+                    <div class="panel-titulo"><div><p>ORIGINACIÓN</p><h2>Evolución de créditos</h2></div><span>Capital concedido y cantidad</span></div>
+                    <div class="evolucion-lista" th:if="${!#lists.isEmpty(reporte.evolucionCreditos)}">
+                        <div th:each="serie : ${reporte.evolucionCreditos}"><strong th:text="${serie.etiqueta}">Mes</strong><span th:text="${'S/ ' + #numbers.formatDecimal(serie.capital, 1, 'COMMA', 2, 'POINT')}">S/ 0</span><small th:text="${serie.interes + ' crédito(s)'}">0 crédito(s)</small></div>
+                    </div>
+                    <div class="estado-vacio" th:if="${#lists.isEmpty(reporte.evolucionCreditos)}">No hubo créditos creados en este período.</div>
+                </article>
+            </div>
+
+            <article class="tabla-reporte-card">
+                <div class="panel-titulo">
+                    <div><p th:text="${tipoSeleccionado}">GENERAL</p><h2 th:text="${tipoReporteEtiqueta}">Resultados del reporte</h2></div>
+                    <span th:text="${reporte.filas.totalElements + ' registro(s)'}">0 registros</span>
+                </div>
+                <div class="tabla-responsive" th:if="${!reporte.filas.empty}">
+                    <table>
+                        <thead><tr><th>Código</th><th>Cliente</th><th>Estado</th><th>Fecha</th><th>Capital</th><th>Recuperado</th><th>Saldo</th></tr></thead>
+                        <tbody>
+                        <tr th:each="fila : ${reporte.filas.content}">
+                            <td th:text="${fila.codigo}">CRE-00001</td><td th:text="${fila.cliente}">Cliente</td>
+                            <td><span class="estado-pill" th:text="${#strings.replace(fila.estado, '_', ' ')}">ACTIVO</span></td>
+                            <td th:text="${fila.fecha == null ? '-' : #temporals.format(fila.fecha, 'dd/MM/yyyy')}">-</td>
+                            <td th:text="${'S/ ' + #numbers.formatDecimal(fila.capital, 1, 'COMMA', 2, 'POINT')}">S/ 0.00</td>
+                            <td th:text="${'S/ ' + #numbers.formatDecimal(fila.recuperado, 1, 'COMMA', 2, 'POINT')}">S/ 0.00</td>
+                            <td th:text="${'S/ ' + #numbers.formatDecimal(fila.saldo, 1, 'COMMA', 2, 'POINT')}">S/ 0.00</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="estado-vacio" th:if="${reporte.filas.empty}">No hay resultados para los filtros elegidos.</div>
+                <nav class="paginacion" th:if="${reporte.filas.totalPages > 1}">
+                    <a th:if="${reporte.filas.hasPrevious()}" th:href="@{/admin/reportes(inicio=${inicio},fin=${fin},estado=${estadoSeleccionado},tipo=${tipoSeleccionado},pagina=${reporte.filas.number - 1})}">← Anterior</a>
+                    <span th:text="${'Página ' + (reporte.filas.number + 1) + ' de ' + reporte.filas.totalPages}">Página 1</span>
+                    <a th:if="${reporte.filas.hasNext()}" th:href="@{/admin/reportes(inicio=${inicio},fin=${fin},estado=${estadoSeleccionado},tipo=${tipoSeleccionado},pagina=${reporte.filas.number + 1})}">Siguiente →</a>
+                </nav>
+            </article>
+        </section>
+    </main>
+</div>
+<script th:src="@{/js/admin/dashboard.js}"></script>
+</body>
+</html>

@@ -16,11 +16,12 @@ public interface DocumentoRepository
 
     /*
      * =========================================================
-     * CÓDIGO DOCUMENTO
+     * CÓDIGO
      * =========================================================
      */
 
-    Optional<Documento> findByCodigoDocumento(
+    Optional<Documento>
+    findByCodigoDocumento(
             String codigoDocumento
     );
 
@@ -41,16 +42,17 @@ public interface DocumentoRepository
             Long idCliente
     );
 
+    Optional<Documento>
+    findFirstByCliente_IdClienteAndTipoDocumentoAndEstadoOrderByFechaSubidaDesc(
+            Long idCliente,
+            TipoDocumento tipoDocumento,
+            EstadoDocumento estado
+    );
+
 
     /*
      * =========================================================
      * CRÉDITO
-     * =========================================================
-     *
-     * Se mantienen LOS DOS métodos.
-     *
-     * El primero lo usa DocumentoService antiguo.
-     * El segundo lo usaremos en las pantallas nuevas.
      * =========================================================
      */
 
@@ -80,6 +82,42 @@ public interface DocumentoRepository
 
     /*
      * =========================================================
+     * PAGO
+     * =========================================================
+     */
+
+    List<Documento>
+    findByPago_IdPagoOrderByFechaSubidaDesc(
+            Long idPago
+    );
+
+
+    List<Documento>
+    findByPago_IdPagoAndTipoDocumentoAndEstadoOrderByFechaSubidaDesc(
+            Long idPago,
+            TipoDocumento tipoDocumento,
+            EstadoDocumento estado
+    );
+
+
+    Optional<Documento>
+    findFirstByPago_IdPagoAndTipoDocumentoAndEstadoOrderByFechaSubidaDesc(
+            Long idPago,
+            TipoDocumento tipoDocumento,
+            EstadoDocumento estado
+    );
+
+
+    boolean
+    existsByPago_IdPagoAndTipoDocumentoAndEstado(
+            Long idPago,
+            TipoDocumento tipoDocumento,
+            EstadoDocumento estado
+    );
+
+
+    /*
+     * =========================================================
      * TIPO
      * =========================================================
      */
@@ -104,7 +142,7 @@ public interface DocumentoRepository
 
     /*
      * =========================================================
-     * ÚLTIMO DOCUMENTO DE UN TIPO
+     * ÚLTIMO DOCUMENTO DE CRÉDITO POR TIPO
      * =========================================================
      */
 
@@ -118,7 +156,7 @@ public interface DocumentoRepository
 
     /*
      * =========================================================
-     * DOCUMENTOS DE UN TIPO
+     * DOCUMENTOS DE CRÉDITO POR TIPO
      * =========================================================
      */
 
@@ -132,7 +170,7 @@ public interface DocumentoRepository
 
     /*
      * =========================================================
-     * EXISTENCIA
+     * EXISTENCIA DOCUMENTO DE CRÉDITO
      * =========================================================
      */
 

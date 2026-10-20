@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Pagar mi crédito | crediNeyra</title>
+    <link rel="stylesheet" th:href="@{/css/cliente/portal.css}">
+    <link rel="stylesheet" th:href="@{/css/cliente/responsive-app.css}">
+    <link rel="stylesheet" th:href="@{/css/cliente/pagos-metodos.css}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.3.1/css/all.min.css">
+</head>
+<body>
+<div class="portal-layout payment-layout">
+    <aside th:replace="~{cliente/fragments/portal :: menu}"></aside>
+    <main class="portal-main payment-shell">
+        <header class="payment-hero">
+            <div><span class="eyebrow">PAGOS</span><h1>Pagar mi crédito</h1><p>Selecciona el crédito que deseas pagar. Solo se muestran cuotas que ya puedes cancelar.</p></div>
+            <div class="client-profile-top"><div th:replace="~{cliente/fragments/notificaciones :: menu}"></div><a th:href="@{/cliente/historial}" class="quiet-link"><i class="fa-solid fa-clock-rotate-left"></i> Ver historial</a><a class="cliente-resumen" th:href="@{/cliente/perfil}"><b th:text="${clienteNombre != null ? #strings.substring(clienteNombre,0,1) : 'C'}">C</b><div><strong th:text="${clienteNombre}">Cliente</strong><small>Cliente</small></div></a></div>
+        </header>
+
+        <div class="mensaje exito" th:if="${mensajeExito != null}" th:text="${mensajeExito}"></div>
+
+        <section class="credit-picker" aria-labelledby="seleccionar-credito">
+            <div class="section-title"><span class="section-icon"><i class="fa-solid fa-credit-card"></i></span><div><h2 id="seleccionar-credito">Seleccionar crédito</h2><p>Elige una cuota próxima a vencer o vencida para continuar.</p></div></div>
+            <label class="credit-select-label" for="credito-selector">Crédito a pagar
+                <select id="credito-selector" data-credit-selector>
+                    <option value="">Seleccionar crédito</option>
+                    <option th:each="c : ${panel.creditos}" th:if="${c.montoExigible != null and c.montoExigible.signum() > 0}" th:value="@{/cliente/pagos/nuevo/{id}(id=${c.idCredito})}" th:text="${c.codigoCredito + ' · Cuota ' + c.proximaCuota + ' · S/ ' + #numbers.formatDecimal(c.montoExigible,1,2)}">CRE-00000</option>
+                </select>
+            </label>
+            <p class="empty-state" th:if="${#lists.isEmpty(panel.creditos.?[montoExigible != null and montoExigible.signum() > 0])}"><i class="fa-solid fa-circle-check"></i> No tienes cuotas exigibles en este momento.</p>
+        </section>
+
+        <section class="due-credits" th:if="${!#lists.isEmpty(panel.creditos.?[montoExigible != null and montoExigible.signum() > 0])}">
+            <article class="due-credit" th:each="c : ${panel.creditos}" th:if="${c.montoExigible != null and c.montoExigible.signum() > 0}">
+                <div class="credit-symbol"><i class="fa-solid fa-credit-card"></i></div>
+                <div class="due-credit-main"><span>Crédito</span><strong th:text="${c.codigoCredito}">CRE-00000</strong><small th:text="${c.proximaCuota != null ? 'Cuota ' + c.proximaCuota + ' de pago' : 'Cuota pendiente'}">Cuota</small></div>
+                <div><span>Fecha límite</span><strong th:text="${c.proximoVencimiento != null ? #temporals.format(c.proximoVencimiento, 'dd MMM. yyyy') : 'Por confirmar'}">Fecha</strong></div>
+                <div><span>Monto a pagar</span><strong th:text="${'S/ ' + #numbers.formatDecimal(c.montoExigible,1,2)}">S/ 0,00</strong></div>
+                <a th:href="@{/cliente/pagos/nuevo/{id}(id=${c.idCredito})}">Continuar <i class="fa-solid fa-arrow-right"></i></a>
+            </article>
+        </section>
+
+        <section class="payment-help"><i class="fa-brands fa-whatsapp"></i><div><strong>¿Necesitas ayuda con tu pago?</strong><span>Escríbenos por WhatsApp y te orientaremos.</span></div><a href="https://wa.me/51973860581" target="_blank" rel="noopener">Contactar</a></section>
+    </main>
+</div>
+<script th:src="@{/js/cliente/pagos-metodos.js}"></script>
+</body>
+</html>

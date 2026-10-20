@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
-import org.springframework.web.util.UriComponentsBuilder;
 
 @Service
 public class CorreoService {
@@ -31,10 +30,7 @@ public class CorreoService {
         this.baseUrl = baseUrl;
     }
 
-    public void enviarRecuperacionPassword(
-            String destino,
-            String token
-    ) {
+    public void enviarCodigoRecuperacionPassword(String destino, String codigo) {
 
         JavaMailSender mailSender =
                 mailSenderProvider
@@ -46,19 +42,6 @@ public class CorreoService {
             );
         }
 
-        String enlace =
-                UriComponentsBuilder
-                        .fromUriString(baseUrl)
-                        .path(
-                                "/recuperar-password/restablecer"
-                        )
-                        .queryParam(
-                                "token",
-                                token
-                        )
-                        .build()
-                        .toUriString();
-
         SimpleMailMessage mensaje =
                 new SimpleMailMessage();
 
@@ -69,11 +52,42 @@ public class CorreoService {
         );
 
         mensaje.setText(
-                "Se solicitó restablecer la contraseña de tu cuenta crediNeyra.\n\n"
-                        + "Usa el siguiente enlace:\n"
-                        + enlace
-                        + "\n\n"
-                        + "El enlace vence en 30 minutos y solo puede utilizarse una vez."
+                "Se solicitó recuperar la contraseña de tu cuenta crediNeyra.\n\n"
+                        + "Código temporal: " + codigo + "\n\n"
+                        + "Ingresa este código en la aplicación. Vence en 15 minutos y "
+                        + "solo puede utilizarse una vez. No lo compartas con nadie."
+        );
+
+        mailSender.send(mensaje);
+    }
+
+    public void enviarCodigoCambioPasswordInicial(
+            String destino,
+            String codigo
+    ) {
+
+        JavaMailSender mailSender =
+                mailSenderProvider.getIfAvailable();
+
+        if (mailSender == null) {
+            throw new ReglaNegocioException(
+                    "El servicio de correo todavía no está configurado"
+            );
+        }
+
+        SimpleMailMessage mensaje =
+                new SimpleMailMessage();
+
+        mensaje.setTo(destino);
+        mensaje.setSubject(
+                "Código para cambiar tu contraseña - crediNeyra"
+        );
+        mensaje.setText(
+                "Solicitaste cambiar la contraseña inicial de tu cuenta crediNeyra.\n\n"
+                        + "Código temporal: " + codigo + "\n\n"
+                        + "Ingresa este código en la aplicación para crear tu nueva contraseña. "
+                        + "Vence en 15 minutos y solo puede utilizarse una vez. "
+                        + "No compartas este código con nadie."
         );
 
         mailSender.send(mensaje);

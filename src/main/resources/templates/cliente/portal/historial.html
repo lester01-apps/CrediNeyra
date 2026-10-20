@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Historial | crediNeyra</title>
+    <link rel="stylesheet" th:href="@{/css/cliente/portal.css}">
+    <link rel="stylesheet" th:href="@{/css/cliente/historial.css}">
+    <link rel="stylesheet" th:href="@{/css/cliente/responsive-app.css}">
+    <link rel="stylesheet" th:href="@{/css/cliente/historial-responsive.css}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.3.1/css/all.min.css">
+</head>
+<body>
+<div class="portal-layout">
+    <aside class="portal-menu">
+        <a class="portal-logo" th:href="@{/cliente/inicio}">credi<span>Neyra</span><small>GESTIÓN DE CRÉDITOS</small></a>
+        <nav>
+            <a th:href="@{/cliente/inicio}"><i class="fa-solid fa-house"></i> Inicio</a>
+            <a th:href="@{/cliente/creditos}"><i class="fa-solid fa-file-invoice-dollar"></i> Mis créditos</a>
+            <a th:href="@{/cliente/pagos}"><i class="fa-solid fa-credit-card"></i> Mis pagos</a>
+            <a class="activo" th:href="@{/cliente/historial}"><i class="fa-solid fa-clock-rotate-left"></i> Historial</a>
+            <hr>
+            <a th:href="@{/cliente/sobre-nosotros}"><i class="fa-solid fa-building-columns"></i> Sobre nosotros</a>
+            <a th:href="@{/cliente/soporte}"><i class="fa-solid fa-circle-question"></i> Soporte y ayuda</a>
+            <a th:href="@{/cliente/contacto}"><i class="fa-solid fa-phone"></i> Contáctanos</a>
+        </nav>
+        <form th:action="@{/logout}" method="post"><input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"><button><i class="fa-solid fa-right-from-bracket"></i> Cerrar sesión</button></form>
+    </aside>
+
+    <main class="portal-main history-page">
+        <header class="portal-top history-top">
+            <div class="portal-search"><i class="fa-solid fa-magnifying-glass"></i><span>Buscar en el portal...</span></div>
+            <div class="client-profile-top"><div th:replace="~{cliente/fragments/notificaciones :: menu}"></div><a class="history-profile profile-trigger" th:href="@{/cliente/perfil}"><b><img class="profile-avatar-image" th:if="${clienteTieneFotoPerfil}" th:src="@{/cliente/perfil/foto}" alt="Foto de perfil"><span th:unless="${clienteTieneFotoPerfil}" th:text="${clienteNombre != null ? #strings.substring(clienteNombre,0,1) : 'C'}">C</span></b><div><strong th:text="${clienteNombre}">Cliente</strong><small>Cliente</small></div><em class="fa-solid fa-chevron-down"></em></a></div>
+        </header>
+
+        <section class="portal-hero history-heading"><h1>Historial</h1><p>Consulta todos tus movimientos, pagos y cambios recientes.</p></section>
+
+        <form class="history-filter" method="get" th:action="@{/cliente/historial}">
+            <label>Fecha desde<span><i class="fa-regular fa-calendar"></i><input type="date" name="desde"></span></label>
+            <label>Fecha hasta<span><i class="fa-regular fa-calendar"></i><input type="date" name="hasta"></span></label>
+            <label>Tipo de movimiento<select name="tipo"><option>Todos</option><option>Pago</option><option>Comprobante</option><option>Regularización</option></select></label>
+            <label>Estado<select name="estado"><option>Todos</option><option>Aprobado</option><option>Pendiente</option><option>Rechazado</option></select></label>
+            <button type="submit"><i class="fa-solid fa-filter"></i> Filtrar</button>
+        </form>
+
+        <section class="history-body">
+            <div class="history-left">
+                <section class="history-stats">
+                    <article><span class="stat-icon blue"><i class="fa-solid fa-file-lines"></i></span><div><small>Movimientos totales</small><b th:text="${#lists.size(panel.pagos)}">0</b><p>Pagos registrados</p></div><i class="fa-solid fa-chevron-right"></i></article>
+                    <article><span class="stat-icon green"><i class="fa-solid fa-circle-check"></i></span><div><small>Pagos completados</small><b th:text="${pagosAprobados}">0</b><p>Validados por CrediNeyra</p></div><i class="fa-solid fa-chevron-right"></i></article>
+                    <article><span class="stat-icon gold"><i class="fa-regular fa-clock"></i></span><div><small>Operaciones en revisión</small><b th:text="${pagosPendientes}">0</b><p>Esperando validación</p></div><i class="fa-solid fa-chevron-right"></i></article>
+                </section>
+
+                <section class="history-table-panel">
+                    <div class="history-panel-title"><h2><i class="fa-solid fa-table-list"></i> Historial completo</h2><span th:text="${#lists.size(panel.pagos) + ' movimiento(s)'}">0 movimiento(s)</span><select><option>Más recientes</option></select></div>
+                    <div class="history-table-header"><span>Fecha</span><span>Movimiento</span><span>Crédito</span><span>Descripción</span><span>Monto</span><span>Estado</span><span></span></div>
+                    <div class="history-row" th:each="p : ${panel.pagos}">
+                        <div><b th:text="${#temporals.format(p.fechaPago,'dd MMM. yyyy')}">Fecha</b><small th:text="${#temporals.format(p.fechaPago,'hh:mm a')}">Hora</small></div>
+                        <div class="movement"><span th:classappend="${p.estado == 'APROBADO'} ? ' green' : (${p.estado == 'RECHAZADO'} ? ' red' : ' gold')"><i th:class="${p.referencia != null and p.referencia.startsWith('CITA-')} ? 'fa-solid fa-money-bill-wave' : 'fa-solid fa-receipt'"></i></span><b th:text="${p.estado == 'APROBADO' ? 'Pago recibido' : (p.estado == 'RECHAZADO' ? 'Pago observado' : 'Pago en revisión')}">Pago</b></div>
+                        <b th:text="${p.codigoCredito}">CRE</b>
+                        <span th:text="${p.referencia != null and p.referencia.startsWith('CITA-') ? 'Cita de pago en efectivo registrada' : 'Pago registrado por el cliente'}">Descripción</span>
+                        <b th:text="${'S/ ' + #numbers.formatDecimal(p.monto,1,2)}">S/ 0.00</b>
+                        <span class="history-status" th:classappend="${p.estado == 'APROBADO'} ? ' approved' : (${p.estado == 'RECHAZADO'} ? ' rejected' : ' pending')" th:text="${p.estado == 'APROBADO' ? 'Completado' : (p.estado == 'RECHAZADO' ? 'Observado' : 'En revisión')}">Estado</span>
+                        <a th:href="@{/cliente/pagos}" title="Ver mis pagos"><i class="fa-solid fa-chevron-right"></i></a>
+                    </div>
+                    <p class="empty-history" th:if="${#lists.isEmpty(panel.pagos)}"><i class="fa-solid fa-clock-rotate-left"></i> Aún no tienes movimientos registrados. Cuando realices un pago aparecerá aquí.</p>
+                </section>
+            </div>
+
+            <aside class="history-side">
+                <section class="recent-activity"><div class="history-panel-title"><h2><i class="fa-solid fa-clock"></i> Actividad reciente</h2><a th:href="@{/cliente/pagos}">Ver pagos <i class="fa-solid fa-arrow-right"></i></a></div><div class="activity-list"><article th:each="p, state : ${panel.pagos}" th:if="${state.index < 5}"><span th:classappend="${p.estado == 'APROBADO'} ? ' green' : (${p.estado == 'RECHAZADO'} ? ' red' : ' gold')"><i th:class="${p.estado == 'APROBADO'} ? 'fa-solid fa-arrow-down' : (${p.estado == 'RECHAZADO'} ? 'fa-solid fa-triangle-exclamation' : 'fa-regular fa-clock')"></i></span><div><small th:text="${#temporals.format(p.fechaPago,'dd MMM. yyyy · hh:mm a')}">Fecha</small><b th:text="${p.estado == 'APROBADO' ? 'Pago recibido' : (p.estado == 'RECHAZADO' ? 'Pago observado' : 'Pago en revisión')}">Movimiento</b><em th:text="${p.codigoCredito}">CRE</em></div></article><p th:if="${#lists.isEmpty(panel.pagos)}">No hay actividad reciente.</p></div></section>
+                <section class="status-summary"><div class="history-panel-title"><h2><i class="fa-solid fa-chart-column"></i> Resumen de movimientos</h2></div><div class="summary-bars"><div><span>Aprobados</span><b th:text="${pagosAprobados}">0</b><i class="approved"></i></div><div><span>En revisión</span><b th:text="${pagosPendientes}">0</b><i class="pending"></i></div><div><span>Observados</span><b th:text="${pagosRechazados}">0</b><i class="rejected"></i></div></div></section>
+            </aside>
+        </section>
+    </main>
+</div>
+</body>
+</html>

@@ -4,6 +4,12 @@ import java.util.List;
 
 public class ClientePanelDto {
 
+    /*
+     * =========================================================
+     * KPI
+     * =========================================================
+     */
+
     private long totalClientes;
 
     private long clientesActivos;
@@ -14,12 +20,31 @@ public class ClientePanelDto {
 
     private long clientesMora;
 
+
+    /*
+     * =========================================================
+     * LISTADO
+     * =========================================================
+     */
+
     private List<ClienteResumenDto> clientes;
 
+
+    /*
+     * =========================================================
+     * CONSTRUCTOR VACÍO
+     * =========================================================
+     */
 
     public ClientePanelDto() {
     }
 
+
+    /*
+     * =========================================================
+     * CONSTRUCTOR COMPLETO
+     * =========================================================
+     */
 
     public ClientePanelDto(
             long totalClientes,
@@ -50,15 +75,19 @@ public class ClientePanelDto {
     }
 
 
+    /*
+     * =========================================================
+     * GETTERS Y SETTERS
+     * =========================================================
+     */
+
     public long getTotalClientes() {
         return totalClientes;
     }
 
-
     public void setTotalClientes(
             long totalClientes
     ) {
-
         this.totalClientes =
                 totalClientes;
     }
@@ -68,11 +97,9 @@ public class ClientePanelDto {
         return clientesActivos;
     }
 
-
     public void setClientesActivos(
             long clientesActivos
     ) {
-
         this.clientesActivos =
                 clientesActivos;
     }
@@ -82,11 +109,9 @@ public class ClientePanelDto {
         return clientesInactivos;
     }
 
-
     public void setClientesInactivos(
             long clientesInactivos
     ) {
-
         this.clientesInactivos =
                 clientesInactivos;
     }
@@ -96,11 +121,9 @@ public class ClientePanelDto {
         return clientesAdvertencia;
     }
 
-
     public void setClientesAdvertencia(
             long clientesAdvertencia
     ) {
-
         this.clientesAdvertencia =
                 clientesAdvertencia;
     }
@@ -110,11 +133,9 @@ public class ClientePanelDto {
         return clientesMora;
     }
 
-
     public void setClientesMora(
             long clientesMora
     ) {
-
         this.clientesMora =
                 clientesMora;
     }
@@ -124,13 +145,10 @@ public class ClientePanelDto {
         return clientes;
     }
 
-
     public void setClientes(
             List<ClienteResumenDto> clientes
     ) {
-
         this.clientes =
                 clientes;
     }
-
 }

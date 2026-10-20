@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Editar mis datos | crediNeyra</title>
+    <link rel="stylesheet" th:href="@{/css/admin/dashboard.css}">
+    <link rel="stylesheet" th:href="@{/css/admin/perfil.css}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.3.1/css/all.min.css">
+    <style>
+        .admin-edit-page{background:radial-gradient(circle at 70% 0,#087bc735,transparent 35%),#031326;min-height:calc(100vh - 70px);padding:28px}.admin-edit-card{background:linear-gradient(145deg,#07335aed,#041e3bf5);border:1px solid #1689c9;border-radius:12px;box-shadow:0 14px 35px #0008;margin:18px auto;max-width:720px;padding:24px}.admin-edit-card h1{font-size:23px;margin:0}.admin-edit-card>p{color:#adc4de;font-size:12px;line-height:1.5;margin:7px 0 19px}.admin-edit-form{display:grid;gap:10px;grid-template-columns:1fr 1fr}.admin-edit-form label{color:#d8e9fb;display:grid;font-size:12px;font-weight:700;gap:6px}.admin-edit-form input,.admin-edit-form textarea{background:#03182f;border:1px solid #176897;border-radius:7px;color:#f5fbff;font:inherit;min-height:42px;padding:0 12px}.admin-edit-form textarea{min-height:84px;padding:10px 12px;resize:vertical}.admin-edit-form input:focus,.admin-edit-form textarea:focus{border-color:#28cbff;outline:2px solid #22bdfa35}.admin-edit-form .full{grid-column:1/-1}.admin-edit-form .readonly{background:#102944;color:#91aeca}.admin-edit-form small{color:#ff9bae;font-size:11px}.admin-edit-actions{display:flex;gap:10px;grid-column:1/-1;justify-content:flex-end;margin-top:8px}.admin-edit-actions a,.admin-edit-actions button{border-radius:7px;font-size:12px;font-weight:800;padding:11px 15px;text-decoration:none}.admin-edit-actions a{border:1px solid #2975a7;color:#dcefff}.admin-edit-actions button{background:linear-gradient(100deg,#09a5ed,#154dde);border:0;color:#fff;cursor:pointer}@media(max-width:650px){.admin-edit-page{padding:16px}.admin-edit-card{padding:18px}.admin-edit-form{grid-template-columns:1fr}.admin-edit-form .full{grid-column:auto}.admin-edit-actions{grid-column:auto}}
+    </style>
+</head>
+<body>
+<div class="admin-layout">
+    <div th:replace="~{admin/fragments/sidebar :: sidebar}"></div>
+    <div th:replace="~{admin/fragments/sidebar :: sidebar-overlay}"></div>
+    <div class="admin-main">
+        <div th:replace="~{admin/fragments/topbar :: topbar}"></div>
+        <main class="admin-edit-page">
+            <a class="password-back" th:href="@{/admin/perfil}"><i class="fa-solid fa-arrow-left"></i> Volver a mi perfil</a>
+            <section class="admin-edit-card">
+                <h1><i class="fa-solid fa-user-pen"></i> Editar datos personales</h1>
+                <p>Actualiza la información de contacto de tu propia cuenta. Tu DNI y correo permanecen protegidos porque se usan para identificarte y verificar acciones sensibles.</p>
+                <form method="post" th:action="@{/admin/perfil/editar}" th:object="${perfilDto}" class="admin-edit-form">
+                    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+                    <label>Nombres<input type="text" th:field="*{nombres}" autocomplete="given-name" required><small th:if="${#fields.hasErrors('nombres')}" th:errors="*{nombres}"></small></label>
+                    <label>Apellidos<input type="text" th:field="*{apellidos}" autocomplete="family-name" required><small th:if="${#fields.hasErrors('apellidos')}" th:errors="*{apellidos}"></small></label>
+                    <label>Teléfono<input type="tel" th:field="*{telefono}" autocomplete="tel" placeholder="987654321"><small th:if="${#fields.hasErrors('telefono')}" th:errors="*{telefono}"></small></label>
+                    <label>Correo electrónico<input class="readonly" type="email" th:value="${administrador.persona.email}" readonly aria-readonly="true"></label>
+                    <label class="full">Dirección<textarea th:field="*{direccion}" autocomplete="street-address" placeholder="Av., calle, distrito y ciudad"></textarea><small th:if="${#fields.hasErrors('direccion')}" th:errors="*{direccion}"></small></label>
+                    <p class="full" style="color:#95b5d4;font-size:11px;margin:0"><i class="fa-solid fa-shield-halved"></i> Para modificar correo, DNI, contraseña, roles o permisos se requiere un flujo de seguridad independiente.</p>
+                    <div class="admin-edit-actions"><a th:href="@{/admin/perfil}">Cancelar</a><button type="submit"><i class="fa-solid fa-floppy-disk"></i> Guardar cambios</button></div>
+                </form>
+            </section>
+        </main>
+    </div>
+</div>
+<script th:src="@{/js/admin/dashboard.js}"></script>
+</body>
+</html>

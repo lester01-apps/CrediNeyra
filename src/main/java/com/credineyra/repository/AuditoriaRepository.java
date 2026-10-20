@@ -1,12 +1,16 @@
 package com.credineyra.repository;
 
 import com.credineyra.entity.Auditoria;
+import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
 public interface AuditoriaRepository
         extends JpaRepository<Auditoria, Long> {
+
+    @EntityGraph(attributePaths = {"usuario", "usuario.persona"})
+    List<Auditoria> findAllByOrderByFechaHoraDesc();
 
     List<Auditoria>
     findByUsuario_IdUsuarioOrderByFechaHoraDesc(

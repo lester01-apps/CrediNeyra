@@ -259,6 +259,13 @@
 
             </div>
 
+            <div class="mensaje mensaje-exito"
+                 th:if="${param.passwordActualizada}">
+
+                Tu contraseña fue actualizada. Ya puedes iniciar sesión.
+
+            </div>
+
 
 
             <!-- FORMULARIO -->
@@ -433,7 +440,7 @@
 </main>
 
 
-<script th:src="@{/js/login.js}"></script>
+<script th:src="@{/js/auth-password.js}"></script>
 
 
 </body>

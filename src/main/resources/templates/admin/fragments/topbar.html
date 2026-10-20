@@ -39,24 +39,24 @@
 
     <div class="topbar-derecha">
 
-        <button type="button"
-                class="boton-notificaciones"
-                aria-label="Notificaciones">
+        <details class="menu-notificaciones">
+            <summary class="boton-notificaciones" aria-label="Abrir notificaciones">
+                <svg viewBox="0 0 24 24"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"/><path d="M10 21h4"/></svg>
+                <span class="notificacion-punto"></span>
+            </summary>
+            <div class="panel-notificaciones-admin">
+                <header><b>Notificaciones</b><a th:href="@{/admin/auditoria}">Ver más</a></header>
+                <p><i class="fa-solid fa-shield-halved"></i> Las acciones del sistema se registran en Auditoría.</p>
+                <a class="ver-todas-notificaciones" th:href="@{/admin/auditoria}"><i class="fa-regular fa-clock"></i> Ver más notificaciones <i class="fa-solid fa-arrow-right"></i></a>
+            </div>
+        </details>
 
-            <svg viewBox="0 0 24 24">
-                <path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"/>
-                <path d="M10 21h4"/>
-            </svg>
 
-            <span class="notificacion-punto"></span>
-
-        </button>
-
-
-        <div class="usuario-topbar">
+        <a class="usuario-topbar" th:href="@{/admin/perfil}" aria-label="Abrir mi perfil">
 
             <div class="usuario-avatar">
-                AD
+                <img th:if="${administradorTieneFotoPerfil}" th:src="@{/admin/perfil/foto}" alt="Foto de perfil">
+                <span th:unless="${administradorTieneFotoPerfil}" th:text="${administradorInicial != null ? administradorInicial : 'AD'}">AD</span>
             </div>
 
             <div class="usuario-datos">
@@ -71,7 +71,7 @@
 
             </div>
 
-        </div>
+        </a>
 
     </div>
 

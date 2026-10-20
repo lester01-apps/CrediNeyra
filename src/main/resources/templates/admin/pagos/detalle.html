@@ -1,0 +1,1085 @@
+<!DOCTYPE html>
+
+<html lang="es"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Revisar pago | crediNeyra</title>
+
+    <link rel="stylesheet"
+          th:href="@{/css/admin/dashboard.css}">
+
+    <link rel="stylesheet"
+          th:href="@{/css/admin/pago-detalle.css}">
+
+</head>
+
+
+<body>
+
+
+<div class="admin-layout">
+
+
+    <div th:replace="~{admin/fragments/sidebar :: sidebar}">
+    </div>
+
+
+    <div th:replace="~{admin/fragments/sidebar :: sidebar-overlay}">
+    </div>
+
+
+    <div class="admin-main">
+
+
+        <div th:replace="~{admin/fragments/topbar :: topbar}">
+        </div>
+
+
+        <main class="pago-detalle">
+
+
+            <!-- ================================================
+                 BREADCRUMB
+                 ================================================ -->
+
+            <div class="breadcrumb">
+
+                <a th:href="@{/admin}">
+                    Panel principal
+                </a>
+
+                <span>›</span>
+
+                <a th:href="@{/admin/pagos}">
+                    Pagos
+                </a>
+
+                <span>›</span>
+
+                <strong th:text="${detalle.codigoPago}">
+                    PAG-000001
+                </strong>
+
+            </div>
+
+
+            <!-- ================================================
+                 CABECERA
+                 ================================================ -->
+
+            <header class="pago-hero">
+
+
+                <div>
+
+
+                    <span class="eyebrow">
+                        VALIDACIÓN DE PAGO
+                    </span>
+
+
+                    <div class="titulo-fila">
+
+                        <h1 th:text="${detalle.codigoPago}">
+                            PAG-000001
+                        </h1>
+
+
+                        <span class="estado"
+                              th:classappend="${' estado-' + #strings.toLowerCase(detalle.estado)}"
+                              th:text="${detalle.estado}">
+
+                            PENDIENTE_VALIDACION
+
+                        </span>
+
+                    </div>
+
+
+                    <p>
+
+                        Crédito
+
+                        <a th:href="@{/admin/creditos/{id}(id=${detalle.idCredito})}"
+                           th:text="${detalle.codigoCredito}">
+
+                            CRE-00001
+
+                        </a>
+
+                        · Presentado
+
+                        <strong th:text="${#temporals.format(detalle.fechaPago, 'dd/MM/yyyy HH:mm')}">
+                            -
+                        </strong>
+
+                    </p>
+
+
+                </div>
+
+
+                <a th:href="@{/admin/pagos}"
+                   class="btn-volver">
+
+                    ← Volver a pagos
+
+                </a>
+
+
+            </header>
+
+
+            <!-- MENSAJES -->
+
+            <div class="mensaje exito"
+                 th:if="${mensajeExito != null}"
+                 th:text="${mensajeExito}">
+            </div>
+
+
+            <div class="mensaje error"
+                 th:if="${mensajeError != null}"
+                 th:text="${mensajeError}">
+            </div>
+
+
+            <!-- ================================================
+                 RESUMEN
+                 ================================================ -->
+
+            <section class="resumen-grid">
+
+
+                <article class="resumen-card">
+
+                    <span>
+                        Monto declarado
+                    </span>
+
+                    <strong class="monto"
+                            th:text="${'S/ ' + detalle.monto}">
+
+                        S/ 0.00
+
+                    </strong>
+
+                </article>
+
+
+                <article class="resumen-card">
+
+                    <span>
+                        Método
+                    </span>
+
+                    <strong th:text="${detalle.metodoPago}">
+                        YAPE
+                    </strong>
+
+                </article>
+
+
+                <article class="resumen-card">
+
+                    <span>
+                        N.º operación
+                    </span>
+
+                    <strong th:text="${detalle.referencia}">
+                        -
+                    </strong>
+
+                </article>
+
+
+                <article class="resumen-card">
+
+                    <span>
+                        Total pendiente del crédito
+                    </span>
+
+                    <strong class="pendiente"
+                            th:text="${'S/ ' + detalle.totalPendienteCredito}">
+
+                        S/ 0.00
+
+                    </strong>
+
+                </article>
+
+
+            </section>
+
+
+            <!-- ================================================
+                 GRID PRINCIPAL
+                 ================================================ -->
+
+            <section class="principal-grid">
+
+
+                <!-- ============================================
+                     COMPROBANTE
+                     ============================================ -->
+
+                <article class="panel comprobante-panel">
+
+
+                    <div class="panel-titulo">
+
+                        <div class="numero">
+                            01
+                        </div>
+
+                        <div>
+
+                            <h2>
+                                Comprobante del cliente
+                            </h2>
+
+                            <p>
+                                Revisa la evidencia antes de aprobar.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <div th:if="${detalle.tieneComprobante}"
+                         class="comprobante-area">
+
+
+                        <a th:if="${detalle.comprobanteImagen}"
+                           th:href="@{/admin/documentos/{id}/ver(id=${detalle.idDocumentoComprobante})}"
+                           target="_blank"
+                           class="imagen-enlace">
+
+
+                            <img th:src="@{/admin/documentos/{id}/ver(id=${detalle.idDocumentoComprobante})}"
+                                 alt="Comprobante del pago">
+
+                        </a>
+
+
+                        <div th:unless="${detalle.comprobanteImagen}"
+                             class="pdf-box">
+
+                            <div class="pdf-icono">
+                                PDF
+                            </div>
+
+                            <strong>
+                                Comprobante PDF
+                            </strong>
+
+                        </div>
+
+
+                        <div class="archivo-datos">
+
+
+                            <div>
+
+                                <span>
+                                    Archivo
+                                </span>
+
+                                <strong th:text="${detalle.nombreComprobante}">
+                                    comprobante.png
+                                </strong>
+
+                            </div>
+
+
+                            <div class="archivo-acciones">
+
+
+                                <a th:href="@{/admin/documentos/{id}/ver(id=${detalle.idDocumentoComprobante})}"
+                                   target="_blank">
+
+                                    Ver completo
+
+                                </a>
+
+
+                                <a th:href="@{/admin/documentos/{id}/descargar(id=${detalle.idDocumentoComprobante})}">
+
+                                    Descargar
+
+                                </a>
+
+                            </div>
+
+
+                        </div>
+
+
+                    </div>
+
+
+                    <div th:unless="${detalle.tieneComprobante}"
+                         class="sin-comprobante">
+
+                        ⚠ Este pago no tiene comprobante asociado.
+
+                    </div>
+
+
+                </article>
+
+
+                <!-- ============================================
+                     CLIENTE
+                     ============================================ -->
+
+                <article class="panel">
+
+
+                    <div class="panel-titulo">
+
+                        <div class="numero">
+                            02
+                        </div>
+
+                        <div>
+
+                            <h2>
+                                Cliente y crédito
+                            </h2>
+
+                            <p>
+                                Datos asociados al pago.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="cliente-box">
+
+
+                        <div class="avatar"
+                             th:text="${#strings.substring(detalle.clienteNombre,0,1)}">
+
+                            C
+
+                        </div>
+
+
+                        <div class="cliente-info">
+
+                            <h3 th:text="${detalle.clienteNombre}">
+                                Cliente
+                            </h3>
+
+                            <p>
+
+                                <span th:text="${detalle.codigoCliente}">
+                                    CLI-00001
+                                </span>
+
+                                · DNI
+
+                                <strong th:text="${detalle.clienteDni}">
+                                    00000000
+                                </strong>
+
+                            </p>
+
+                        </div>
+
+
+                        <a th:href="@{/admin/clientes/{id}(id=${detalle.idCliente})}"
+                           class="btn-secundario">
+
+                            Ver cliente
+
+                        </a>
+
+                    </div>
+
+
+                    <div class="credito-info-grid">
+
+
+                        <div>
+
+                            <span>
+                                Crédito
+                            </span>
+
+                            <a th:href="@{/admin/creditos/{id}(id=${detalle.idCredito})}"
+                               th:text="${detalle.codigoCredito}">
+
+                                CRE-00001
+
+                            </a>
+
+                        </div>
+
+
+                        <div>
+
+                            <span>
+                                Capital pendiente
+                            </span>
+
+                            <strong th:text="${'S/ ' + detalle.capitalPendienteCredito}">
+                                S/ 0.00
+                            </strong>
+
+                        </div>
+
+
+                        <div>
+
+                            <span>
+                                Interés pendiente
+                            </span>
+
+                            <strong th:text="${'S/ ' + detalle.interesPendienteCredito}">
+                                S/ 0.00
+                            </strong>
+
+                        </div>
+
+
+                        <div>
+
+                            <span>
+                                Pago solo interés
+                            </span>
+
+                            <strong th:text="${detalle.permitePagoSoloInteres ? 'Permitido' : 'No permitido'}">
+                                No permitido
+                            </strong>
+
+                        </div>
+
+
+                    </div>
+
+
+                    <div class="observacion">
+
+                        <span>
+                            Observación del cliente
+                        </span>
+
+                        <p th:text="${detalle.observaciones}">
+                            -
+                        </p>
+
+                    </div>
+
+
+                </article>
+
+
+            </section>
+
+
+            <!-- ================================================
+                 APLICACIÓN DEL PAGO
+                 ================================================ -->
+
+            <section class="panel aplicacion-panel"
+                     th:if="${detalle.estado == 'PENDIENTE_VALIDACION'}">
+
+
+                <div class="panel-titulo">
+
+                    <div class="numero">
+                        03
+                    </div>
+
+                    <div>
+
+                        <h2>
+                            Aplicación del pago
+                        </h2>
+
+                        <p>
+                            Indica exactamente cómo se distribuirá el monto presentado.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="alerta">
+
+                    El total de capital + interés + capital regularizado
+                    debe ser exactamente
+
+                    <strong th:text="${'S/ ' + detalle.monto}">
+                        S/ 0.00
+                    </strong>.
+
+                </div>
+
+
+                <form th:action="@{/admin/pagos/{id}/aprobar(id=${detalle.idPago})}"
+                      method="post"
+                      th:object="${aprobacionDto}"
+                      id="formAprobacion">
+
+
+                    <input type="hidden"
+                           th:name="${_csrf.parameterName}"
+                           th:value="${_csrf.token}">
+
+
+                    <div class="tabla-wrapper">
+
+
+                        <table class="tabla-cuotas">
+
+
+                            <thead>
+
+                            <tr>
+
+                                <th>Cuota</th>
+
+                                <th>Vencimiento</th>
+
+                                <th>Estado</th>
+
+                                <th>Pend. capital</th>
+
+                                <th>Pend. interés</th>
+
+                                <th>Regularizado</th>
+
+                                <th>Aplicar capital</th>
+
+                                <th>Aplicar interés</th>
+
+                                <th>Aplicar regularizado</th>
+
+                            </tr>
+
+                            </thead>
+
+
+                            <tbody>
+
+
+                            <th:block th:each="cuota, stat : ${detalle.cuotas.?[exigible]}">
+
+
+                                <tr>
+
+
+                                    <td>
+
+                                        <strong th:text="${'#' + cuota.numeroCuota}">
+                                            #1
+                                        </strong>
+
+
+                                        <input type="hidden"
+                                               th:name="${'aplicaciones[' + stat.index + '].idCuota'}"
+                                               th:value="${cuota.idCuota}">
+
+                                    </td>
+
+
+                                    <td th:text="${#temporals.format(cuota.fechaVencimiento, 'dd/MM/yyyy')}">
+                                        -
+                                    </td>
+
+
+                                    <td>
+
+                                        <span class="badge-cuota"
+                                              th:text="${cuota.estado}">
+
+                                            PENDIENTE
+
+                                        </span>
+
+                                    </td>
+
+
+                                    <td th:text="${'S/ ' + cuota.capitalPendiente}">
+                                        S/ 0.00
+                                    </td>
+
+
+                                    <td th:text="${'S/ ' + cuota.interesPendiente}">
+                                        S/ 0.00
+                                    </td>
+
+
+                                    <td th:text="${'S/ ' + cuota.capitalRegularizadoPendiente}">
+                                        S/ 0.00
+                                    </td>
+
+
+                                    <td>
+
+                                        <input type="number"
+                                               min="0"
+                                               step="1"
+                                               value="0"
+                                               th:max="${cuota.capitalPendiente}"
+                                               th:name="${'aplicaciones[' + stat.index + '].montoCapital'}"
+                                               class="monto-aplicacion"
+                                               data-tipo="capital">
+
+                                    </td>
+
+
+                                    <td>
+
+                                        <input type="number"
+                                               min="0"
+                                               step="1"
+                                               value="0"
+                                               th:max="${cuota.interesPendiente}"
+                                               th:name="${'aplicaciones[' + stat.index + '].montoInteres'}"
+                                               class="monto-aplicacion"
+                                               data-tipo="interes">
+
+                                    </td>
+
+
+                                    <td>
+
+                                        <input type="number"
+                                               min="0"
+                                               step="1"
+                                               value="0"
+                                               th:max="${cuota.capitalRegularizadoPendiente}"
+                                               th:name="${'aplicaciones[' + stat.index + '].montoCapitalRegularizado'}"
+                                               class="monto-aplicacion"
+                                               data-tipo="regularizado">
+
+                                    </td>
+
+
+                                </tr>
+
+
+                            </th:block>
+
+
+                            </tbody>
+
+
+                        </table>
+
+
+                    </div>
+
+
+                    <div class="aplicacion-total">
+
+
+                        <div>
+
+                            <span>
+                                Monto presentado
+                            </span>
+
+                            <strong th:text="${'S/ ' + detalle.monto}">
+                                S/ 0.00
+                            </strong>
+
+                        </div>
+
+
+                        <div>
+
+                            <span>
+                                Total aplicado
+                            </span>
+
+                            <strong id="totalAplicado">
+                                S/ 0.00
+                            </strong>
+
+                        </div>
+
+
+                        <div id="estadoTotal"
+                             class="estado-total">
+
+                            Falta distribuir el pago.
+
+                        </div>
+
+
+                    </div>
+
+
+                    <div class="acciones-validacion">
+
+
+                        <button type="button"
+                                class="btn-rechazar"
+                                onclick="abrirRechazo()">
+
+                            Rechazar pago
+
+                        </button>
+
+
+                        <button type="submit"
+                                class="btn-aprobar"
+                                id="btnAprobar">
+
+                            ✓ Aprobar pago
+
+                        </button>
+
+
+                    </div>
+
+
+                </form>
+
+
+            </section>
+
+
+            <!-- ================================================
+                 RESULTADO
+                 ================================================ -->
+
+            <section class="panel"
+                     th:if="${detalle.estado != 'PENDIENTE_VALIDACION'}">
+
+
+                <div class="panel-titulo">
+
+                    <div class="numero">
+                        03
+                    </div>
+
+                    <div>
+
+                        <h2>
+                            Resultado de la validación
+                        </h2>
+
+                        <p>
+                            Este pago ya fue revisado.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="resultado-validacion">
+
+                    <strong th:text="${detalle.estado}">
+                        APROBADO
+                    </strong>
+
+
+                    <span th:if="${detalle.fechaValidacion != null}"
+                          th:text="${#temporals.format(detalle.fechaValidacion, 'dd/MM/yyyy HH:mm')}">
+
+                        -
+
+                    </span>
+
+
+                    <span th:if="${detalle.validadoPor != null}"
+                          th:text="${'Validado por ' + detalle.validadoPor}">
+
+                        -
+
+                    </span>
+
+                </div>
+
+
+                <div th:if="${!detalle.aplicaciones.isEmpty()}"
+                     class="aplicaciones-confirmadas">
+
+
+                    <h3>
+                        Aplicación registrada
+                    </h3>
+
+
+                    <div class="aplicacion-confirmada"
+                         th:each="a : ${detalle.aplicaciones}">
+
+
+                        <strong th:text="${'Cuota #' + a.numeroCuota}">
+                            Cuota
+                        </strong>
+
+
+                        <span th:text="${'Capital: S/ ' + a.montoCapital}">
+                        </span>
+
+
+                        <span th:text="${'Interés: S/ ' + a.montoInteres}">
+                        </span>
+
+
+                        <span th:text="${'Regularizado: S/ ' + a.montoCapitalRegularizado}">
+                        </span>
+
+
+                        <b th:text="${'Total: S/ ' + a.montoTotal}">
+                        </b>
+
+
+                    </div>
+
+
+                </div>
+
+
+            </section>
+
+
+            <!-- ================================================
+                 MODAL RECHAZO
+                 ================================================ -->
+
+            <div class="modal-fondo"
+                 id="modalRechazo">
+
+
+                <div class="modal-box">
+
+
+                    <h2>
+                        Rechazar pago
+                    </h2>
+
+
+                    <p>
+                        Indica por qué el comprobante no será aceptado.
+                    </p>
+
+
+                    <form th:action="@{/admin/pagos/{id}/rechazar(id=${detalle.idPago})}"
+                          method="post">
+
+
+                        <input type="hidden"
+                               th:name="${_csrf.parameterName}"
+                               th:value="${_csrf.token}">
+
+
+                        <textarea name="motivo"
+                                  maxlength="200"
+                                  required
+                                  placeholder="Ej. No se encontró la operación, monto incorrecto o comprobante ilegible."></textarea>
+
+
+                        <div class="modal-acciones">
+
+
+                            <button type="button"
+                                    onclick="cerrarRechazo()">
+
+                                Cancelar
+
+                            </button>
+
+
+                            <button type="submit"
+                                    class="confirmar-rechazo">
+
+                                Confirmar rechazo
+
+                            </button>
+
+
+                        </div>
+
+
+                    </form>
+
+
+                </div>
+
+
+            </div>
+
+
+        </main>
+
+
+    </div>
+
+
+</div>
+
+
+<script th:inline="javascript">
+
+    const montoPago =
+        Number(/*[[${detalle.monto}]]*/ 0);
+
+
+    const inputs =
+        document.querySelectorAll(
+            ".monto-aplicacion"
+        );
+
+
+    const totalElemento =
+        document.getElementById(
+            "totalAplicado"
+        );
+
+
+    const estadoElemento =
+        document.getElementById(
+            "estadoTotal"
+        );
+
+
+    const btnAprobar =
+        document.getElementById(
+            "btnAprobar"
+        );
+
+
+    function actualizarTotal() {
+
+        if (!totalElemento) {
+            return;
+        }
+
+
+        let total = 0;
+
+
+        inputs.forEach(
+            input => {
+
+                const valor =
+                    Number(
+                        input.value || 0
+                    );
+
+
+                total +=
+                    Number.isFinite(valor)
+                        ? valor
+                        : 0;
+
+            }
+        );
+
+
+        totalElemento.textContent =
+            "S/ "
+            + total.toFixed(2);
+
+
+        const coincide =
+            Math.abs(
+                total - montoPago
+            ) < 0.001;
+
+
+        if (coincide) {
+
+            estadoElemento.textContent =
+                "✓ La distribución coincide con el pago.";
+
+            estadoElemento.classList.add(
+                "correcto"
+            );
+
+
+            if (btnAprobar) {
+
+                btnAprobar.disabled =
+                    false;
+            }
+
+
+        } else {
+
+            estadoElemento.textContent =
+                "Falta distribuir S/ "
+                + Math.abs(
+                    montoPago - total
+                ).toFixed(2);
+
+            estadoElemento.classList.remove(
+                "correcto"
+            );
+
+
+            if (btnAprobar) {
+
+                btnAprobar.disabled =
+                    true;
+            }
+
+        }
+    }
+
+
+    inputs.forEach(
+        input => {
+
+            input.addEventListener(
+                "input",
+                actualizarTotal
+            );
+
+        }
+    );
+
+
+    actualizarTotal();
+
+
+    function abrirRechazo() {
+
+        document
+            .getElementById(
+                "modalRechazo"
+            )
+            .classList
+            .add(
+                "visible"
+            );
+    }
+
+
+    function cerrarRechazo() {
+
+        document
+            .getElementById(
+                "modalRechazo"
+            )
+            .classList
+            .remove(
+                "visible"
+            );
+    }
+
+</script>
+
+
+</body>
+</html>

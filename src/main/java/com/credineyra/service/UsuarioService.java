@@ -186,6 +186,26 @@ public class UsuarioService {
         return usuarioGuardado;
     }
 
+    /**
+     * Crea una cuenta destinada exclusivamente al portal del cliente.
+     * El rol no se recibe del navegador para evitar que una cuenta de cliente
+     * pueda obtener privilegios administrativos por una petición manipulada.
+     */
+    public Usuario registrarCliente(
+            UsuarioRegistroDto dto
+    ) {
+
+        Rol rolCliente = rolRepository
+                .findByNombre("CLIENTE")
+                .orElseThrow(() -> new RecursoNoEncontradoException(
+                        "No se encontró el rol CLIENTE"
+                ));
+
+        dto.setIdRol(rolCliente.getIdRol());
+
+        return registrar(dto);
+    }
+
     public Usuario actualizarUsername(
             Long idUsuario,
             String nuevoUsername
@@ -249,6 +269,23 @@ public class UsuarioService {
         usuario.setCambioPasswordObligatorio(
                 false
         );
+
+        return usuarioRepository.save(usuario);
+    }
+
+    /**
+     * El cliente decidió conservar por ahora la contraseña inicial entregada
+     * por el administrador. No modifica la contraseña, solo evita mostrar de
+     * nuevo el aviso de primer ingreso.
+     */
+    public Usuario conservarPasswordInicial(
+            Long idUsuario
+    ) {
+
+        Usuario usuario =
+                buscarPorId(idUsuario);
+
+        usuario.setCambioPasswordObligatorio(false);
 
         return usuarioRepository.save(usuario);
     }

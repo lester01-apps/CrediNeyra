@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+
+<html lang="es"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Regularizaciones | crediNeyra</title>
+
+    <link rel="stylesheet"
+          th:href="@{/css/admin/dashboard.css}">
+
+    <link rel="stylesheet"
+          th:href="@{/css/admin/regularizaciones.css}">
+
+</head>
+
+<body>
+
+<div class="admin-layout">
+
+    <div th:replace="~{admin/fragments/sidebar :: sidebar}">
+    </div>
+
+    <div th:replace="~{admin/fragments/sidebar :: sidebar-overlay}">
+    </div>
+
+    <div class="admin-main">
+
+        <div th:replace="~{admin/fragments/topbar :: topbar}">
+        </div>
+
+        <main class="regularizaciones-page">
+
+            <header>
+
+                <span>
+                    CONTROL DE CARTERA
+                </span>
+
+                <h1>
+                    Regularizaciones
+                </h1>
+
+                <p>
+                    Créditos con obligaciones vencidas que requieren seguimiento.
+                </p>
+
+            </header>
+
+            <section class="kpis">
+
+                <article>
+
+                    <span>
+                        Período de 3 días
+                    </span>
+
+                    <strong th:text="${panel.periodoRegularizacion}">
+                        0
+                    </strong>
+
+                </article>
+
+                <article class="mora">
+
+                    <span>
+                        En mora
+                    </span>
+
+                    <strong th:text="${panel.enMora}">
+                        0
+                    </strong>
+
+                </article>
+
+                <article class="prolongado">
+
+                    <span>
+                        Atraso prolongado
+                    </span>
+
+                    <strong th:text="${panel.atrasoProlongado}">
+                        0
+                    </strong>
+
+                </article>
+
+                <article class="activo">
+
+                    <span>
+                        Planes activos
+                    </span>
+
+                    <strong th:text="${panel.planesActivos}">
+                        0
+                    </strong>
+
+                </article>
+
+            </section>
+
+            <section class="tabla-card">
+
+                <table>
+
+                    <thead>
+
+                    <tr>
+
+                        <th>Cliente</th>
+                        <th>Crédito</th>
+                        <th>Deuda vencida</th>
+                        <th>Vencimiento</th>
+                        <th>Días</th>
+                        <th>Situación</th>
+                        <th>Plan</th>
+                        <th></th>
+
+                    </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                    <tr th:each="r : ${panel.creditos}">
+
+                        <td th:text="${r.clienteNombre}">
+                        </td>
+
+                        <td>
+
+                            <a th:href="@{/admin/creditos/{id}(id=${r.idCredito})}"
+                               th:text="${r.codigoCredito}">
+                            </a>
+
+                        </td>
+
+                        <td th:text="${'S/ ' + r.deudaPendiente}">
+                        </td>
+
+                        <td th:text="${r.vencimientoMasAntiguo}">
+                        </td>
+
+                        <td th:text="${r.diasAtraso}">
+                        </td>
+
+                        <td>
+
+                            <span class="situacion"
+                                  th:classappend="${' estado-' + #strings.toLowerCase(r.situacion)}"
+                                  th:text="${r.situacion}">
+                            </span>
+
+                        </td>
+
+                        <td th:text="${r.tienePlanActivo ? 'ACTIVO' : 'SIN PLAN'}">
+                        </td>
+
+                        <td>
+
+                            <a th:unless="${r.tienePlanActivo}"
+                               th:href="@{/admin/regularizaciones/nuevo/{id}(id=${r.idCredito})}"
+                               class="crear-plan">
+
+                                Crear plan
+
+                            </a>
+
+                        </td>
+
+                    </tr>
+
+                    </tbody>
+
+                </table>
+
+            </section>
+
+        </main>
+
+    </div>
+
+</div>
+
+</body>
+</html>

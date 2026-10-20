@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<body>
+<th:block th:fragment="menu">
+    <style>
+        .client-notification-menu{position:relative}.client-notification-menu summary{align-items:center;background:#062744;border:1px solid #17618d;border-radius:8px;color:#d8eeff;cursor:pointer;display:flex;height:38px;justify-content:center;list-style:none;position:relative;width:38px}.client-notification-menu summary::-webkit-details-marker{display:none}.client-notification-menu summary:hover{background:#0a3a61;border-color:#2ad0ff}.client-notification-menu summary i{font-size:18px}.client-notification-menu .client-notification-dot{background:#ff4e6d;border:2px solid #062744;border-radius:50%;display:block!important;height:8px!important;padding:0!important;position:absolute;right:4px;top:3px;width:8px!important}.client-notifications-panel{background:#061d37;border:1px solid #147bb7;border-radius:10px;box-shadow:0 14px 34px #0009;display:grid;gap:9px;padding:12px;position:absolute;right:0;top:46px;width:292px;z-index:90}.client-notifications-panel header{align-items:center;display:flex;justify-content:space-between}.client-notifications-panel header b{color:#f3f9ff;font-size:12px}.client-notifications-panel header a{color:#20cfff;font-size:10px;text-decoration:none}.client-notification-item{align-items:flex-start;background:#092e4d;border-radius:7px;color:#d8e8f7;display:grid;gap:9px;grid-template-columns:24px 1fr;padding:9px;text-decoration:none}.client-notification-item:hover{background:#0b3b61}.client-notification-item>i{color:#45d7ff;font-size:17px;margin-top:2px}.client-notification-item b{display:block;font-size:10px}.client-notification-item small{color:#a9c4df;display:block;font-size:9px;line-height:1.35;margin-top:3px}.client-notification-item.payment>i{color:#58e8b4}.client-notification-item.due>i{color:#ffd339}.client-view-all{border:1px solid #168bce;border-radius:6px;color:#66dcff;font-size:10px;font-weight:700;padding:9px;text-align:center;text-decoration:none}.client-view-all:hover{background:#0a3659}@media(max-width:520px){.client-notifications-panel{right:-56px;width:min(292px,calc(100vw - 34px))}}
+        .client-profile-top{align-items:center;display:flex;gap:10px}.client-profile-top>.profile-trigger,.client-profile-top>.cliente-resumen{color:inherit;text-decoration:none}.profile-topbar{margin-bottom:0}.profile-topbar .portal-search{margin:0}.profile-topbar .client-profile-top{margin-left:auto}
+    </style>
+    <details class="client-notification-menu">
+        <summary aria-label="Abrir notificaciones"><i class="fa-regular fa-bell"></i><span class="client-notification-dot"></span></summary>
+        <div class="client-notifications-panel">
+            <header><b>Notificaciones</b><a th:href="@{/cliente/historial}">Ver más</a></header>
+            <a class="client-notification-item payment" th:href="@{/cliente/historial}"><i class="fa-solid fa-wallet"></i><span><b>Pagos y comprobantes</b><small>Consulta el estado de tus pagos enviados.</small></span></a>
+            <a class="client-notification-item due" th:href="@{/cliente/creditos}"><i class="fa-regular fa-calendar-days"></i><span><b>Cuotas pendientes</b><small>Revisa las fechas de vencimiento de tus créditos.</small></span></a>
+            <a class="client-view-all" th:href="@{/cliente/historial}"><i class="fa-regular fa-clock"></i> Ver más notificaciones <i class="fa-solid fa-arrow-right"></i></a>
+        </div>
+    </details>
+</th:block>
+</body>
+</html>

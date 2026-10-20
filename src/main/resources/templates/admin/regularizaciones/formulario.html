@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+
+<html lang="es"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Nueva regularización | crediNeyra</title>
+
+    <link rel="stylesheet"
+          th:href="@{/css/admin/dashboard.css}">
+
+    <link rel="stylesheet"
+          th:href="@{/css/admin/regularizaciones.css}">
+
+</head>
+
+<body>
+
+
+<div class="admin-layout">
+
+
+    <div th:replace="~{admin/fragments/sidebar :: sidebar}">
+    </div>
+
+
+    <div th:replace="~{admin/fragments/sidebar :: sidebar-overlay}">
+    </div>
+
+
+    <div class="admin-main">
+
+
+        <div th:replace="~{admin/fragments/topbar :: topbar}">
+        </div>
+
+
+        <main class="regularizacion-form-page">
+
+
+            <!-- BREADCRUMB -->
+
+            <div class="reg-breadcrumb">
+
+                <a th:href="@{/admin}">
+                    Panel principal
+                </a>
+
+                <span>›</span>
+
+                <a th:href="@{/admin/regularizaciones}">
+                    Regularizaciones
+                </a>
+
+                <span>›</span>
+
+                <strong>
+                    Nuevo plan
+                </strong>
+
+            </div>
+
+
+            <!-- CABECERA -->
+
+            <header class="reg-form-header">
+
+
+                <div>
+
+                    <span class="reg-kicker">
+                        CONTROL DE CARTERA
+                    </span>
+
+                    <h1>
+                        Crear plan de regularización
+                    </h1>
+
+                    <p>
+                        Redistribuye capital vencido sin modificar el historial original del crédito.
+                    </p>
+
+                </div>
+
+
+                <a th:href="@{/admin/regularizaciones}"
+                   class="reg-volver">
+
+                    ← Volver
+
+                </a>
+
+
+            </header>
+
+
+            <!-- ERROR -->
+
+            <div class="reg-mensaje-error"
+                 th:if="${mensajeError != null}">
+
+                <strong>
+                    No se pudo crear el plan
+                </strong>
+
+                <span th:text="${mensajeError}">
+                </span>
+
+            </div>
+
+
+            <!-- CLIENTE / CRÉDITO -->
+
+            <section class="reg-grid">
+
+
+                <article class="reg-card">
+
+
+                    <div class="reg-card-title">
+
+                        <span>
+                            01
+                        </span>
+
+
+                        <div>
+
+                            <h2>
+                                Cliente
+                            </h2>
+
+                            <p>
+                                Titular del crédito.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="reg-cliente">
+
+
+                        <div class="reg-avatar"
+                             th:text="${#strings.substring(resumen.clienteNombre,0,1)}">
+
+                            C
+
+                        </div>
+
+
+                        <div>
+
+                            <h3 th:text="${resumen.clienteNombre}">
+                                Cliente
+                            </h3>
+
+
+                            <p>
+
+                                <strong th:text="${resumen.codigoCliente}">
+                                    CLI-00001
+                                </strong>
+
+                                · DNI
+
+                                <span th:text="${resumen.clienteDni}">
+                                    00000000
+                                </span>
+
+                            </p>
+
+                        </div>
+
+
+                        <a th:href="@{/admin/clientes/{id}(id=${resumen.idCliente})}">
+                            Ver cliente
+                        </a>
+
+
+                    </div>
+
+
+                </article>
+
+
+                <article class="reg-card">
+
+
+                    <div class="reg-card-title">
+
+                        <span>
+                            02
+                        </span>
+
+
+                        <div>
+
+                            <h2>
+                                Crédito
+                            </h2>
+
+                            <p>
+                                Obligación que será regularizada.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="reg-credito-resumen">
+
+
+                        <div>
+
+                            <span>
+                                Código
+                            </span>
+
+                            <a th:href="@{/admin/creditos/{id}(id=${resumen.idCredito})}"
+                               th:text="${resumen.codigoCredito}">
+
+                                CRE-00001
+
+                            </a>
+
+                        </div>
+
+
+                        <div>
+
+                            <span>
+                                Estado
+                            </span>
+
+                            <strong th:text="${resumen.estadoCredito}">
+                                EN_MORA
+                            </strong>
+
+                        </div>
+
+
+                        <div>
+
+                            <span>
+                                Cuotas vencidas
+                            </span>
+
+                            <strong th:text="${resumen.cuotasVencidas}">
+                                0
+                            </strong>
+
+                        </div>
+
+
+                        <div>
+
+                            <span>
+                                Vencimiento más antiguo
+                            </span>
+
+                            <strong th:text="${resumen.vencimientoMasAntiguo != null ? resumen.vencimientoMasAntiguo : '-'}">
+                                -
+                            </strong>
+
+                        </div>
+
+
+                    </div>
+
+
+                </article>
+
+
+            </section>
+
+
+            <!-- DEUDA -->
+
+            <section class="reg-card reg-deuda-card">
+
+
+                <div class="reg-card-title">
+
+                    <span>
+                        03
+                    </span>
+
+
+                    <div>
+
+                        <h2>
+                            Resumen de deuda
+                        </h2>
+
+                        <p>
+                            Montos actuales del crédito.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="reg-deuda-grid">
+
+
+                    <div>
+
+                        <span>
+                            Capital pendiente
+                        </span>
+
+                        <strong th:text="${'S/ ' + resumen.capitalPendiente}">
+                            S/ 0.00
+                        </strong>
+
+                    </div>
+
+
+                    <div>
+
+                        <span>
+                            Interés pendiente
+                        </span>
+
+                        <strong th:text="${'S/ ' + resumen.interesPendiente}">
+                            S/ 0.00
+                        </strong>
+
+                    </div>
+
+
+                    <div class="total">
+
+                        <span>
+                            Total pendiente
+                        </span>
+
+                        <strong th:text="${'S/ ' + resumen.totalPendiente}">
+                            S/ 0.00
+                        </strong>
+
+                    </div>
+
+
+                </div>
+
+
+            </section>
+
+
+            <!-- FORMULARIO -->
+
+            <section class="reg-card reg-form-card">
+
+
+                <div class="reg-card-title">
+
+                    <span>
+                        04
+                    </span>
+
+
+                    <div>
+
+                        <h2>
+                            Condiciones del plan
+                        </h2>
+
+                        <p>
+                            Indica cómo se distribuirá la regularización.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <form th:action="@{/admin/regularizaciones/guardar}"
+                      method="post"
+                      th:object="${planDto}">
+
+
+                    <input type="hidden"
+                           th:name="${_csrf.parameterName}"
+                           th:value="${_csrf.token}">
+
+
+                    <input type="hidden"
+                           th:field="*{idCredito}">
+
+
+                    <div class="reg-form-grid">
+
+
+                        <div class="reg-campo">
+
+
+                            <label>
+                                Cantidad de abonos *
+                            </label>
+
+
+                            <input type="number"
+                                   min="1"
+                                   max="60"
+                                   th:field="*{cantidadAbonos}"
+                                   placeholder="Ej. 3"
+                                   required>
+
+
+                            <small>
+                                Número de abonos que compondrán el plan.
+                            </small>
+
+
+                            <span class="reg-field-error"
+                                  th:if="${#fields.hasErrors('cantidadAbonos')}"
+                                  th:errors="*{cantidadAbonos}">
+                            </span>
+
+
+                        </div>
+
+
+                        <div class="reg-campo reg-campo-full">
+
+
+                            <label>
+                                Motivo *
+                            </label>
+
+
+                            <textarea th:field="*{motivo}"
+                                      maxlength="200"
+                                      required
+                                      placeholder="Ej. Cliente solicita distribuir el capital vencido en varios abonos.">
+                            </textarea>
+
+
+                            <div class="reg-textarea-footer">
+
+                                <small>
+                                    Explica por qué se está creando este plan.
+                                </small>
+
+                                <span id="contadorMotivo">
+                                    0 / 200
+                                </span>
+
+                            </div>
+
+
+                            <span class="reg-field-error"
+                                  th:if="${#fields.hasErrors('motivo')}"
+                                  th:errors="*{motivo}">
+                            </span>
+
+
+                        </div>
+
+
+                    </div>
+
+
+                    <div class="reg-advertencia">
+
+                        <strong>
+                            Importante
+                        </strong>
+
+                        <p>
+                            El plan no elimina ni modifica las cuotas originales.
+                            La regularización se registra como una aplicación adicional
+                            y conserva el historial financiero del crédito.
+                        </p>
+
+                    </div>
+
+
+                    <div class="reg-form-actions">
+
+
+                        <a th:href="@{/admin/regularizaciones}">
+                            Cancelar
+                        </a>
+
+
+                        <button type="submit">
+
+                            Crear plan de regularización
+
+                        </button>
+
+
+                    </div>
+
+
+                </form>
+
+
+            </section>
+
+
+        </main>
+
+
+    </div>
+
+
+</div>
+
+
+<script>
+
+    const motivo =
+        document.querySelector(
+            'textarea[name="motivo"]'
+        );
+
+    const contador =
+        document.getElementById(
+            'contadorMotivo'
+        );
+
+
+    function actualizarContador() {
+
+        if (!motivo || !contador) {
+            return;
+        }
+
+        contador.textContent =
+            motivo.value.length
+            + " / 200";
+    }
+
+
+    if (motivo) {
+
+        motivo.addEventListener(
+            "input",
+            actualizarContador
+        );
+
+        actualizarContador();
+    }
+
+</script>
+
+
+</body>
+
+</html>

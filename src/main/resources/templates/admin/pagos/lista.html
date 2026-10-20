@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+
+<html lang="es"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Pagos | crediNeyra</title>
+
+    <link rel="stylesheet"
+          th:href="@{/css/admin/dashboard.css}">
+
+    <link rel="stylesheet"
+          th:href="@{/css/admin/pagos.css}">
+
+</head>
+
+<body>
+
+<div class="admin-layout">
+
+    <div th:replace="~{admin/fragments/sidebar :: sidebar}">
+    </div>
+
+    <div th:replace="~{admin/fragments/sidebar :: sidebar-overlay}">
+    </div>
+
+    <div class="admin-main">
+
+        <div th:replace="~{admin/fragments/topbar :: topbar}">
+        </div>
+
+        <main class="pagos-page">
+
+            <header class="pagos-header">
+
+                <div>
+
+                    <span>
+                        GESTIÓN FINANCIERA
+                    </span>
+
+                    <h1>
+                        Pagos
+                    </h1>
+
+                    <p>
+                        Revisa comprobantes y confirma únicamente operaciones válidas.
+                    </p>
+
+                </div>
+
+            </header>
+
+            <section class="pagos-kpis">
+
+                <article>
+
+                    <span>
+                        Total
+                    </span>
+
+                    <strong th:text="${panel.totalPagos}">
+                        0
+                    </strong>
+
+                </article>
+
+                <article class="pendiente">
+
+                    <span>
+                        Pendientes
+                    </span>
+
+                    <strong th:text="${panel.pendientes}">
+                        0
+                    </strong>
+
+                </article>
+
+                <article class="aprobado">
+
+                    <span>
+                        Aprobados
+                    </span>
+
+                    <strong th:text="${panel.aprobados}">
+                        0
+                    </strong>
+
+                </article>
+
+                <article class="rechazado">
+
+                    <span>
+                        Rechazados
+                    </span>
+
+                    <strong th:text="${panel.rechazados}">
+                        0
+                    </strong>
+
+                </article>
+
+                <article>
+
+                    <span>
+                        Cobrado aprobado
+                    </span>
+
+                    <strong th:text="${'S/ ' + panel.totalAprobado}">
+                        S/ 0.00
+                    </strong>
+
+                </article>
+
+            </section>
+
+            <section class="pagos-card">
+
+                <div class="tabla-scroll">
+
+                    <table>
+
+                        <thead>
+
+                        <tr>
+
+                            <th>Pago</th>
+                            <th>Cliente</th>
+                            <th>Crédito</th>
+                            <th>Monto</th>
+                            <th>Método</th>
+                            <th>Operación</th>
+                            <th>Comprobante</th>
+                            <th>Estado</th>
+                            <th>Fecha</th>
+                            <th></th>
+
+                        </tr>
+
+                        </thead>
+
+                        <tbody>
+
+                        <tr th:each="p : ${panel.pagos}">
+
+                            <td>
+
+                                <strong th:text="${p.codigoPago}">
+                                    PAG
+                                </strong>
+
+                            </td>
+
+                            <td th:text="${p.clienteNombre}">
+                                Cliente
+                            </td>
+
+                            <td th:text="${p.codigoCredito}">
+                                CRE
+                            </td>
+
+                            <td th:text="${'S/ ' + p.monto}">
+                                S/ 0
+                            </td>
+
+                            <td th:text="${p.metodoPago}">
+                                YAPE
+                            </td>
+
+                            <td th:text="${p.referencia}">
+                                -
+                            </td>
+
+                            <td>
+
+                                <span th:if="${p.tieneComprobante}"
+                                      class="si">
+
+                                    ADJUNTO
+
+                                </span>
+
+                                <span th:unless="${p.tieneComprobante}"
+                                      class="no">
+
+                                    FALTA
+
+                                </span>
+
+                            </td>
+
+                            <td>
+
+                                <span class="badge"
+                                      th:classappend="${' estado-' + #strings.toLowerCase(p.estado)}"
+                                      th:text="${p.estado}">
+
+                                    PENDIENTE
+
+                                </span>
+
+                            </td>
+
+                            <td th:text="${#temporals.format(p.fechaPago,'dd/MM/yyyy HH:mm')}">
+                                -
+                            </td>
+
+                            <td>
+
+                                <a th:href="@{/admin/pagos/{id}(id=${p.idPago})}"
+                                   class="ojo">
+
+                                    👁
+
+                                </a>
+
+                            </td>
+
+                        </tr>
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </section>
+
+        </main>
+
+    </div>
+
+</div>
+
+</body>
+</html>

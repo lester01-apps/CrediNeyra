@@ -18,6 +18,7 @@ public class PagoAprobacionDto {
     public void setAplicaciones(
             List<PagoAplicacionDto> aplicaciones
     ) {
-        this.aplicaciones = aplicaciones;
+        this.aplicaciones =
+                aplicaciones;
     }
 }

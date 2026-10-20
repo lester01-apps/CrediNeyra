@@ -16,36 +16,46 @@ public interface PagoRepository
             String idempotencyKey
     );
 
+    List<Pago>
+    findAllByOrderByFechaPagoDesc();
 
-    List<Pago> findByCredito_IdCreditoOrderByFechaPagoDesc(
+    List<Pago>
+    findByCredito_IdCreditoOrderByFechaPagoDesc(
             Long idCredito
     );
 
+    List<Pago>
+    findByCredito_Cliente_IdClienteOrderByFechaPagoDesc(
+            Long idCliente
+    );
+
+    List<Pago>
+    findByCredito_Cliente_Persona_IdPersonaOrderByFechaPagoDesc(
+            Long idPersona
+    );
 
     List<Pago> findByEstado(
             EstadoPago estado
     );
 
+    List<Pago>
+    findByEstadoOrderByFechaPagoAsc(
+            EstadoPago estado
+    );
+
+    long countByEstado(
+            EstadoPago estado
+    );
 
     boolean existsByMetodoPagoAndReferencia(
             MetodoPago metodoPago,
             String referencia
     );
 
-
-    /*
-     * Dashboard.
-     *
-     * Obtiene pagos de un estado específico
-     * dentro de un período.
-     *
-     * inicio incluido.
-     * fin excluido.
-     */
-    List<Pago> findByEstadoAndFechaPagoGreaterThanEqualAndFechaPagoLessThan(
+    List<Pago>
+    findByEstadoAndFechaPagoGreaterThanEqualAndFechaPagoLessThan(
             EstadoPago estado,
             OffsetDateTime inicio,
             OffsetDateTime fin
     );
-
 }

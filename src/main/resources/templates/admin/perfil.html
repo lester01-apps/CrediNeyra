@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Mi perfil | crediNeyra</title>
+    <link rel="stylesheet" th:href="@{/css/admin/dashboard.css}">
+    <link rel="stylesheet" th:href="@{/css/admin/perfil.css}">
+    <link rel="stylesheet" th:href="@{/css/admin/perfil-foto.css}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.3.1/css/all.min.css">
+</head>
+<body>
+<div class="admin-layout">
+    <div th:replace="~{admin/fragments/sidebar :: sidebar}"></div>
+    <div th:replace="~{admin/fragments/sidebar :: sidebar-overlay}"></div>
+    <div class="admin-main">
+        <div th:replace="~{admin/fragments/topbar :: topbar}"></div>
+        <main class="admin-profile">
+            <header>
+                <p><i class="fa-solid fa-user"></i> Mi perfil</p>
+                <span>Administra tu información personal, nivel de acceso y permisos como administrador.</span>
+            </header>
+            <p class="profile-success" style="background:#07563f;border-radius:7px;color:#a9ffdc;font-size:12px;margin:12px 0 0;padding:10px 12px" th:if="${param.passwordActualizada}"><i class="fa-solid fa-circle-check"></i> Tu contraseña se actualizó correctamente.</p>
+            <p class="profile-success" style="background:#07563f;border-radius:7px;color:#a9ffdc;font-size:12px;margin:12px 0 0;padding:10px 12px" th:if="${mensajeExito != null}" th:text="${mensajeExito}"></p>
+            <p class="profile-error" style="background:#692038;border-radius:7px;color:#ffc4cf;font-size:12px;margin:12px 0 0;padding:10px 12px" th:if="${mensajeError != null}" th:text="${mensajeError}"></p>
+
+            <section class="admin-profile-hero">
+                <div class="admin-avatar"><img th:if="${administradorTieneFotoPerfil}" th:src="@{/admin/perfil/foto}" alt="Foto de perfil"><span th:unless="${administradorTieneFotoPerfil}" th:text="${#strings.toUpperCase(#strings.substring(administrador.persona.nombres,0,1))}">A</span></div>
+                <div>
+                    <h1 th:text="${administrador.persona.nombres + ' ' + administrador.persona.apellidos}">Administrador</h1>
+                    <b><i class="fa-solid fa-circle-check"></i> Verificado</b>
+                    <em><i class="fa-solid fa-crown"></i> Administrador</em>
+                    <strong><i class="fa-solid fa-circle"></i> Acceso autorizado</strong>
+                    <small>Responsable de la administración general de crediNeyra.</small>
+                </div>
+                <div class="admin-contact">
+                    <span><i class="fa-regular fa-envelope"></i><b th:text="${administrador.persona.email != null ? administrador.persona.email : 'Correo no registrado'}">Correo</b></span>
+                    <span><i class="fa-solid fa-phone"></i><b th:text="${administrador.persona.telefono != null ? administrador.persona.telefono : 'Teléfono no registrado'}">Teléfono</b></span>
+                    <span><i class="fa-regular fa-calendar-days"></i><b th:text="${administrador.fechaCreacion != null ? 'Miembro desde ' + #temporals.format(administrador.fechaCreacion,'dd MMM. yyyy') : 'Cuenta activa'}">Miembro</b></span>
+                    <span><i class="fa-solid fa-location-dot"></i><b th:text="${administrador.persona.direccion != null ? administrador.persona.direccion : 'Ubicación no registrada'}">Ubicación</b></span>
+                </div>
+                <form class="admin-photo-form" th:action="@{/admin/perfil/foto}" method="post" enctype="multipart/form-data"><input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"><input id="fotoAdministrador" name="foto" type="file" accept="image/jpeg,image/png,image/webp" hidden><label for="fotoAdministrador"><i class="fa-solid fa-camera"></i> Cambiar foto</label></form>
+            </section>
+
+            <section class="admin-kpis">
+                <article><i class="fa-solid fa-users"></i><span>Usuarios del sistema<b th:text="${usuariosSistema}">0</b><small>Activos e inactivos</small></span></article>
+                <article><i class="fa-solid fa-file-invoice"></i><span>Créditos gestionados<b th:text="${creditosGestionados}">0</b><small>Registrados en el sistema</small></span></article>
+                <article><i class="fa-solid fa-wallet"></i><span>Pagos revisados<b th:text="${pagosRevisados}">0</b><small>Movimientos registrados</small></span></article>
+                <article><i class="fa-solid fa-chart-column"></i><span>Cuenta verificada<b>Activa</b><small>Acceso administrativo</small></span></article>
+            </section>
+
+            <section class="admin-profile-grid">
+                <article>
+                    <h2><i class="fa-solid fa-user"></i> Datos personales <a th:href="@{/admin/perfil/editar}">Editar datos <i class="fa-solid fa-arrow-right"></i></a></h2>
+                    <div class="admin-data">
+                        <p><i class="fa-solid fa-user"></i><small>Nombre completo</small><b th:text="${administrador.persona.nombres + ' ' + administrador.persona.apellidos}">Nombre</b></p>
+                        <p><i class="fa-regular fa-id-card"></i><small>DNI</small><b th:text="${administrador.persona.dni}">00000000</b></p>
+                        <p><i class="fa-regular fa-envelope"></i><small>Correo electrónico</small><b th:text="${administrador.persona.email != null ? administrador.persona.email : 'No registrado'}">Correo</b></p>
+                        <p><i class="fa-solid fa-phone"></i><small>Teléfono</small><b th:text="${administrador.persona.telefono != null ? administrador.persona.telefono : 'No registrado'}">Teléfono</b></p>
+                        <p><i class="fa-solid fa-location-dot"></i><small>Ubicación</small><b th:text="${administrador.persona.direccion != null ? administrador.persona.direccion : 'No registrada'}">Ubicación</b></p>
+                    </div>
+                </article>
+                <article>
+                    <h2><i class="fa-solid fa-shield-halved"></i> Seguridad y acceso</h2>
+                    <form class="security-row password-request" th:action="@{/admin/seguridad/solicitar-codigo}" method="post">
+                        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+                        <i class="fa-solid fa-lock"></i><span><b>Contraseña</b><small>Solicita un código seguro en tu correo registrado.</small></span>
+                        <button type="submit" style="background:linear-gradient(100deg,#08aaf0,#154dde);border:0;border-radius:6px;color:#fff;cursor:pointer;font-size:10px;font-weight:800;padding:8px 10px">Cambiar contraseña <i class="fa-solid fa-chevron-right"></i></button>
+                    </form>
+                    <div class="security-row"><i class="fa-solid fa-shield"></i><span><b>Autenticación en dos pasos</b><small>Protección adicional de la cuenta.</small></span><em><i class="fa-solid fa-circle-check"></i> Verificada</em></div>
+                    <a class="security-row" th:href="@{/admin/auditoria}"><i class="fa-solid fa-desktop"></i><span><b>Actividad de acceso</b><small>Consulta los movimientos del sistema.</small></span><i class="fa-solid fa-chevron-right"></i></a>
+                    <form class="security-row close" th:action="@{/logout}" method="post"><input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"><i class="fa-solid fa-right-from-bracket"></i><span><b>Cerrar sesión</b><small>Finaliza la sesión en este dispositivo.</small></span><button>Cerrar sesión</button></form>
+                </article>
+                <article>
+                    <h2><i class="fa-solid fa-shield"></i> Permisos del sistema</h2>
+                    <p class="permission-note">Módulos que tienes habilitados según tu rol actual.</p>
+                    <div class="permissions">
+                        <a th:href="@{/admin/usuarios}"><i class="fa-solid fa-users"></i> Gestionar usuarios <b><i class="fa-solid fa-circle-check"></i></b></a>
+                        <a th:href="@{/admin/creditos}"><i class="fa-solid fa-file-invoice"></i> Aprobar créditos <b><i class="fa-solid fa-circle-check"></i></b></a>
+                        <a th:href="@{/admin/pagos}"><i class="fa-solid fa-wallet"></i> Revisar pagos <b><i class="fa-solid fa-circle-check"></i></b></a>
+                        <a th:href="@{/admin/reportes}"><i class="fa-solid fa-chart-column"></i> Ver reportes <b><i class="fa-solid fa-circle-check"></i></b></a>
+                    </div>
+                </article>
+            </section>
+        </main>
+    </div>
+</div>
+<script th:src="@{/js/admin/dashboard.js}"></script>
+<script>document.getElementById('fotoAdministrador')?.addEventListener('change', event => { if (event.target.files.length) event.target.form.submit(); });</script>
+</body>
+</html>

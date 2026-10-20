@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Auditoría · crediNeyra</title>
+    <link rel="stylesheet" th:href="@{/css/admin/dashboard.css}">
+    <link rel="stylesheet" th:href="@{/css/admin/auditoria.css}">
+</head>
+<body>
+<div class="admin-layout auditoria-layout">
+    <aside th:replace="~{admin/fragments/sidebar :: sidebar}"></aside>
+    <div th:replace="~{admin/fragments/sidebar :: sidebar-overlay}"></div>
+    <main class="admin-main">
+        <header th:replace="~{admin/fragments/topbar :: topbar}"></header>
+        <section class="auditoria-contenido">
+            <div class="auditoria-cabecera">
+                <div><h1>Auditoría</h1><p>Supervisa movimientos, cambios y acciones del sistema.</p></div>
+            </div>
+
+            <form class="filtros-auditoria" method="get" th:action="@{/admin/auditoria}">
+                <label>Fecha desde<input type="date" name="desde" th:value="${desde}"></label>
+                <label>Fecha hasta<input type="date" name="hasta" th:value="${hasta}"></label>
+                <label>Usuario<select name="usuario"><option value="">Todos los usuarios</option><option th:each="item : ${usuarios}" th:value="${item.idUsuario}" th:text="${item.username}" th:selected="${usuarioSeleccionado != null and item.idUsuario == usuarioSeleccionado}"></option></select></label>
+                <label>Tipo de acción<select name="accion"><option value="">Todas las acciones</option><option th:each="item : ${panel.acciones}" th:value="${item}" th:text="${item}" th:selected="${item == accionSeleccionada}"></option></select></label>
+                <label>Módulo<select name="modulo"><option value="">Todos los módulos</option><option th:each="item : ${panel.modulos}" th:value="${item}" th:text="${item}" th:selected="${item == moduloSeleccionado}"></option></select></label>
+                <label>Resultado<select name="resultado"><option value="">Todos los resultados</option><option value="EXITOSO" th:selected="${resultadoSeleccionado == 'EXITOSO'}">Exitoso</option><option value="PENDIENTE" th:selected="${resultadoSeleccionado == 'PENDIENTE'}">Pendiente</option><option value="FALLIDO" th:selected="${resultadoSeleccionado == 'FALLIDO'}">Fallido</option><option value="RECHAZADO" th:selected="${resultadoSeleccionado == 'RECHAZADO'}">Rechazado</option><option value="VENCIDO" th:selected="${resultadoSeleccionado == 'VENCIDO'}">Vencido</option></select></label>
+                <button type="submit" class="btn-filtrar">⌕&nbsp; Filtrar</button>
+            </form>
+
+            <div class="resumen-auditoria">
+                <article class="resumen azul"><span class="resumen-icono">▣</span><div><span>Eventos registrados</span><strong th:text="${panel.eventosRegistrados}">0</strong><small>Movimientos del período</small></div></article>
+                <article class="resumen verde"><span class="resumen-icono">♧</span><div><span>Usuarios activos</span><strong th:text="${panel.usuariosActivos}">0</strong><small>Con acceso habilitado</small></div></article>
+                <article class="resumen amarillo"><span class="resumen-icono">◷</span><div><span>Solicitudes pendientes</span><strong th:text="${panel.solicitudesPendientes}">0</strong><small>Esperando confirmación</small></div></article>
+                <article class="resumen rojo"><span class="resumen-icono">!</span><div><span>Acciones críticas</span><strong th:text="${panel.accionesCriticas}">0</strong><small>Requieren atención</small></div></article>
+            </div>
+
+            <div class="auditoria-grid">
+                <article class="tabla-card">
+                    <div class="tabla-titulo"><div><p>▣ &nbsp; REGISTROS DE AUDITORÍA</p><h2>Historial de acciones, cambios y solicitudes del sistema.</h2></div><span th:text="${'Mostrando ' + panel.filas.size() + ' registro(s)'}">0 registros</span></div>
+                    <div class="tabla-scroll" th:if="${!#lists.isEmpty(panel.filas)}">
+                        <table><thead><tr><th>Fecha y hora</th><th>Usuario</th><th>Acción</th><th>Módulo</th><th>Detalle</th><th>Resultado</th></tr></thead>
+                        <tbody><tr th:each="fila : ${panel.filas}"><td th:text="${#temporals.format(fila.fechaHora, 'dd/MM/yyyy HH:mm')}">-</td><td th:text="${fila.usuario}">Sistema</td><td th:text="${fila.accion}">Acción</td><td th:text="${fila.modulo}">Módulo</td><td th:text="${fila.detalle}">Detalle</td><td><span class="resultado" th:classappend="${' ' + #strings.toLowerCase(fila.resultado)}" th:text="${fila.resultado}">EXITOSO</span></td></tr></tbody></table>
+                    </div>
+                    <div class="vacio" th:if="${#lists.isEmpty(panel.filas)}">No hay registros que coincidan con estos filtros.</div>
+                </article>
+
+                <aside class="columna-lateral">
+                    <article class="panel-lateral gestion-panel"><div class="panel-icono">♙</div><div><h2>Gestión de usuarios</h2><p>Administra cuentas, credenciales iniciales y accesos.</p></div><a th:href="@{/admin/usuarios}" class="enlace-gestion">Abrir gestión de usuarios →</a></article>
+                    <article class="panel-lateral alertas-panel"><div class="panel-titulo-lateral"><div><span>♧</span><h2>Alertas de auditoría</h2></div><span th:text="${panel.alertas.size() + ' alerta(s)'}">0</span></div>
+                        <div class="alerta" th:each="fila : ${panel.alertas}"><i th:classappend="${#strings.toLowerCase(fila.resultado)}"></i><div><strong th:text="${fila.accion}">Acción</strong><small th:text="${fila.detalle}">Detalle</small></div><time th:text="${#temporals.format(fila.fechaHora, 'dd/MM HH:mm')}">-</time></div>
+                        <p class="sin-alertas" th:if="${#lists.isEmpty(panel.alertas)}">No hay alertas pendientes o fallidas.</p>
+                    </article>
+                </aside>
+            </div>
+
+            <div class="analitica-grid">
+                <article class="analitica-card"><div class="analitica-titulo"><div><p>▥ &nbsp; ACTIVIDAD POR DÍA</p><h2>Movimientos registrados</h2></div></div><div class="barras-actividad" th:if="${!#lists.isEmpty(panel.actividadDiaria)}"><div class="barra-dia" th:each="dia : ${panel.actividadDiaria}" th:style="${'--altura: ' + (dia.cantidad * 100 / panel.maximoActividad) + '%'}"><span th:text="${dia.cantidad}">0</span><i></i><small th:text="${#temporals.format(dia.fecha, 'dd/MM')}">--/--</small></div></div><div class="vacio compacto" th:if="${#lists.isEmpty(panel.actividadDiaria)}">Sin actividad en el período.</div></article>
+                <article class="analitica-card"><div class="analitica-titulo"><div><p>☷ &nbsp; ACCIONES FRECUENTES</p><h2>Top acciones del período</h2></div></div><div class="acciones-frecuentes" th:each="accionFrecuente : ${panel.accionesFrecuentes}"><span th:text="${accionFrecuente.etiqueta}">Acción</span><div><i th:style="${'width: ' + (accionFrecuente.cantidad * 100 / panel.maximoAcciones) + '%'}"></i></div><strong th:text="${accionFrecuente.cantidad}">0</strong></div><div class="vacio compacto" th:if="${#lists.isEmpty(panel.accionesFrecuentes)}">Sin acciones para mostrar.</div></article>
+            </div>
+        </section>
+    </main>
+</div>
+<script th:src="@{/js/admin/dashboard.js}"></script>
+</body>
+</html>

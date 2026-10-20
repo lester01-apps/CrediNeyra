@@ -10,13 +10,25 @@ import java.util.Optional;
 public interface CreditoRepository
         extends JpaRepository<Credito, Long> {
 
-    Optional<Credito> findByCodigoCredito(String codigoCredito);
+    Optional<Credito> findByCodigoCredito(
+            String codigoCredito
+    );
 
-    boolean existsByCodigoCredito(String codigoCredito);
+    boolean existsByCodigoCredito(
+            String codigoCredito
+    );
 
-    List<Credito> findByCliente_IdClienteOrderByFechaSolicitudDesc(
+    List<Credito>
+    findByCliente_IdClienteOrderByFechaSolicitudDesc(
             Long idCliente
     );
 
-    List<Credito> findByEstado(EstadoCredito estado);
+    List<Credito>
+    findByCliente_Persona_IdPersonaOrderByFechaSolicitudDesc(
+            Long idPersona
+    );
+
+    List<Credito> findByEstado(
+            EstadoCredito estado
+    );
 }

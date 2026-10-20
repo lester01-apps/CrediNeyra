@@ -5,15 +5,9 @@ import java.math.BigDecimal;
 public class PagoAplicacionDto {
 
     private Long idCuota;
-
-    private BigDecimal montoCapital =
-            BigDecimal.ZERO;
-
-    private BigDecimal montoInteres =
-            BigDecimal.ZERO;
-
-    private BigDecimal montoCapitalRegularizado =
-            BigDecimal.ZERO;
+    private BigDecimal montoCapital;
+    private BigDecimal montoInteres;
+    private BigDecimal montoCapitalRegularizado;
 
     public PagoAplicacionDto() {
     }
@@ -30,9 +24,7 @@ public class PagoAplicacionDto {
         return montoCapital;
     }
 
-    public void setMontoCapital(
-            BigDecimal montoCapital
-    ) {
+    public void setMontoCapital(BigDecimal montoCapital) {
         this.montoCapital = montoCapital;
     }
 
@@ -40,9 +32,7 @@ public class PagoAplicacionDto {
         return montoInteres;
     }
 
-    public void setMontoInteres(
-            BigDecimal montoInteres
-    ) {
+    public void setMontoInteres(BigDecimal montoInteres) {
         this.montoInteres = montoInteres;
     }
 

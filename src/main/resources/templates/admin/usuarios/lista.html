@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Usuarios · crediNeyra</title>
+    <link rel="stylesheet" th:href="@{/css/admin/dashboard.css}">
+    <link rel="stylesheet" th:href="@{/css/admin/usuarios.css}">
+</head>
+<body>
+<div class="admin-layout">
+    <aside th:replace="~{admin/fragments/sidebar :: sidebar}"></aside>
+    <div th:replace="~{admin/fragments/sidebar :: sidebar-overlay}"></div>
+    <main class="admin-main">
+        <header th:replace="~{admin/fragments/topbar :: topbar}"></header>
+        <section class="usuarios-contenido">
+            <div class="usuarios-cabecera"><div><p class="eyebrow">GESTIÓN DE ACCESO</p><h1>Usuarios</h1><p>Selecciona una persona registrada y crea sus credenciales iniciales.</p></div><a class="btn-crear" th:href="@{/admin/usuarios/nuevo}">+ Crear usuario</a></div>
+            <div class="mensaje exito" th:if="${mensajeExito != null}" th:text="${mensajeExito}"></div>
+            <article class="usuarios-card">
+                <div class="usuarios-card-titulo"><div><p>CUENTAS REGISTRADAS</p><h2>Administración de usuarios</h2></div><span th:text="${usuarios.size() + ' cuenta(s)'}">0 cuenta(s)</span></div>
+                <div class="tabla-scroll" th:if="${!#lists.isEmpty(usuarios)}"><table><thead><tr><th>Usuario</th><th>Estado</th><th>Contraseña inicial</th><th>Acción</th></tr></thead><tbody><tr th:each="usuario : ${usuarios}"><td><strong th:text="${usuario.username}">usuario</strong><small th:text="${'ID: ' + usuario.idUsuario}">ID</small></td><td><span class="estado-usuario" th:classappend="${#strings.toLowerCase(usuario.estado)}" th:text="${usuario.estado}">ACTIVA</span></td><td th:text="${usuario.cambioPasswordObligatorio ? 'Pendiente de confirmación del cliente' : 'Configurada por el cliente'}">-</td><td><a class="btn-detalle" th:href="@{/admin/usuarios/{id}(id=${usuario.idUsuario})}">Ver detalle</a></td></tr></tbody></table></div>
+                <div class="vacio" th:if="${#lists.isEmpty(usuarios)}">Aún no existen usuarios. Crea uno desde una persona registrada.</div>
+            </article>
+        </section>
+    </main>
+</div>
+<script th:src="@{/js/admin/dashboard.js}"></script>
+</body>
+</html>

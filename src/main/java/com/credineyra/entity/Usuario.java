@@ -63,6 +63,10 @@ public class Usuario {
     @Column(name = "ultimo_acceso")
     private OffsetDateTime ultimoAcceso;
 
+    @Size(max = 500)
+    @Column(name = "foto_perfil_ruta", length = 500)
+    private String fotoPerfilRuta;
+
     @Column(name = "fecha_creacion", nullable = false)
     private OffsetDateTime fechaCreacion;
 
@@ -143,6 +147,14 @@ public class Usuario {
 
     public void setUltimoAcceso(OffsetDateTime ultimoAcceso) {
         this.ultimoAcceso = ultimoAcceso;
+    }
+
+    public String getFotoPerfilRuta() {
+        return fotoPerfilRuta;
+    }
+
+    public void setFotoPerfilRuta(String fotoPerfilRuta) {
+        this.fotoPerfilRuta = fotoPerfilRuta;
     }
 
     public OffsetDateTime getFechaCreacion() {

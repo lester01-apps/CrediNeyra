@@ -9,6 +9,7 @@ public enum TipoDocumento {
     COMPROBANTE_PAGO,
 
     DNI,
+    FOTO_PERFIL,
 
     FOTO_GARANTIA,
     DOCUMENTO_GARANTIA

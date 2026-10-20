@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Primer ingreso | crediNeyra</title>
+    <link rel="stylesheet" th:href="@{/css/cliente/seguridad.css}">
+</head>
+<body>
+<main class="seguridad-contenedor">
+    <section class="tarjeta-seguridad">
+        <p class="marca">credi<span>Neyra</span></p>
+        <p class="etiqueta">PRIMER INGRESO</p>
+        <h1>Protege tu cuenta</h1>
+        <p class="descripcion">El administrador creó una contraseña temporal para que ingreses. Puedes conservarla por ahora o crear una contraseña propia.</p>
+
+        <div class="mensaje exito" th:if="${mensajeExito != null}" th:text="${mensajeExito}"></div>
+        <div class="mensaje error" th:if="${mensajeError != null}" th:text="${mensajeError}"></div>
+
+        <div class="aviso-seguro">
+            <strong>Tu contraseña no será mostrada al administrador.</strong>
+            <span>Si eliges cambiarla, recibirás un código temporal en tu correo registrado.</span>
+        </div>
+
+        <form method="post" th:action="@{/cliente/seguridad/solicitar-codigo}">
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+            <button class="boton primario" type="submit">Quiero cambiar mi contraseña</button>
+        </form>
+
+        <form method="post" th:action="@{/cliente/seguridad/conservar-password}">
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+            <button class="boton secundario" type="submit">Continuar con esta contraseña</button>
+        </form>
+
+        <p class="pie">Podrás solicitar otro cambio desde tu perfil cuando esté disponible.</p>
+    </section>
+</main>
+</body>
+</html>

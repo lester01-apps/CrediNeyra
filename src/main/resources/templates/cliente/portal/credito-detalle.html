@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Detalle del crédito | crediNeyra</title>
+    <link rel="stylesheet" th:href="@{/css/cliente/portal.css}">
+    <link rel="stylesheet" th:href="@{/css/cliente/responsive-app.css}">
+    <link rel="stylesheet" th:href="@{/css/cliente/credito-detalle.css}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.3.1/css/all.min.css">
+</head>
+<body>
+<div class="portal-layout">
+    <aside class="portal-menu detail-menu">
+        <a class="portal-logo" th:href="@{/cliente/inicio}">credi<span>Neyra</span><small>GESTIÓN DE CRÉDITOS</small></a>
+        <nav>
+            <a th:href="@{/cliente/inicio}"><i class="fa-solid fa-house"></i> Inicio</a>
+            <a class="activo" th:href="@{/cliente/creditos}"><i class="fa-solid fa-file-invoice-dollar"></i> Mis créditos</a>
+            <a th:href="@{/cliente/pagos}"><i class="fa-solid fa-credit-card"></i> Mis pagos</a>
+            <a th:href="@{/cliente/historial}"><i class="fa-solid fa-clock-rotate-left"></i> Historial</a>
+            <hr>
+            <a th:href="@{/cliente/sobre-nosotros}"><i class="fa-solid fa-building-columns"></i> Sobre nosotros</a>
+            <a th:href="@{/cliente/soporte}"><i class="fa-solid fa-circle-question"></i> Soporte y ayuda</a>
+            <a th:href="@{/cliente/contacto}"><i class="fa-solid fa-phone"></i> Contáctanos</a>
+        </nav>
+        <form th:action="@{/logout}" method="post"><input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"><button><i class="fa-solid fa-right-from-bracket"></i> Cerrar sesión</button></form>
+    </aside>
+
+    <main class="portal-main detail-page">
+        <header class="portal-top detail-top"><div class="portal-search"><i class="fa-solid fa-magnifying-glass"></i><span>Buscar en el portal...</span></div><div class="client-profile-top"><div th:replace="~{cliente/fragments/notificaciones :: menu}"></div><a class="cliente-resumen profile-trigger" th:href="@{/cliente/perfil}"><b th:text="${clienteNombre != null ? #strings.substring(clienteNombre,0,1) : 'C'}">C</b><div><strong th:text="${clienteNombre}">Cliente</strong><small>Cliente</small></div><i class="fa-solid fa-chevron-down"></i></a></div></header>
+
+        <section class="detail-heading">
+            <a th:href="@{/cliente/creditos}"><i class="fa-solid fa-arrow-left"></i> Mis créditos</a><span>/</span><b th:text="${detalle.codigoCredito}">CRE-00001</b>
+            <h1>Detalle del crédito</h1><p>Revisa el estado completo de tu crédito, cuotas, cronograma e información de pago.</p>
+        </section>
+
+        <section class="detail-hero-card">
+            <div class="detail-credit-name"><span class="detail-icon"><i class="fa-solid fa-file-lines"></i></span><div><h2 th:text="${detalle.codigoCredito}">CRE-00001</h2><p th:classappend="${detalle.estado == 'EN_REGULARIZACION' or detalle.estado == 'EN_MORA' or detalle.estado == 'ATRASO_PROLONGADO'} ? ' alert' : ''"><i class="fa-solid fa-circle"></i><span th:text="${detalle.estado == 'ACTIVO' or detalle.estado == 'AL_DIA' ? 'Crédito al día y sin retrasos' : 'Crédito en seguimiento'}">Crédito al día y sin retrasos</span></p></div></div>
+            <div class="detail-balance"><span class="detail-icon"><i class="fa-solid fa-coins"></i></span><div><b th:text="${'S/ ' + #numbers.formatDecimal(detalle.totalPendiente,1,2)}">S/ 0.00</b><small>Saldo total pendiente</small></div></div>
+        </section>
+
+        <section class="detail-metrics">
+            <article><small>Capital pendiente</small><b th:text="${'S/ ' + #numbers.formatDecimal(detalle.capitalPendiente,1,2)}">S/ 0.00</b></article>
+            <article><small>Interés pendiente</small><b th:text="${'S/ ' + #numbers.formatDecimal(detalle.interesPendiente,1,2)}">S/ 0.00</b></article>
+            <article><small>Monto exigible</small><b th:text="${'S/ ' + #numbers.formatDecimal(detalle.montoExigible,1,2)}">S/ 0.00</b></article>
+            <article><i class="fa-regular fa-calendar-days"></i><small>Próxima cuota</small><b th:text="${detalle.proximaCuota != null ? #temporals.format(detalle.proximaCuota,'dd MMM. yyyy') : 'Sin cuota pendiente'}">Sin cuota pendiente</b></article>
+            <article><i class="fa-solid fa-hashtag"></i><small>Cuota actual</small><b th:text="${detalle.cuotaActual != null ? '#' + detalle.cuotaActual : '—'}">—</b></article>
+            <article><i class="fa-solid fa-repeat"></i><small>Frecuencia</small><b th:text="${#strings.replace(detalle.frecuenciaPago,'_',' ')}">MENSUAL</b></article>
+        </section>
+        <div class="detail-quick-actions"><a class="detail-pay" th:if="${detalle.montoExigible.signum() > 0}" th:href="@{/cliente/pagos/nuevo/{id}(id=${detalle.idCredito})}"><i class="fa-solid fa-cloud-arrow-up"></i> Subir comprobante</a><a class="detail-back" th:href="@{/cliente/creditos}"><i class="fa-solid fa-arrow-left"></i> Volver a mis créditos</a></div>
+
+        <section class="detail-columns">
+            <div>
+                <article class="detail-panel summary-panel"><h2><i class="fa-solid fa-clipboard-list"></i> Resumen del crédito</h2><div class="summary-data"><span><i class="fa-solid fa-user"></i><small>Cliente</small><b th:text="${clienteNombre}">Cliente</b></span><span><i class="fa-solid fa-coins"></i><small>Monto original</small><b th:text="${'S/ ' + #numbers.formatDecimal(detalle.capitalOriginal,1,2)}">S/ 0.00</b></span><span><i class="fa-regular fa-calendar"></i><small>Plazo</small><b th:text="${detalle.plazoMeses != null ? detalle.plazoMeses + ' meses' : '—'}">—</b></span><span><i class="fa-solid fa-percent"></i><small>Tasa aplicada</small><b th:text="${#numbers.formatDecimal(detalle.tasaInteres,1,2) + '%'}">0%</b></span><span><i class="fa-solid fa-list-ol"></i><small>Número de cuotas</small><b th:text="${detalle.numeroCuotas != null ? detalle.numeroCuotas : '—'}">—</b></span><span><i class="fa-regular fa-calendar-check"></i><small>Inicio del crédito</small><b th:text="${detalle.fechaInicio != null ? #temporals.format(detalle.fechaInicio,'dd MMM. yyyy') : '—'}">—</b></span></div></article>
+
+                <article class="detail-panel schedule-panel"><h2><i class="fa-solid fa-calendar-days"></i> Cronograma de pagos</h2><div class="schedule-head"><span>Cuota</span><span>Vencimiento</span><span>Capital</span><span>Interés</span><span>Monto</span><span>Estado</span><span>Acción</span></div><div class="schedule-row" th:each="cuota : ${detalle.cuotas}"><b th:text="${'#' + cuota.numero}">#1</b><span th:text="${#temporals.format(cuota.vencimiento,'dd MMM. yyyy')}">Fecha</span><span th:text="${'S/ ' + #numbers.formatDecimal(cuota.capital,1,2)}">S/ 0.00</span><span th:text="${'S/ ' + #numbers.formatDecimal(cuota.interes,1,2)}">S/ 0.00</span><b th:text="${'S/ ' + #numbers.formatDecimal(cuota.monto,1,2)}">S/ 0.00</b><em th:classappend="${cuota.estado == 'PAGADA'} ? ' paid' : ''" th:text="${cuota.estado == 'PAGADA' ? 'Pagada' : (cuota.estado == 'VENCIDA' ? 'Vencida' : 'Programada')}">Programada</em><a th:if="${cuota.estado != 'PAGADA' and detalle.montoExigible.signum() > 0}" th:href="@{/cliente/pagos/nuevo/{id}(id=${detalle.idCredito})}">Subir comprobante</a><span th:unless="${cuota.estado != 'PAGADA' and detalle.montoExigible.signum() > 0}">Ver</span></div><p class="detail-empty" th:if="${#lists.isEmpty(detalle.cuotas)}">Todavía no hay cuotas generadas para este crédito.</p></article>
+            </div>
+            <aside>
+                <article class="detail-panel detail-status"><h2><i class="fa-solid fa-chart-pie"></i> Estado del crédito</h2><div class="progress-ring"><b th:text="${#lists.size(detalle.cuotas)}">0</b><span>cuotas registradas</span></div><p><i class="fa-solid fa-circle"></i> Mantén tus pagos al día para conservar un buen historial.</p><div class="status-total"><small>Saldo pendiente</small><b th:text="${'S/ ' + #numbers.formatDecimal(detalle.totalPendiente,1,2)}">S/ 0.00</b></div></article>
+                <article class="detail-panel help-panel"><h2><i class="fa-solid fa-circle-question"></i> Ayuda rápida</h2><a th:href="@{/cliente/soporte}"><i class="fa-solid fa-headset"></i><span><b>Consultar asistencia</b><small>Resuelve tus dudas</small></span></a><a th:href="@{/cliente/contacto}"><i class="fa-solid fa-phone"></i><span><b>Contactar a CrediNeyra</b><small>Canales de atención</small></span></a><a th:href="@{/cliente/pagos}"><i class="fa-solid fa-credit-card"></i><span><b>Ver mis pagos</b><small>Revisa tus comprobantes</small></span></a></article>
+            </aside>
+        </section>
+    </main>
+</div>
+</body>
+</html>

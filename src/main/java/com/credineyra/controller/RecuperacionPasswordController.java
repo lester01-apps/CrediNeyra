@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping("/recuperar-password")
@@ -40,52 +41,41 @@ public class RecuperacionPasswordController {
             @ModelAttribute("solicitudDto")
             SolicitudRecuperacionDto dto,
             BindingResult result,
-            Model model
+            Model model,
+            RedirectAttributes redirectAttributes
     ) {
 
         if (result.hasErrors()) {
             return "auth/recuperar-password";
         }
 
-        service.solicitarRecuperacion(
-                dto.getEmail()
-        );
+        try {
+            service.solicitarRecuperacion(dto.getEmail());
+        } catch (RuntimeException ex) {
+            model.addAttribute("mensajeError", "No se pudo enviar el código. Inténtalo nuevamente más tarde.");
+            return "auth/recuperar-password";
+        }
 
-        model.addAttribute(
+        redirectAttributes.addFlashAttribute(
                 "mensaje",
-                "Si el correo pertenece a una cuenta, recibirás instrucciones para recuperar tu contraseña."
+                "Si el correo pertenece a una cuenta, enviamos un código temporal."
         );
-
-        return "auth/recuperar-password";
+        return "redirect:/recuperar-password/codigo";
     }
 
-    @GetMapping("/restablecer")
-    public String formularioRestablecer(
-            @RequestParam String token,
-            Model model
-    ) {
-
-        service.validarToken(token);
-
-        RestablecerPasswordDto dto =
-                new RestablecerPasswordDto();
-
-        dto.setToken(token);
-
-        model.addAttribute(
-                "restablecerDto",
-                dto
-        );
-
+    @GetMapping("/codigo")
+    public String formularioCodigo(Model model) {
+        model.addAttribute("restablecerDto", new RestablecerPasswordDto());
         return "auth/restablecer-password";
     }
 
-    @PostMapping("/restablecer")
+    @PostMapping("/codigo")
     public String restablecer(
             @Valid
             @ModelAttribute("restablecerDto")
             RestablecerPasswordDto dto,
-            BindingResult result
+            BindingResult result,
+            Model model
     ) {
 
         if (dto.getPassword() != null
@@ -105,11 +95,14 @@ public class RecuperacionPasswordController {
             return "auth/restablecer-password";
         }
 
-        service.restablecerPassword(
-                dto.getToken(),
-                dto.getPassword(),
-                dto.getConfirmarPassword()
-        );
+        try {
+            service.restablecerPassword(
+                    dto.getToken(), dto.getPassword(), dto.getConfirmarPassword()
+            );
+        } catch (RuntimeException ex) {
+            model.addAttribute("mensajeError", ex.getMessage());
+            return "auth/restablecer-password";
+        }
 
         return "redirect:/login?passwordActualizada";
     }

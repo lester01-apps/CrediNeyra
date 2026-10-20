@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Contáctanos | crediNeyra</title>
+    <link rel="stylesheet" th:href="@{/css/cliente/portal.css}">
+    <link rel="stylesheet" th:href="@{/css/cliente/responsive-app.css}">
+    <link rel="stylesheet" th:href="@{/css/cliente/contacto.css}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.3.1/css/all.min.css">
+</head>
+<body>
+<div class="portal-layout">
+    <aside class="portal-menu">
+        <a class="portal-logo" th:href="@{/cliente/inicio}">credi<span>Neyra</span><small>GESTIÓN DE CRÉDITOS</small></a>
+        <nav>
+            <a th:href="@{/cliente/inicio}"><i class="fa-solid fa-house"></i> Inicio</a>
+            <a th:href="@{/cliente/creditos}"><i class="fa-solid fa-file-invoice-dollar"></i> Mis créditos</a>
+            <a th:href="@{/cliente/pagos}"><i class="fa-solid fa-credit-card"></i> Mis pagos</a>
+            <a th:href="@{/cliente/historial}"><i class="fa-solid fa-clock-rotate-left"></i> Historial</a>
+            <hr>
+            <a th:href="@{/cliente/sobre-nosotros}"><i class="fa-solid fa-building-columns"></i> Sobre nosotros</a>
+            <a th:href="@{/cliente/soporte}"><i class="fa-solid fa-circle-question"></i> Soporte y ayuda</a>
+            <a class="activo" th:href="@{/cliente/contacto}"><i class="fa-solid fa-phone"></i> Contáctanos</a>
+        </nav>
+        <form th:action="@{/logout}" method="post"><input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"><button><i class="fa-solid fa-right-from-bracket"></i> Cerrar sesión</button></form>
+    </aside>
+
+    <main class="portal-main contact-page">
+        <header class="portal-top contact-top">
+            <div class="portal-search"><i class="fa-solid fa-magnifying-glass"></i><span>Buscar en el portal...</span></div>
+            <div class="client-profile-top"><div th:replace="~{cliente/fragments/notificaciones :: menu}"></div><a class="contact-profile profile-trigger" th:href="@{/cliente/perfil}"><b th:text="${clienteNombre != null ? #strings.substring(clienteNombre,0,1) : 'C'}">C</b><div><strong th:text="${clienteNombre}">Cliente</strong><small>Cliente</small></div><em class="fa-solid fa-chevron-down"></em></a></div>
+        </header>
+
+        <section class="portal-hero contact-heading"><h1>Contáctanos</h1><p>Estamos aquí para ayudarte. Elige el canal que prefieras para comunicarte con nosotros.</p></section>
+
+        <section class="contact-channels">
+            <div class="contact-section-title"><h2><i class="fa-solid fa-address-card"></i> Nuestras vías de contacto</h2><span>Atención rápida y personalizada</span></div>
+            <div class="channel-cards">
+                <a class="channel-card" href="tel:+51973860581"><span class="channel-icon phone"><i class="fa-solid fa-phone"></i></span><div><h3>Teléfono</h3><b>973 860 581</b><p>Llámanos dentro del horario de atención.</p></div></a>
+                <a class="channel-card" href="https://wa.me/51973860581" target="_blank" rel="noopener"><span class="channel-icon whatsapp"><i class="fa-brands fa-whatsapp"></i></span><div><h3>WhatsApp</h3><b>973 860 581</b><p>Escríbenos por WhatsApp.</p></div></a>
+                <a class="channel-card" href="https://mail.google.com/mail/?view=cm&amp;fs=1&amp;to=credineyra@gmail.com&amp;su=Consulta%20CrediNeyra" target="_blank" rel="noopener"><span class="channel-icon mail"><i class="fa-solid fa-envelope"></i></span><div><h3>Correo</h3><b>credineyra@gmail.com</b><p>Abre Gmail para enviarnos tu consulta.</p></div></a>
+                <a class="channel-card" href="https://maps.app.goo.gl/Nukh3SaFxVjLiC5DA" target="_blank" rel="noopener"><span class="channel-icon pin"><i class="fa-solid fa-location-dot"></i></span><div><h3>Dirección</h3><b>Ver ubicación GPS</b><p>Ábrela en Google Maps.</p></div></a>
+                <article class="channel-card"><span class="channel-icon time"><i class="fa-regular fa-clock"></i></span><div><h3>Horario de atención</h3><b>Dom. 6:00 p.m. · Lun. - Jue. 5:00 a.m. - 8:00 p.m.</b><p>Viernes 5:00 a.m. - 5:00 p.m. · Sábado cerrado.</p></div></article>
+            </div>
+        </section>
+
+        <section class="contact-content">
+            <article class="message-panel">
+                <div class="panel-title"><i class="fa-solid fa-envelope"></i><div><h2>Envíanos un mensaje</h2><p>Completa el formulario y nos pondremos en contacto contigo lo antes posible.</p></div></div>
+                <form class="contact-form" id="contact-form" action="#" method="post">
+                    <label>Nombre<input type="text" th:value="${clienteNombre}" placeholder="Ingresa tu nombre completo" required></label>
+                    <label>Correo<input type="email" placeholder="Ingresa tu correo electrónico" required></label>
+                    <label>Asunto<select id="contact-subject" required><option value="">Selecciona un asunto</option><option>Consulta sobre crédito</option><option>Pago o comprobante</option><option>Regularización</option><option>Soporte técnico</option></select></label>
+                    <label>Mensaje<textarea id="contact-message" maxlength="500" placeholder="Escribe tu mensaje aquí..." required></textarea><small>Al enviar se abrirá WhatsApp de CrediNeyra.</small></label>
+                    <button type="submit"><i class="fa-solid fa-paper-plane"></i> Enviar mensaje por WhatsApp</button>
+                </form>
+            </article>
+
+            <div class="contact-right">
+                <article class="location-panel">
+                    <div class="panel-title"><i class="fa-solid fa-location-dot"></i><div><h2>Nuestra ubicación</h2><p>Encuentra nuestra oficina y llega con Google Maps.</p></div></div>
+                    <a class="map-card" href="https://maps.app.goo.gl/Nukh3SaFxVjLiC5DA" target="_blank" rel="noopener" aria-label="Abrir ubicación de crediNeyra en Google Maps"><span class="street street-one"></span><span class="street street-two"></span><span class="street street-three"></span><span class="map-marker"><i class="fa-solid fa-location-dot"></i><b>Ubicación crediNeyra</b><small>Abrir en Google Maps <i class="fa-solid fa-arrow-up-right-from-square"></i></small></span></a>
+                </article>
+                <article class="social-panel">
+                    <div class="panel-title"><i class="fa-solid fa-share-nodes"></i><div><h2>Redes y canales digitales</h2><p>Mantente conectado con nosotros.</p></div></div>
+                    <div class="social-grid">
+                        <a href="#"><span class="facebook"><i class="fa-brands fa-facebook-f"></i></span><b>Facebook</b><small>Síguenos para novedades.</small><i class="fa-solid fa-chevron-right"></i></a>
+                        <a href="https://wa.me/51973860581" target="_blank" rel="noopener"><span class="whatsapp"><i class="fa-brands fa-whatsapp"></i></span><b>WhatsApp</b><small>973 860 581</small><i class="fa-solid fa-chevron-right"></i></a>
+                        <a href="https://mail.google.com/mail/?view=cm&amp;fs=1&amp;to=credineyra@gmail.com&amp;su=Consulta%20CrediNeyra" target="_blank" rel="noopener"><span class="email"><i class="fa-solid fa-envelope"></i></span><b>Email</b><small>credineyra@gmail.com</small><i class="fa-solid fa-chevron-right"></i></a>
+                        <a href="#"><span class="website"><i class="fa-solid fa-globe"></i></span><b>Web</b><small>crediNeyra.com</small><i class="fa-solid fa-chevron-right"></i></a>
+                    </div>
+                </article>
+                <article class="quick-panel"><div><i class="fa-solid fa-bolt"></i><span><b>Atención rápida</b><small>Accede directamente a nuestros canales principales.</small></span></div><div class="quick-actions"><a href="tel:+51973860581"><i class="fa-solid fa-phone"></i> Llamar ahora</a><a href="https://wa.me/51973860581" target="_blank" rel="noopener"><i class="fa-brands fa-whatsapp"></i> Escribir por WhatsApp</a><a href="https://mail.google.com/mail/?view=cm&amp;fs=1&amp;to=credineyra@gmail.com&amp;su=Consulta%20CrediNeyra" target="_blank" rel="noopener"><i class="fa-solid fa-envelope"></i> Enviar correo</a></div></article>
+            </div>
+        </section>
+    </main>
+</div>
+<script th:src="@{/js/cliente/contacto-whatsapp.js}"></script>
+</body>
+</html>

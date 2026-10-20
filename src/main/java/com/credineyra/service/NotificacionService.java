@@ -25,13 +25,16 @@ public class NotificacionService {
 
     private final NotificacionRepository repository;
     private final CuotaRepository cuotaRepository;
+    private final WhatsAppRecordatorioService whatsAppRecordatorioService;
 
     public NotificacionService(
             NotificacionRepository repository,
-            CuotaRepository cuotaRepository
+            CuotaRepository cuotaRepository,
+            WhatsAppRecordatorioService whatsAppRecordatorioService
     ) {
         this.repository = repository;
         this.cuotaRepository = cuotaRepository;
+        this.whatsAppRecordatorioService = whatsAppRecordatorioService;
     }
 
     public Notificacion registrar(
@@ -191,7 +194,74 @@ public class NotificacionService {
             );
 
             repository.save(notificacion);
+
+            if ("VENCE_3_DIAS".equals(evento)) {
+                programarRecordatorioWhatsApp(cuota);
+            }
         }
+    }
+
+    /**
+     * La notificación WhatsApp se guarda primero. Si Meta aún no está
+     * configurado, queda PENDIENTE para que no se finja que fue enviada.
+     */
+    private void programarRecordatorioWhatsApp(Cuota cuota) {
+        String clave = "CUOTA:" + cuota.getIdCuota() + ":VENCE_3_DIAS:WHATSAPP";
+
+        if (repository.existsByClaveEvento(clave)) {
+            return;
+        }
+
+        Notificacion notificacion = new Notificacion();
+        notificacion.setCliente(cuota.getCredito().getCliente());
+        notificacion.setCredito(cuota.getCredito());
+        notificacion.setCuota(cuota);
+        notificacion.setTipo(TipoNotificacion.RECORDATORIO_PAGO);
+        notificacion.setCanal(CanalNotificacion.WHATSAPP);
+        notificacion.setTitulo("Recordatorio de pago por WhatsApp");
+        notificacion.setMensaje(mensajeRecordatorioWhatsApp(cuota));
+        notificacion.setClaveEvento(clave);
+        notificacion.setEstado(EstadoNotificacion.PENDIENTE);
+        notificacion.setLeida(false);
+        notificacion.setFechaProgramada(OffsetDateTime.now());
+
+        intentarEnviarWhatsApp(repository.save(notificacion));
+    }
+
+    /** Reintenta únicamente recordatorios que no salieron por falta de configuración. */
+    @Scheduled(cron = "0 15 8 * * *")
+    public void procesarRecordatoriosWhatsAppPendientes() {
+        repository.findByCanal(CanalNotificacion.WHATSAPP).stream()
+                .filter(n -> n.getEstado() == EstadoNotificacion.PENDIENTE)
+                .filter(n -> n.getTipo() == TipoNotificacion.RECORDATORIO_PAGO)
+                .filter(n -> n.getCuota() != null)
+                .forEach(this::intentarEnviarWhatsApp);
+    }
+
+    private void intentarEnviarWhatsApp(Notificacion notificacion) {
+        var resultado = whatsAppRecordatorioService
+                .enviarRecordatorio(notificacion.getCuota());
+
+        if (resultado.enviado()) {
+            notificacion.setEstado(EstadoNotificacion.ENVIADA);
+            notificacion.setFechaEnviada(OffsetDateTime.now());
+        } else if (!resultado.reintentar()) {
+            notificacion.setEstado(EstadoNotificacion.FALLIDA);
+        }
+
+        // El detalle deja trazabilidad de la entrega sin registrar secretos.
+        notificacion.setMensaje(mensajeRecordatorioWhatsApp(notificacion.getCuota())
+                + " Estado de entrega: " + resultado.detalle());
+        repository.save(notificacion);
+    }
+
+    private String mensajeRecordatorioWhatsApp(Cuota cuota) {
+        String nombre = cuota.getCredito().getCliente().getPersona().getNombres();
+        return "Hola " + nombre + ", te recordamos que la cuota #"
+                + cuota.getNumeroCuota() + " de tu crédito "
+                + cuota.getCredito().getCodigoCredito() + " vence el "
+                + cuota.getFechaVencimiento() + ". Monto pendiente: S/ "
+                + saldo(cuota) + ". Puedes pagar desde el portal CrediNeyra.";
     }
 
     public Notificacion marcarLeida(

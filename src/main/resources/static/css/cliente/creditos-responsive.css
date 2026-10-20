@@ -1,0 +1,207 @@
+/* Última capa de Créditos: el portal debe ocupar todo el ancho disponible. */
+@media (max-width: 1200px) {
+  html,
+  body {
+    max-width: 100%;
+    overflow-x: hidden;
+  }
+
+  .portal-layout {
+    display: block !important;
+    grid-template-columns: minmax(0, 1fr) !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    width: 100% !important;
+  }
+
+  .portal-layout > aside,
+  .portal-layout > .portal-menu,
+  .portal-layout > .portal-main {
+    max-width: 100% !important;
+    min-width: 0 !important;
+    width: 100% !important;
+  }
+
+  .portal-menu {
+    align-items: center;
+    display: flex !important;
+    flex-direction: row !important;
+    gap: 10px;
+    min-height: 70px;
+    overflow: hidden;
+    padding: 9px 12px;
+    position: sticky;
+    top: 0;
+    z-index: 80;
+  }
+
+  .portal-logo {
+    align-items: center;
+    display: flex;
+    flex: 0 0 auto;
+    font-size: 20px;
+    margin: 0 3px;
+  }
+
+  .portal-logo small,
+  .portal-menu hr,
+  .portal-menu form {
+    display: none;
+  }
+
+  .portal-menu nav {
+    display: flex !important;
+    flex: 1 1 auto;
+    gap: 5px;
+    min-width: 0;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+
+  .portal-menu nav::-webkit-scrollbar {
+    display: none;
+  }
+
+  .portal-menu nav a {
+    align-items: center;
+    display: flex;
+    flex: 0 0 auto;
+    font-size: 12px;
+    min-height: 42px;
+    padding: 9px 11px;
+    white-space: nowrap;
+  }
+
+  .portal-main.credits-v2 {
+    margin: 0 !important;
+    padding: 0 16px 28px !important;
+  }
+
+  .credits-v2,
+  .credits-kpis,
+  .credits-grid,
+  .credit-list-card,
+  .credit-alerts,
+  .selected-credit {
+    max-width: 100% !important;
+    min-width: 0 !important;
+    width: 100% !important;
+  }
+
+  .credits-hero {
+    margin-left: -16px !important;
+    margin-right: -16px !important;
+    max-width: none !important;
+    width: calc(100% + 32px) !important;
+  }
+
+  .credits-grid,
+  .credits-grid.no-alerts {
+    grid-template-columns: minmax(0, 1fr) !important;
+  }
+
+  .credit-alerts {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+
+  .credit-alerts .v2-title {
+    grid-column: 1 / -1;
+  }
+
+  .credit-table {
+    -webkit-overflow-scrolling: touch;
+    max-width: 100% !important;
+    overflow-x: auto !important;
+    overscroll-behavior-inline: contain;
+  }
+
+  .credit-head,
+  .credit-row {
+    min-width: 620px;
+  }
+}
+
+@media (max-width: 680px) {
+  .portal-menu {
+    gap: 7px;
+    min-height: 62px;
+    padding: 8px;
+  }
+
+  .portal-logo {
+    font-size: 18px;
+  }
+
+  .portal-menu nav a {
+    font-size: 11px;
+    min-height: 40px;
+    padding: 8px 9px;
+  }
+
+  .portal-main.credits-v2 {
+    padding: 0 12px 24px !important;
+  }
+
+  .credits-hero {
+    align-items: flex-start;
+    gap: 10px;
+    margin-left: -12px !important;
+    margin-right: -12px !important;
+    padding: 14px 12px;
+    width: calc(100% + 24px) !important;
+  }
+
+  .credits-hero h1 {
+    font-size: 23px;
+  }
+
+  .credits-user > a > span,
+  .credits-user .notification-label,
+  .credits-hero p {
+    display: none;
+  }
+
+  .credits-kpis {
+    gap: 8px;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+
+  .credits-kpis article {
+    gap: 8px;
+    min-height: 82px;
+    padding: 9px;
+  }
+
+  .credits-kpis > article > i {
+    flex: 0 0 39px;
+    font-size: 18px;
+    height: 39px;
+    width: 39px;
+  }
+
+  .credits-kpis b {
+    font-size: 15px;
+  }
+
+  .credit-list-card,
+  .credit-alerts,
+  .selected-credit {
+    padding: 10px;
+  }
+
+  .credit-alerts {
+    grid-template-columns: minmax(0, 1fr) !important;
+  }
+
+  .credit-alerts .v2-title {
+    grid-column: auto;
+  }
+
+  .selected-body {
+    grid-template-columns: minmax(0, 1fr) !important;
+  }
+
+  .selected-code {
+    grid-column: auto !important;
+  }
+}

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crear usuario · crediNeyra</title>
+    <link rel="stylesheet" th:href="@{/css/admin/dashboard.css}">
+    <link rel="stylesheet" th:href="@{/css/admin/usuarios.css}">
+</head>
+<body>
+<div class="admin-layout">
+    <aside th:replace="~{admin/fragments/sidebar :: sidebar}"></aside>
+    <div th:replace="~{admin/fragments/sidebar :: sidebar-overlay}"></div>
+    <main class="admin-main">
+        <header th:replace="~{admin/fragments/topbar :: topbar}"></header>
+        <section class="usuarios-contenido formulario-contenido">
+            <a class="volver" th:href="@{/admin/usuarios}">← Volver a usuarios</a>
+            <div class="usuarios-cabecera"><div><p class="eyebrow">NUEVA CUENTA</p><h1>Generar usuario</h1><p>La persona recibirá estas credenciales iniciales de forma segura.</p></div></div>
+            <div class="mensaje error" th:if="${mensajeError != null}" th:text="${mensajeError}"></div>
+            <form class="formulario-usuario" method="post" th:action="@{/admin/usuarios/guardar}" th:object="${usuarioDto}">
+                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+                <section><h2>1. Persona</h2><input type="hidden" th:field="*{idRol}"><label>Persona registrada<select th:field="*{idPersona}"><option value="">Selecciona una persona</option><option th:each="persona : ${personas}" th:value="${persona.idPersona}" th:text="${persona.nombres + ' ' + persona.apellidos + ' · DNI ' + persona.dni}"></option></select></label><small class="campo-error" th:if="${#fields.hasErrors('idPersona')}" th:errors="*{idPersona}"></small><p class="rol-fijo">Esta cuenta tendrá acceso únicamente al panel de cliente.</p></section>
+                <section><h2>2. Credenciales iniciales</h2><label>Nombre de usuario<input type="text" th:field="*{username}" autocomplete="off" placeholder="Ej.: juan.perez"></label><small class="campo-error" th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></small><label>Contraseña temporal<input type="password" th:field="*{password}" autocomplete="new-password" placeholder="Mínimo 8 caracteres"></label><small class="campo-error" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></small><label>Confirmar contraseña<input type="password" th:field="*{confirmarPassword}" autocomplete="new-password"></label><small class="campo-error" th:if="${#fields.hasErrors('confirmarPassword')}" th:errors="*{confirmarPassword}"></small></section>
+                <aside class="nota-seguridad"><strong>Primer ingreso protegido</strong><p>El cliente podrá conservar esta contraseña o solicitar un código temporal por Gmail para crear una propia. El administrador nunca verá la contraseña posterior.</p></aside>
+                <button class="btn-crear" type="submit">Crear usuario y contraseña inicial</button>
+            </form>
+        </section>
+    </main>
+</div>
+<script th:src="@{/js/admin/dashboard.js}"></script>
+</body>
+</html>

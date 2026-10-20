@@ -30,6 +30,7 @@ public class RecuperacionPasswordService {
     private final UsuarioRepository usuarioRepository;
     private final UsuarioService usuarioService;
     private final CorreoService correoService;
+    private final AuditoriaService auditoriaService;
 
     private final SecureRandom secureRandom =
             new SecureRandom();
@@ -39,13 +40,15 @@ public class RecuperacionPasswordService {
             PersonaRepository personaRepository,
             UsuarioRepository usuarioRepository,
             UsuarioService usuarioService,
-            CorreoService correoService
+            CorreoService correoService,
+            AuditoriaService auditoriaService
     ) {
         this.repository = repository;
         this.personaRepository = personaRepository;
         this.usuarioRepository = usuarioRepository;
         this.usuarioService = usuarioService;
         this.correoService = correoService;
+        this.auditoriaService = auditoriaService;
     }
 
     public void solicitarRecuperacion(
@@ -87,8 +90,7 @@ public class RecuperacionPasswordService {
                 usuario.getIdUsuario()
         );
 
-        String tokenPlano =
-                generarTokenSeguro();
+        String codigoTemporal = generarCodigoTemporal();
 
         RecuperacionPassword recuperacion =
                 new RecuperacionPassword();
@@ -96,21 +98,113 @@ public class RecuperacionPasswordService {
         recuperacion.setUsuario(usuario);
 
         recuperacion.setTokenHash(
-                hash(tokenPlano)
+                hash(codigoTemporal)
         );
 
         recuperacion.setExpiraEn(
                 OffsetDateTime.now()
-                        .plusMinutes(30)
+                        .plusMinutes(15)
         );
 
         repository.save(recuperacion);
 
-        correoService
-                .enviarRecuperacionPassword(
-                        persona.getEmail(),
-                        tokenPlano
-                );
+        correoService.enviarCodigoRecuperacionPassword(
+                persona.getEmail(), codigoTemporal
+        );
+    }
+
+    /**
+     * Flujo de primer ingreso: el cliente ya está autenticado y elige cambiar
+     * la clave inicial. El código no se guarda en texto plano.
+     */
+    public void solicitarCambioPassword(
+            Usuario usuario
+    ) {
+
+        if (usuario == null
+                || usuario.getPersona() == null
+                || usuario.getPersona().getEmail() == null
+                || usuario.getPersona().getEmail().isBlank()) {
+
+            throw new ReglaNegocioException(
+                    "Tu cuenta no tiene un correo registrado para enviar el código"
+            );
+        }
+
+        invalidarTokensAnteriores(
+                usuario.getIdUsuario()
+        );
+
+        String codigo = generarCodigoTemporal();
+
+        RecuperacionPassword recuperacion =
+                new RecuperacionPassword();
+
+        recuperacion.setUsuario(usuario);
+        recuperacion.setTokenHash(hash(codigo));
+        recuperacion.setExpiraEn(
+                OffsetDateTime.now().plusMinutes(15)
+        );
+
+        repository.save(recuperacion);
+
+        auditoriaService.registrarEvento(
+                usuario,
+                "Cambio de contraseña pendiente",
+                "SEGURIDAD",
+                "PASSWORD-" + recuperacion.getIdRecuperacion(),
+                "El usuario solicitó el cambio de contraseña por correo",
+                null,
+                "{\"estado\":\"PENDIENTE\"}",
+                null
+        );
+
+        correoService.enviarCodigoCambioPasswordInicial(
+                usuario.getPersona().getEmail().trim(),
+                codigo
+        );
+    }
+
+    /** Conservado para los flujos de primer acceso existentes. */
+    public void solicitarCambioPasswordInicial(Usuario usuario) {
+        solicitarCambioPassword(usuario);
+    }
+
+    public void restablecerPasswordPrimerIngreso(
+            Long idUsuario,
+            String codigo,
+            String nuevaPassword,
+            String confirmarPassword
+    ) {
+
+        RecuperacionPassword recuperacion =
+                validarToken(codigo);
+
+        if (!recuperacion.getUsuario().getIdUsuario().equals(idUsuario)) {
+            throw new OperacionNoPermitidaException(
+                    "El código no corresponde a tu cuenta"
+            );
+        }
+
+        usuarioService.cambiarPassword(
+                idUsuario,
+                nuevaPassword,
+                confirmarPassword
+        );
+
+        recuperacion.setUsadoEn(OffsetDateTime.now());
+        repository.save(recuperacion);
+
+        auditoriaService.registrarEvento(
+                recuperacion.getUsuario(),
+                "Contraseña actualizada satisfactoriamente",
+                "SEGURIDAD",
+                "PASSWORD-" + recuperacion.getIdRecuperacion(),
+                "El usuario confirmó el código temporal y actualizó su contraseña",
+                null,
+                "{\"estado\":\"EXITOSO\"}",
+                null
+        );
     }
 
     public void restablecerPassword(
@@ -145,18 +239,21 @@ public class RecuperacionPasswordService {
                 || tokenPlano.isBlank()) {
 
             throw new ReglaNegocioException(
-                    "El token es obligatorio"
+                    "El código temporal es obligatorio"
             );
         }
+
+        String codigoNormalizado =
+                tokenPlano.trim().toUpperCase();
 
         RecuperacionPassword recuperacion =
                 repository
                         .findByTokenHash(
-                                hash(tokenPlano)
+                                hash(codigoNormalizado)
                         )
                         .orElseThrow(() ->
                                 new RecursoNoEncontradoException(
-                                        "Token inválido"
+                                        "Código temporal inválido"
                                 )
                         );
 
@@ -164,7 +261,7 @@ public class RecuperacionPasswordService {
                 != null) {
 
             throw new OperacionNoPermitidaException(
-                    "El token ya fue utilizado"
+                    "El código temporal ya fue utilizado"
             );
         }
 
@@ -174,7 +271,7 @@ public class RecuperacionPasswordService {
                 )) {
 
             throw new OperacionNoPermitidaException(
-                    "El token ha expirado"
+                    "El código temporal ha expirado"
             );
         }
 
@@ -208,16 +305,17 @@ public class RecuperacionPasswordService {
         repository.saveAll(tokens);
     }
 
-    private String generarTokenSeguro() {
+    private String generarCodigoTemporal() {
 
-        byte[] bytes = new byte[32];
+        byte[] bytes = new byte[9];
 
         secureRandom.nextBytes(bytes);
 
         return Base64
                 .getUrlEncoder()
                 .withoutPadding()
-                .encodeToString(bytes);
+                .encodeToString(bytes)
+                .toUpperCase();
     }
 
     private String hash(

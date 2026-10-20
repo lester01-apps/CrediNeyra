@@ -1,0 +1,183 @@
+/* Ajustes finales del historial para teléfono y tablet. */
+@media (max-width: 1200px) {
+  html,
+  body {
+    max-width: 100%;
+    overflow-x: hidden;
+  }
+
+  .portal-layout {
+    display: block !important;
+    grid-template-columns: minmax(0, 1fr) !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    width: 100% !important;
+  }
+
+  .portal-layout > aside,
+  .portal-layout > .portal-main,
+  .portal-main.history-page,
+  .history-page,
+  .history-body,
+  .history-left,
+  .history-side {
+    max-width: 100% !important;
+    min-width: 0 !important;
+    width: 100% !important;
+  }
+
+  .portal-menu {
+    align-items: center;
+    display: flex !important;
+    flex-direction: row !important;
+    gap: 10px;
+    min-height: 70px;
+    overflow: hidden;
+    padding: 9px 12px;
+    position: sticky;
+    top: 0;
+    z-index: 80;
+  }
+
+  .portal-logo {
+    align-items: center;
+    display: flex;
+    flex: 0 0 auto;
+    font-size: 20px;
+    margin: 0 3px;
+  }
+
+  .portal-logo small,
+  .portal-menu hr,
+  .portal-menu form {
+    display: none;
+  }
+
+  .portal-menu nav {
+    display: flex !important;
+    flex: 1 1 auto;
+    gap: 5px;
+    min-width: 0;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+
+  .portal-menu nav::-webkit-scrollbar {
+    display: none;
+  }
+
+  .portal-menu nav a {
+    align-items: center;
+    display: flex;
+    flex: 0 0 auto;
+    font-size: 12px;
+    min-height: 42px;
+    padding: 9px 11px;
+    white-space: nowrap;
+  }
+
+  .portal-main.history-page {
+    margin: 0 !important;
+    padding: 0 16px 28px !important;
+  }
+
+  .history-heading {
+    margin-left: -16px !important;
+    margin-right: -16px !important;
+    max-width: none !important;
+    width: calc(100% + 32px) !important;
+  }
+
+  .history-filter {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    max-width: 100%;
+  }
+
+  .history-body {
+    grid-template-columns: minmax(0, 1fr) !important;
+  }
+
+  .history-side {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .history-table-panel {
+    -webkit-overflow-scrolling: touch;
+    max-width: 100%;
+    overflow-x: auto;
+    overscroll-behavior-inline: contain;
+  }
+
+  .history-table-header,
+  .history-row {
+    min-width: 700px;
+  }
+}
+
+@media (max-width: 680px) {
+  .portal-menu {
+    gap: 7px;
+    min-height: 62px;
+    padding: 8px;
+  }
+
+  .portal-logo {
+    font-size: 18px;
+  }
+
+  .portal-menu nav a {
+    font-size: 11px;
+    min-height: 40px;
+    padding: 8px 9px;
+  }
+
+  .portal-main.history-page {
+    padding: 0 12px 24px !important;
+  }
+
+  .history-top {
+    min-height: 62px;
+  }
+
+  .history-heading {
+    margin-left: -12px !important;
+    margin-right: -12px !important;
+    padding-left: 12px;
+    padding-right: 12px;
+    width: calc(100% + 24px) !important;
+  }
+
+  .history-heading h1 {
+    font-size: 25px;
+  }
+
+  .history-filter,
+  .history-side {
+    grid-template-columns: minmax(0, 1fr) !important;
+  }
+
+  .history-filter {
+    gap: 10px;
+    padding: 10px;
+  }
+
+  .history-filter button {
+    min-height: 44px;
+  }
+
+  .history-stats {
+    gap: 8px;
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .history-stats article {
+    grid-template-columns: 45px minmax(0, 1fr) auto;
+    padding: 10px;
+  }
+
+  .stat-icon {
+    font-size: 19px;
+    height: 44px;
+    width: 44px;
+  }
+}

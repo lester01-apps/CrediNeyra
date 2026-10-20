@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Soporte y ayuda | crediNeyra</title>
+    <link rel="stylesheet" th:href="@{/css/cliente/portal.css}">
+    <link rel="stylesheet" th:href="@{/css/cliente/responsive-app.css}">
+    <link rel="stylesheet" th:href="@{/css/cliente/soporte.css}">
+    <link rel="stylesheet" th:href="@{/css/cliente/asistente.css}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.3.1/css/all.min.css">
+</head>
+<body>
+<div class="portal-layout">
+    <aside class="portal-menu">
+        <a class="portal-logo" th:href="@{/cliente/inicio}">credi<span>Neyra</span><small>GESTIÓN DE CRÉDITOS</small></a>
+        <nav>
+            <a th:href="@{/cliente/inicio}"><i class="fa-solid fa-house"></i> Inicio</a>
+            <a th:href="@{/cliente/creditos}"><i class="fa-solid fa-file-invoice-dollar"></i> Mis créditos</a>
+            <a th:href="@{/cliente/pagos}"><i class="fa-solid fa-credit-card"></i> Mis pagos</a>
+            <a th:href="@{/cliente/historial}"><i class="fa-solid fa-clock-rotate-left"></i> Historial</a>
+            <hr>
+            <a th:href="@{/cliente/sobre-nosotros}"><i class="fa-solid fa-building-columns"></i> Sobre nosotros</a>
+            <a class="activo" th:href="@{/cliente/soporte}"><i class="fa-solid fa-circle-question"></i> Soporte y ayuda</a>
+            <a th:href="@{/cliente/contacto}"><i class="fa-solid fa-phone"></i> Contáctanos</a>
+        </nav>
+        <form th:action="@{/logout}" method="post"><input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"><button><i class="fa-solid fa-right-from-bracket"></i> Cerrar sesión</button></form>
+    </aside>
+
+    <main class="portal-main support-page">
+        <header class="portal-top support-top">
+            <div class="portal-search"><i class="fa-solid fa-magnifying-glass"></i><span>Buscar en el portal...</span></div>
+            <div class="client-profile-top"><div th:replace="~{cliente/fragments/notificaciones :: menu}"></div><a class="support-profile profile-trigger" th:href="@{/cliente/perfil}"><b th:text="${clienteNombre != null ? #strings.substring(clienteNombre,0,1) : 'C'}">C</b><div><strong th:text="${clienteNombre}">Cliente</strong><small>Cliente</small></div><em class="fa-solid fa-chevron-down"></em></a></div>
+        </header>
+
+        <section class="portal-hero support-heading"><h1>Soporte y ayuda</h1><p>Encuentra respuestas claras, consulta tus cuotas y recibe orientación sobre tus pagos.</p></section>
+
+        <section class="support-search-box">
+            <div class="search-main-icon"><i class="fa-solid fa-magnifying-glass"></i></div>
+            <div class="support-search-text"><h2>¿En qué podemos ayudarte?</h2><p>Busca una respuesta o usa el asistente CrediNeyra para conocer cuotas, intereses y recomendaciones.</p><label><i class="fa-solid fa-magnifying-glass"></i><input id="faq-search" type="search" placeholder="Buscar en preguntas frecuentes..."></label></div>
+        </section>
+
+        <section class="support-shortcuts">
+            <a href="#asistente"><span class="shortcut-icon assistant"><i class="fa-solid fa-robot"></i></span><div><h2>Asistente CrediNeyra</h2><p>Orientación sobre cuotas, intereses y pagos.</p></div><i class="fa-solid fa-chevron-right"></i></a>
+            <a href="#preguntas"><span class="shortcut-icon faq"><i class="fa-solid fa-clipboard-question"></i></span><div><h2>Preguntas frecuentes</h2><p>Respuestas claras a tus consultas comunes.</p></div><i class="fa-solid fa-chevron-right"></i></a>
+            <a href="https://wa.me/51973860581" target="_blank" rel="noopener"><span class="shortcut-icon contact"><i class="fa-solid fa-headset"></i></span><div><h2>Solicitar asistencia</h2><p>Escríbenos a nuestro WhatsApp de atención.</p></div><i class="fa-solid fa-chevron-right"></i></a>
+        </section>
+
+        <section class="support-content">
+            <article class="faq-panel" id="preguntas">
+                <div class="support-panel-title"><i class="fa-solid fa-clipboard-question"></i><h2>Preguntas frecuentes</h2><span>Respuestas para orientarte</span></div>
+                <details open><summary>¿Cómo reviso la cuota que debo pagar?<i class="fa-solid fa-chevron-down"></i></summary><p>Ingresa a <b>Mis créditos</b> y busca el crédito que deseas revisar. Allí verás el monto exigible, el número de cuota, la fecha de vencimiento y el estado de tu crédito. Si deseas ver los pagos ya realizados, revisa también <b>Historial</b>.</p></details>
+                <details><summary>¿Cómo se calcula el interés de mi crédito?<i class="fa-solid fa-chevron-down"></i></summary><p>El interés se calcula según las condiciones que fueron acordadas para tu crédito: capital pendiente, tasa pactada y periodo de pago. El cálculo del asistente es solo una estimación informativa; el monto oficial siempre aparece en la cuota de <b>Mis créditos</b>.</p></details>
+                <details><summary>¿Qué significa que mi crédito está en regularización?<i class="fa-solid fa-chevron-down"></i></summary><p>Significa que existe una cuota pendiente o que se está revisando una alternativa de pago. Comunícate con nosotros antes de realizar un pago distinto para que podamos indicarte el monto y procedimiento correcto.</p></details>
+                <details><summary>¿Cómo pago por Yape y subo mi comprobante?<i class="fa-solid fa-chevron-down"></i></summary><p>Entra a <b>Mis pagos</b>, selecciona el crédito con cuota exigible, elige <b>Pago por Yape</b> y sube una imagen clara de tu comprobante. El pago quedará pendiente hasta que sea validado por administración.</p></details>
+                <details><summary>¿Cuándo se confirma mi pago?<i class="fa-solid fa-chevron-down"></i></summary><p>Los pagos por Yape se confirman después de revisar el comprobante. Los pagos en efectivo se confirman luego de que el equipo reciba y valide el pago en la cita programada. Podrás revisarlo desde Historial.</p></details>
+                <details><summary>¿Qué hago si mi comprobante fue observado?<i class="fa-solid fa-chevron-down"></i></summary><p>Revisa que la imagen muestre con claridad la fecha, monto, operación y destinatario. Luego vuelve a enviarla desde <b>Mis pagos</b>. Si el inconveniente continúa, escríbenos por WhatsApp con tu número de crédito.</p></details>
+                <details><summary>¿Puedo adelantar el pago de una cuota?<i class="fa-solid fa-chevron-down"></i></summary><p>Sí. Antes de hacerlo, consulta con nuestro equipo para confirmar el monto actualizado y registrar correctamente tu pago. Así evitamos que una diferencia de monto deje una cuota pendiente.</p></details>
+            </article>
+
+            <div class="support-right">
+                <article class="assistant-panel" id="asistente">
+                    <div class="assistant-title"><span><i class="fa-solid fa-robot"></i></span><div><h2>Asistente CrediNeyra</h2><p>Información guiada, no reemplaza una validación administrativa.</p></div><b><i class="fa-solid fa-shield-halved"></i> Seguro</b></div>
+                    <div class="assistant-welcome"><i class="fa-solid fa-sparkles"></i><p>¡Bienvenido al Asistente CrediNeyra! Pregúntame con libertad: puedo conversar contigo y orientarte sobre el portal, cuotas, créditos, intereses, pagos, comprobantes y recomendaciones.</p></div>
+                    <div class="assistant-actions"><button data-answer="cuota"><i class="fa-solid fa-file-invoice-dollar"></i> Ver cómo consultar mi cuota</button><button data-answer="recomendacion"><i class="fa-solid fa-lightbulb"></i> Recomendación de pago</button><button data-answer="interes"><i class="fa-solid fa-circle-info"></i> Cómo funciona el interés</button></div>
+                    <div class="assistant-chat" id="assistant-chat" aria-live="polite"><div class="assistant-message bot">Escribe tu pregunta con libertad. Protegeré contraseñas, datos de otras personas, credenciales, API y base de datos.</div></div>
+                    <form class="assistant-input" id="assistant-form"><input id="assistant-question" type="text" maxlength="350" placeholder="Ej.: ¿Cómo pago mi cuota por Yape?" autocomplete="off"><button type="submit" aria-label="Enviar pregunta"><i class="fa-solid fa-paper-plane"></i></button></form>
+                    <div class="interest-calculator"><h3><i class="fa-solid fa-calculator"></i> Calculadora estimada de interés simple</h3><div><label>Capital (S/)<input id="interest-capital" type="number" min="0" step="0.01" placeholder="Ej. 1000"></label><label>Tasa mensual (%)<input id="interest-rate" type="number" min="0" step="0.01" placeholder="Ej. 10"></label><label>Meses<input id="interest-months" type="number" min="1" step="1" placeholder="Ej. 1"></label></div><button id="calculate-interest" type="button"><i class="fa-solid fa-equals"></i> Calcular estimación</button><p id="interest-result">Ingresa los datos para calcular una estimación. El resultado no reemplaza el monto oficial de tu crédito.</p></div>
+                </article>
+
+                <article class="attention-panel">
+                    <div class="support-panel-title"><i class="fa-solid fa-headset"></i><h2>Canales de atención</h2></div>
+                    <a href="https://wa.me/51973860581" target="_blank" rel="noopener"><span class="attention-icon whats"><i class="fa-brands fa-whatsapp"></i></span><div><b>WhatsApp</b><small>Escríbenos por WhatsApp</small></div><strong>973 860 581</strong><i class="fa-solid fa-chevron-right"></i></a>
+                    <a href="tel:+51973860581"><span class="attention-icon phone"><i class="fa-solid fa-phone"></i></span><div><b>Llamada telefónica</b><small>Llama dentro del horario de atención</small></div><strong>973 860 581</strong><i class="fa-solid fa-chevron-right"></i></a>
+                    <a href="https://mail.google.com/mail/?view=cm&amp;fs=1&amp;to=credineyra@gmail.com&amp;su=Consulta%20CrediNeyra" target="_blank" rel="noopener"><span class="attention-icon mail"><i class="fa-solid fa-envelope"></i></span><div><b>Correo electrónico</b><small>Abrir Gmail para enviar consulta</small></div><strong>credineyra@gmail.com</strong><i class="fa-solid fa-chevron-right"></i></a>
+                    <div class="attention-hours"><span class="attention-icon clock"><i class="fa-regular fa-clock"></i></span><div><b>Horario de atención</b><small>Domingo: 6:00 p.m. · Lunes a jueves: 5:00 a.m. - 8:00 p.m.<br>Viernes: 5:00 a.m. - 5:00 p.m. · Sábado: cerrado.</small></div></div>
+                </article>
+                <article class="support-note"><i class="fa-solid fa-circle-info"></i><p>Para proteger tu información, el asistente no solicita contraseñas, códigos ni datos de tarjetas. Para confirmar un pago o monto oficial, revisa Mis créditos o comunícate con CrediNeyra.</p></article>
+            </div>
+        </section>
+    </main>
+</div>
+<script th:src="@{/js/cliente/asistente-credineyra.js}"></script>
+</body>
+</html>

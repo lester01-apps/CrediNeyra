@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Sobre nosotros | crediNeyra</title>
+    <link rel="stylesheet" th:href="@{/css/cliente/portal.css}">
+    <link rel="stylesheet" th:href="@{/css/cliente/responsive-app.css}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.3.1/css/all.min.css">
+</head>
+<body>
+<div class="portal-layout">
+    <aside class="portal-menu">
+        <a class="portal-logo" th:href="@{/cliente/inicio}">credi<span>Neyra</span><small>GESTIÓN DE CRÉDITOS</small></a>
+        <nav>
+            <a th:href="@{/cliente/inicio}"><i class="fa-solid fa-house"></i> Inicio</a>
+            <a th:href="@{/cliente/creditos}"><i class="fa-solid fa-file-invoice-dollar"></i> Mis créditos</a>
+            <a th:href="@{/cliente/pagos}"><i class="fa-solid fa-credit-card"></i> Mis pagos</a>
+            <a th:href="@{/cliente/historial}"><i class="fa-solid fa-clock-rotate-left"></i> Historial</a>
+            <hr>
+            <a class="activo" th:href="@{/cliente/sobre-nosotros}"><i class="fa-solid fa-building-columns"></i> Sobre nosotros</a>
+            <a th:href="@{/cliente/soporte}"><i class="fa-solid fa-circle-question"></i> Soporte y ayuda</a>
+            <a th:href="@{/cliente/contacto}"><i class="fa-solid fa-phone"></i> Contáctanos</a>
+        </nav>
+        <form th:action="@{/logout}" method="post">
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+            <button><i class="fa-solid fa-right-from-bracket"></i> Cerrar sesión</button>
+        </form>
+    </aside>
+
+    <main class="portal-main about-page">
+        <header class="portal-top about-top">
+            <div class="portal-search"><i class="fa-solid fa-magnifying-glass"></i><span>Buscar en el portal...</span></div>
+            <div class="client-profile-top"><div th:replace="~{cliente/fragments/notificaciones :: menu}"></div><a class="cliente-resumen profile-trigger" th:href="@{/cliente/perfil}"><b th:text="${clienteNombre != null ? #strings.substring(clienteNombre,0,1) : 'C'}">C</b><div><strong th:text="${clienteNombre}">Cliente</strong><small>Cliente</small></div><i>⌄</i></a></div>
+        </header>
+
+        <section class="portal-hero about-heading">
+            <div><span class="eyebrow">CONOCE CREDINEYRA</span><h1>Sobre nosotros</h1><p>Conoce quiénes somos, qué hacemos y cómo te acompañamos en cada paso.</p></div>
+            <div class="heading-line"></div>
+        </section>
+
+        <section class="about-banner">
+            <div class="about-banner-copy">
+                <span class="eyebrow">BIENVENIDO A</span>
+                <h2>credi<span>Neyra</span></h2>
+                <p>Somos tu aliado financiero, comprometidos con brindarte soluciones de crédito simples, seguras y a tu medida.</p>
+                <div class="trust-pill"><b><i class="fa-solid fa-check"></i></b> Transparencia en cada paso</div>
+            </div>
+            <div class="about-banner-message"><span>Tu confianza</span><strong>nos impulsa</strong><i></i></div>
+        </section>
+
+        <section class="about-duo">
+            <article class="about-feature mission"><div class="feature-icon"><i class="fa-solid fa-bullseye"></i></div><div><span class="feature-label">NUESTRO PROPÓSITO</span><h2>Nuestra misión</h2><p>Brindar créditos con transparencia, rapidez y seguridad, facilitando el acceso a oportunidades financieras que contribuyan al bienestar y desarrollo de nuestros clientes.</p></div><b class="feature-arrow"><i class="fa-solid fa-chevron-right"></i></b></article>
+            <article class="about-feature vision"><div class="feature-icon"><i class="fa-solid fa-eye"></i></div><div><span class="feature-label">HACIA DÓNDE VAMOS</span><h2>Nuestra visión</h2><p>Ser la empresa de gestión de créditos más confiable y cercana, reconocida por nuestro crecimiento responsable y por el acompañamiento financiero a lo largo de la vida de nuestros clientes.</p></div><b class="feature-arrow"><i class="fa-solid fa-chevron-right"></i></b></article>
+        </section>
+
+        <section class="about-section">
+            <div class="about-section-title"><h2><span><i class="fa-solid fa-gem"></i></span> Nuestros valores</h2><p>Lo que nos guía cada día.</p></div>
+            <div class="about-cards values">
+                <article><div class="about-card-icon mint"><i class="fa-solid fa-shield-halved"></i></div><div><h3>Transparencia</h3><p>Actuamos con honestidad y claridad en cada proceso, brindando información siempre veraz y accesible.</p></div></article>
+                <article><div class="about-card-icon gold"><i class="fa-solid fa-users"></i></div><div><h3>Atención cercana</h3><p>Escuchamos y entendemos tus necesidades para ofrecerte un servicio personalizado y humano.</p></div></article>
+                <article><div class="about-card-icon blue"><i class="fa-solid fa-lock"></i></div><div><h3>Seguridad</h3><p>Protegemos tu información y tus operaciones con los más altos estándares de seguridad financiera.</p></div></article>
+                <article><div class="about-card-icon rose"><i class="fa-solid fa-heart"></i></div><div><h3>Compromiso</h3><p>Trabajamos cada día para impulsar tus metas, con responsabilidad y una visión de largo plazo.</p></div></article>
+            </div>
+        </section>
+
+        <section class="about-section about-choose">
+            <div class="about-section-title"><h2><span><i class="fa-solid fa-thumbs-up"></i></span> ¿Por qué elegirnos?</h2><p>Más que créditos, te damos tranquilidad.</p></div>
+            <div class="about-cards choose">
+                <article><div class="about-card-icon blue"><i class="fa-solid fa-user-check"></i></div><div><h3>Atención personalizada</h3><p>Te acompañamos en cada paso con un equipo dispuesto a resolver tus consultas.</p></div></article>
+                <article><div class="about-card-icon blue"><i class="fa-solid fa-wallet"></i></div><div><h3>Pagos seguros</h3><p>Realiza tus pagos de forma fácil, segura y con múltiples opciones disponibles.</p></div></article>
+                <article><div class="about-card-icon blue"><i class="fa-solid fa-file-circle-check"></i></div><div><h3>Información clara</h3><p>Conoce siempre el estado de tus créditos, montos, cuotas y fechas sin sorpresas.</p></div></article>
+                <article><div class="about-card-icon blue"><i class="fa-solid fa-headset"></i></div><div><h3>Soporte oportuno</h3><p>Contamos con canales de atención para brindarte ayuda cuando lo necesites.</p></div></article>
+            </div>
+        </section>
+
+        <section class="about-metrics">
+            <div class="metric-title"><span><i class="fa-solid fa-chart-column"></i></span><h2>Nuestra trayectoria en números</h2></div>
+            <div class="metric"><span><i class="fa-solid fa-user-group"></i></span><div><b>1,250+</b><small>Clientes atendidos</small></div></div>
+            <div class="metric"><span><i class="fa-solid fa-folder-open"></i></span><div><b>2,800+</b><small>Créditos gestionados</small></div></div>
+            <div class="metric"><span><i class="fa-solid fa-calendar-days"></i></span><div><b>5+</b><small>Años de experiencia</small></div></div>
+        </section>
+    </main>
+</div>
+</body>
+</html>
